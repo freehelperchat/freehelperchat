@@ -1,0 +1,23 @@
+{
+  "name": "chat-server",
+  "license": "MIT",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "cd client && yarn build",
+    "client": "cd client && yarn start",
+    "server": "nodemon server.js --ignore ./client/",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1",
+    "eslint": "^6.7.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^2.0.2"
+  }
+}
