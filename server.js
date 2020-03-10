@@ -13,7 +13,7 @@ app.use('/api', routes);
 
 app.use('/chat', express.static(path.join(`${__dirname}/client/build`)));
 
-app.get('/chat', (req, res) => {
+app.get('/chat/*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
 
