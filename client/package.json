@@ -1,7 +1,7 @@
 {
   "name": "chat-client",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -16,7 +16,7 @@
     "socket.io-client": "^2.3.0"
   },
   "homepage": "/chat",
-  "proxy": "http://localhost:80",
+  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
