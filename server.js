@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const socketio = require('socket.io');
 const http = require('http');
+const cors = require('cors');
 const routes = require('./server/routes');
 
 const app = express();
@@ -32,6 +33,7 @@ io.on('connection', (socket) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use('/api', routes);
 
