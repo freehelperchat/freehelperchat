@@ -18,31 +18,31 @@ const OperatorSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    email: {
-      type: String,
-    },
-    disabled: {
-      type: Boolean,
-    },
-    allDepartaments: {
-      type: Boolean,
-    },
-    departamentIds: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Departament',
-    },
-    autoAccept: {
-      type: Boolean,
-    },
-    maxActiveChats: {
-      type: Number,
-    },
-    hideOnline: {
-      type: Boolean,
-    },
-    invisibleMode: {
-      type: Boolean,
-    },
+  },
+  email: {
+    type: String,
+  },
+  disabled: {
+    type: Boolean,
+  },
+  allDepartments: {
+    type: Boolean,
+  },
+  departmentIds: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department',
+  },
+  autoAccept: {
+    type: Boolean,
+  },
+  maxActiveChats: {
+    type: Number,
+  },
+  hideOnline: {
+    type: Boolean,
+  },
+  invisibleMode: {
+    type: Boolean,
   },
 });
 mongoose.model('Operator', OperatorSchema);

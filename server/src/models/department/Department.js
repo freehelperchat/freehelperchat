@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const DepartamentSchema = new mongoose.Schema({
+const DepartmentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -8,6 +8,7 @@ const DepartamentSchema = new mongoose.Schema({
   priority: {
     type: Number,
     required: true,
+    default: 0,
   },
   disabled: {
     type: Boolean,
@@ -21,15 +22,15 @@ const DepartamentSchema = new mongoose.Schema({
   },
   maxActiveChats: {
     type: Number,
-    default: 9999,
+    default: 0,
   },
   pendingMax: {
     type: Number,
-    default: 9999,
+    default: 0,
   },
   transferTimeout: {
     type: Number,
-    default: 9999,
+    default: 0,
   },
 });
-mongoose.model('Departament', DepartamentSchema);
+mongoose.model('Department', DepartmentSchema);
