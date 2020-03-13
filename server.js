@@ -15,11 +15,15 @@ const port = process.env.PORT || config.server.port;
 
 const connectedOperators = {};
 
-const userInfo = config.database.username !== '' && config.database.password !== ''
+const dbUserInfo = config.database.username !== '' && config.database.password !== ''
   ? `${config.database.username}:${config.database.password}@`
   : '';
 
-mongoose.connect(`mongodb://${userInfo}${config.database.host}:${config.database.port}/freehelperchat`, {
+const dbPort = config.database.port !== ''
+  ? `:${config.database.port}/${config.database.name}`
+  : '';
+
+mongoose.connect(`${config.database.driver}://${dbUserInfo}${config.database.host}${dbPort}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
