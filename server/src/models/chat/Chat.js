@@ -1,32 +1,36 @@
 const { Schema, model } = require('mongoose');
 
 const ChatSchema = new Schema({
-  userData: {
-    type: Object,
-    required: true,
-  },
+  userData: [{
+    fieldId: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: String,
+      required: true,
+    },
+  }],
   time: {
     started: {
-      type: Date,
+      type: String,
       required: true,
     },
     closed: {
-      type: Date,
-      required: true,
+      type: String,
     },
     pending: {
-      type: Date,
-      require: true,
+      type: String,
     },
   },
   lastOperatorMsg: {
-    type: Date,
+    type: String,
   },
   lastUserMsg: {
-    type: Date,
+    type: String,
   },
   status: {
-    type: String,
+    type: Number,
     required: true,
   },
   operator: {

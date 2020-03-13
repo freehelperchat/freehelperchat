@@ -35,9 +35,18 @@ function User() {
     <>
       <StartChatForm />
       <form onSubmit={handleSubmit}>
-        {messages.map(m => (
-          <p key={Math.random()}>{m}</p>
-        ))}
+        <div
+          style={{
+            width: '100%',
+            height: 200,
+            scrollBehavior: 'smooth',
+            overflowX: 'auto',
+          }}
+        >
+          {messages.map(m => (
+            <p key={Math.random()}>{m}</p>
+          ))}
+        </div>
         <input
           type="text"
           value={newMessage}

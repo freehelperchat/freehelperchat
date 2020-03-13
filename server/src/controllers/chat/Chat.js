@@ -2,31 +2,47 @@ const Chat = require('../../models/chat/Chat');
 
 module.exports = {
   async index(req, res) {
-    Chat.find()
-      .then((resp) => res.json(resp))
-      .catch(() => res.status(400));
+    return Chat.find()
+      .then((resp) => res.status(200).json(resp))
+      .catch(() => res.status(400).send());
   },
 
   async create(req, res) {
-    const chat = Chat.create(req.body);
-
-    return res.json({ chat });
+    const { body } = req;
+    if (!body.userData || (body.userData && body.userData.length < 1)) {
+      return res.status(400).send();
+    }
+    return Chat.create(body)
+      .then((chat) => res.status(201).json(chat))
+      .catch(() => res.status(400).send());
   },
 
   async show(req, res) {
-    Chat.findById(req.params.id)
-      .then((resp) => res.json(resp))
-      .catch(() => res.status(400));
+    const { id } = req.params;
+    return Chat.findById(id)
+      .then((resp) => res.status(200).json(resp))
+      .catch(() => res.status(400).send());
   },
 
   async destroy(req, res) {
-    await Chat.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    await Chat.findByIdAndDelete(id);
 
-    return res.send();
+    return res.status(200).send();
   },
 
   async update(req, res) {
-    const chat = Chat.findByIdAndUpdate(req.params.id, req.body.info);
-    return res.json({ status: chat.status });
+    const { id } = req.params;
+    const { body } = req;
+    const chat = await Chat.findByIdAndUpdate(id, body);
+    return res.status(200).json({ status: chat.status });
+  },
+
+  async tranferChat(req, res) {
+    const { id } = req.params;
+    const { operator } = req.body;
+    return Chat.findByIdAndUpdate(id, operator)
+      .then((resp) => res.status(200).json(resp))
+      .catch(() => res.status(400).send());
   },
 };

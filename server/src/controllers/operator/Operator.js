@@ -9,7 +9,8 @@ module.exports = {
   },
 
   async show(req, res) {
-    Operator.findById(req.params.id)
+    const { id } = req.params;
+    Operator.findById(id)
       .then((resp) => res.json(resp))
       .catch(() => res.status(400));
   },
@@ -34,7 +35,8 @@ module.exports = {
   },
 
   async destroy(req, res) {
-    await Operator.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    await Operator.findByIdAndDelete(id);
 
     return res.send();
   },

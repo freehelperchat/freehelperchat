@@ -8,24 +8,28 @@ module.exports = {
   },
 
   async show(req, res) {
-    CannedMessage.findById(req.params.id)
+    const { id } = req.params;
+    CannedMessage.findById(id)
       .then((resp) => res.json(resp))
       .catch(() => res.status(400).send());
   },
 
   async create(req, res) {
-    const cannedMessage = CannedMessage.create(req.body);
+    const cannedMessage = await CannedMessage.create(req.body);
 
     return res.json({ cannedMessage });
   },
 
   async editMsg(req, res) {
-    const cannedMessage = CannedMessage.findByIdAndUpdate(req.params.id, { msg: req.body.msg });
+    const { id } = req.params;
+    const { msg } = req.body;
+    const cannedMessage = await CannedMessage.findByIdAndUpdate(id, { msg });
     return res.json({ msg: cannedMessage.msg });
   },
 
   async destroy(req, res) {
-    await CannedMessage.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    await CannedMessage.findByIdAndDelete(id);
 
     return res.send();
   },

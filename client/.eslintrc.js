@@ -53,6 +53,7 @@ module.exports = {
     }],
     'no-console': 'off',
     'react/jsx-props-no-spreading': 'off',
-    'no-restricted-syntax': 'off'
+    'no-restricted-syntax': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

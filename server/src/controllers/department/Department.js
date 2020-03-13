@@ -8,18 +8,21 @@ module.exports = {
   },
 
   async show(req, res) {
-    Department.findById(req.params.id)
+    const { id } = req.params;
+    Department.findById(id)
       .then((resp) => res.json(resp))
       .catch(() => res.status(400).send());
   },
 
   async create(req, res) {
-    const department = Department.create(req.body);
+    const { body } = req;
+    const department = await Department.create(body);
     return res.json(department);
   },
 
   async destroy(req, res) {
-    await Department.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    await Department.findByIdAndDelete(id);
 
     return res.send();
   },

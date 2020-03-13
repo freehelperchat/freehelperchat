@@ -9,26 +9,32 @@ const OperatorController = require('./src/controllers/operator/Operator');
 const MessageController = require('./src/controllers/message/Message');
 
 // Chat Routes
-routes.get('/get/chat', ChatController.index);
-routes.get('/get/chat/:id', ChatController.show);
-routes.post('/create/chat', ChatController.create);
-routes.put('/update/chat/:id', ChatController.update);
-routes.delete('/delete/chat/:id', ChatController.destroy);
+routes.get('/chat/get', ChatController.index);
+routes.get('/chat/get/:id', ChatController.show);
+routes.post('/chat/create', ChatController.create);
+routes.put('/chat/update/:id', ChatController.update);
+routes.delete('/chat/delete/:id', ChatController.destroy);
+routes.put('/chat/transfer/:id', ChatController.tranferChat);
 
 // Operator Routes
-routes.get('/get/operator/:id', OperatorController.show);
-routes.post('/create/operator', OperatorController.create);
+routes.get('/operator/get', OperatorController.index);
+routes.get('/operator/get/:id', OperatorController.show);
+routes.post('/operator/create', OperatorController.create);
+routes.delete('/operator/delete/:id', OperatorController.destroy);
 
 // Message Routes
-routes.get('/get/message/:id', MessageController.chatMessages);
-routes.post('/create/message', MessageController.create);
+routes.get('/message/get/:id', MessageController.chatMessages);
+routes.post('/message/create', MessageController.create);
 
 // Department Routes
-routes.get('/get/department', DepartmentController.index);
-routes.post('/create/department', DepartmentController.create);
-routes.delete('/delete/department/:id', DepartmentController.destroy);
+routes.get('/department/get', DepartmentController.index);
+routes.post('/department/create', DepartmentController.create);
+routes.delete('/department/delete/:id', DepartmentController.destroy);
 
 // CannedMessage Routes
-routes.get('/get/cannedmessage', CannedMessage.index);
-routes.put('/update/cannedmessage/:id', CannedMessage.editMsg);
+routes.get('/cannedmsg/get', CannedMessage.index);
+routes.post('/cannedmsg/create', CannedMessage.create);
+routes.put('/cannedmsg/update/:id', CannedMessage.editMsg);
+routes.delete('/cannedmsg/delete/:id', CannedMessage.destroy);
+
 module.exports = routes;

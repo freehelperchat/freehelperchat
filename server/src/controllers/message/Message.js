@@ -8,19 +8,22 @@ module.exports = {
   },
 
   async show(req, res) {
-    Message.findById(req.params.id)
+    const { id } = req.params;
+    Message.findById(id)
       .then((resp) => res.json(resp))
       .catch(() => res.status(400));
   },
 
   async create(req, res) {
-    Message.create(req.body)
+    const { body } = req;
+    Message.create(body)
       .then((resp) => res.json(resp))
       .catch(() => res.status(400));
   },
 
   async chatMessages(req, res) {
-    Message.find({ chatId: req.param.chatId })
+    const { id } = req.params;
+    Message.find({ chatId: id })
       .then((resp) => res.json(resp))
       .catch(() => res.status(400).send());
   },

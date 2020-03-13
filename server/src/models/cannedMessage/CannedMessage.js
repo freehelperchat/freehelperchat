@@ -9,10 +9,10 @@ const CannedSchema = new Schema({
     type: String,
     required: true,
   },
-  departmentId: {
+  departmentIds: [{
     type: Schema.Types.ObjectId,
     ref: 'Department',
-  },
+  }],
   autoSend: {
     type: Boolean,
     default: false,

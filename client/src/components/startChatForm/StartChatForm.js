@@ -18,7 +18,12 @@ const StartChatForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       {chatForm.map(c => (
-        <Input key={c.id} Type={c.type} Label={c.label} />
+        <Input
+          key={c._id}
+          Type={c.inputType}
+          Label={c.label}
+          Options={c.options}
+        />
       ))}
     </form>
   );
