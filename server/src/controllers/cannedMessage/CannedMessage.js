@@ -22,6 +22,11 @@ module.exports = {
     return res.json({ cannedMessage });
   },
 
+  async msgEdit(req, res) {
+    const cannedMessage = CannedMessage.findByIdAndUpdate(req.body.id, { msg: req.body.msg });
+    return res.json({ msg: cannedMessage.msg });
+  },
+
   async destroy(req, res) {
     await CannedMessage.findByIdAndDelete(req.params.id);
 
