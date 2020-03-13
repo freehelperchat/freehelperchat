@@ -1,17 +1,28 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 const routes = require('./server/routes');
+const config = require('./config');
 
 const app = express();
 const server = http.Server(app);
 const io = socketio(server);
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || config.server.port;
 
 const connectedOperators = {};
+
+const userInfo = config.database.username !== '' && config.database.password !== ''
+  ? `${config.database.username}:${config.database.password}@`
+  : '';
+
+mongoose.connect(`mongodb://${userInfo}${config.database.host}:${config.database.port}/freehelperchat`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 io.on('connection', (socket) => {
   const { operatorToken } = socket.handshake.query;
