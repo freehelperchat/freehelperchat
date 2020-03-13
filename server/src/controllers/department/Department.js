@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const Department = mongoose.model('Department');
+const Department = require('../../models/department/Department');
 
 module.exports = {
   async index(req, res) {
@@ -15,7 +13,7 @@ module.exports = {
       .catch(() => res.status(400).send());
   },
 
-  async store(req, res) {
+  async create(req, res) {
     const department = Department.create(req.body);
     return res.json(department);
   },

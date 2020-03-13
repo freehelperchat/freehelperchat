@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-
-const Operator = mongoose.model('Operator');
+const Operator = require('../../models/operator/Operator');
+const Encrypter = require('../../functions/Encrypter');
 
 module.exports = {
   async index(req, res) {
@@ -15,9 +14,23 @@ module.exports = {
       .catch(() => res.status(400));
   },
 
-  async store(req, res) {
-    const operator = Operator.create(req.body);
-    return res.json(operator);
+  async create(req, res) {
+    const username = req.header('username');
+    const pass = req.header('pass');
+    const { body } = req;
+
+    let operator = await Operator.findOne({ username });
+
+    if (!operator) {
+      operator = await Operator.create({
+        username,
+        pass: Encrypter.hashPassword(pass),
+        ...body,
+      });
+      return res.status(201).json({ userId: operator._id });
+    }
+
+    return res.status(400).send();
   },
 
   async destroy(req, res) {

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const ChatSchema = new mongoose.Schema({
+const ChatSchema = new Schema({
   userData: {
     type: Object,
     required: true,
@@ -30,8 +30,8 @@ const ChatSchema = new mongoose.Schema({
     required: true,
   },
   operator: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Operator',
   },
 });
-mongoose.model('Chat', ChatSchema);
+module.exports = model('Chat', ChatSchema);

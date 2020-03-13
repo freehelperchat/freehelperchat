@@ -1,7 +1,4 @@
-const mongoose = require('mongoose');
-
-const CannedMessage = mongoose.model('CannedMessage');
-
+const CannedMessage = require('../../models/cannedMessage/CannedMessage');
 
 module.exports = {
   async index(req, res) {
@@ -16,14 +13,14 @@ module.exports = {
       .catch(() => res.status(400).send());
   },
 
-  async store(req, res) {
+  async create(req, res) {
     const cannedMessage = CannedMessage.create(req.body);
 
     return res.json({ cannedMessage });
   },
 
-  async msgEdit(req, res) {
-    const cannedMessage = CannedMessage.findByIdAndUpdate(req.body.id, { msg: req.body.msg });
+  async editMsg(req, res) {
+    const cannedMessage = CannedMessage.findByIdAndUpdate(req.params.id, { msg: req.body.msg });
     return res.json({ msg: cannedMessage.msg });
   },
 

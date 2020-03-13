@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const Chat = mongoose.model('Chat');
+const Chat = require('../../models/chat/Chat');
 
 module.exports = {
   async index(req, res) {
@@ -9,7 +7,7 @@ module.exports = {
       .catch(() => res.status(400));
   },
 
-  async store(req, res) {
+  async create(req, res) {
     const chat = Chat.create(req.body);
 
     return res.json({ chat });
@@ -27,8 +25,8 @@ module.exports = {
     return res.send();
   },
 
-  async status(req, res) {
-    const chat = Chat.findByIdAndUpdate(req.body.id, { status: req.body.status });
+  async update(req, res) {
+    const chat = Chat.findByIdAndUpdate(req.params.id, req.body.info);
     return res.json({ status: chat.status });
   },
 };

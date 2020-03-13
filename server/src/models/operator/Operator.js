@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const OperatorSchema = new mongoose.Schema({
+const OperatorSchema = new Schema({
   fullName: {
     type: String,
     required: true,
@@ -24,25 +24,31 @@ const OperatorSchema = new mongoose.Schema({
   },
   disabled: {
     type: Boolean,
+    default: false,
   },
   allDepartments: {
     type: Boolean,
+    default: false,
   },
-  departmentIds: {
-    type: mongoose.Schema.Types.ObjectId,
+  departmentIds: [{
+    type: Schema.Types.ObjectId,
     ref: 'Department',
-  },
+  }],
   autoAccept: {
     type: Boolean,
+    default: false,
   },
   maxActiveChats: {
     type: Number,
+    default: 0,
   },
   hideOnline: {
     type: Boolean,
+    default: false,
   },
   invisibleMode: {
     type: Boolean,
+    default: false,
   },
 });
-mongoose.model('Operator', OperatorSchema);
+module.exports = model('Operator', OperatorSchema);

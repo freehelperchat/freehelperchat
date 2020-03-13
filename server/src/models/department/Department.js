@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const DepartmentSchema = new mongoose.Schema({
+const DepartmentSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -33,4 +33,4 @@ const DepartmentSchema = new mongoose.Schema({
     default: 0,
   },
 });
-mongoose.model('Department', DepartmentSchema);
+module.exports = model('Department', DepartmentSchema);

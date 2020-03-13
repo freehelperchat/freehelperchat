@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const CannedSchema = new mongoose.Schema({
+const CannedSchema = new Schema({
   msg: {
     type: String,
     required: true,
@@ -10,7 +10,7 @@ const CannedSchema = new mongoose.Schema({
     required: true,
   },
   departmentId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Department',
   },
   autoSend: {
@@ -18,4 +18,4 @@ const CannedSchema = new mongoose.Schema({
     default: false,
   },
 });
-mongoose.model('CannedMessage', CannedSchema);
+module.exports = model('CannedMessage', CannedSchema);
