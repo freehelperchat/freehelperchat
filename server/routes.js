@@ -7,6 +7,8 @@ const ChatController = require('./src/controllers/chat/Chat');
 const DepartmentController = require('./src/controllers/department/Department');
 const OperatorController = require('./src/controllers/operator/Operator');
 const MessageController = require('./src/controllers/message/Message');
+const SessionController = require('./src/controllers/session/Session');
+const StartChatForm = require('./src/controllers/settings/StartChatForm');
 
 // Chat Routes
 routes.get('/chat/get', ChatController.index);
@@ -36,5 +38,15 @@ routes.get('/cannedmsg/get', CannedMessage.index);
 routes.post('/cannedmsg/create', CannedMessage.create);
 routes.put('/cannedmsg/update/:id', CannedMessage.editMsg);
 routes.delete('/cannedmsg/delete/:id', CannedMessage.destroy);
+
+// Session Routes
+routes.post('/session/create', SessionController.create);
+routes.delete('/session/delete/:id', SessionController.delete);
+
+// StartChatForm Routes
+routes.get('/startchat/get', StartChatForm.index);
+routes.get('/startchat/get/:id', StartChatForm.show);
+routes.post('/startchat/create', StartChatForm.create);
+routes.delete('/startchat/delete/:id', StartChatForm.destroy);
 
 module.exports = routes;
