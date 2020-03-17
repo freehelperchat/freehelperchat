@@ -6,7 +6,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 const routes = require('./server/routes');
-const config = require('./config');
+const config = require('./server/config/config.json');
 
 const app = express();
 const server = http.Server(app);
