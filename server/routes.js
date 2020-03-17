@@ -9,6 +9,7 @@ const OperatorController = require('./src/controllers/operator/Operator');
 const MessageController = require('./src/controllers/message/Message');
 const SessionController = require('./src/controllers/session/Session');
 const StartChatForm = require('./src/controllers/settings/StartChatForm');
+const UserGroups = require('./src/controllers/usergroups/UserGroups');
 
 // Chat Routes
 routes.get('/chat/get', ChatController.index);
@@ -45,8 +46,14 @@ routes.delete('/session/delete/:id', SessionController.delete);
 
 // StartChatForm Routes
 routes.get('/startchat/get', StartChatForm.index);
-routes.get('/startchat/get/:id', StartChatForm.show);
 routes.post('/startchat/create', StartChatForm.create);
-routes.delete('/startchat/delete/:id', StartChatForm.destroy);
+routes.put('/startchat/update', StartChatForm.update);
+routes.put('/startchat/updateAll', StartChatForm.updateAll);
+
+// UserGroups Routes
+routes.get('/usergroups/get', UserGroups.index);
+routes.get('/usergroups/get/:id', UserGroups.show);
+routes.post('/usergroups/create', UserGroups.create);
+routes.delete('/usergroups/delete/:id', UserGroups.destroy);
 
 module.exports = routes;
