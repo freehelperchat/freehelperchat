@@ -1,22 +1,30 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Input = props => {
+  const { t } = useTranslation('translation');
   let input = null;
   switch (props.Type) {
     case 'select':
       input = (
-        <select
-          defaultValue=""
-          onChange={props.Change}
-          required={props.Required}
-        >
-          <option value="">{props.Label}</option>
-          {props.Options.map(op => (
-            <option key={op} value={op}>
-              {op}
+        <>
+          <label htmlFor={props.Name}>{props.Label}</label>
+          <select
+            id={props.Name}
+            defaultValue=""
+            onChange={props.Change}
+            required={props.Required}
+          >
+            <option value="" disabled hidden>
+              {t('input.select')}
             </option>
-          ))}
-        </select>
+            {props.Options.map(op => (
+              <option key={op} value={op}>
+                {op}
+              </option>
+            ))}
+          </select>
+        </>
       );
       break;
 
