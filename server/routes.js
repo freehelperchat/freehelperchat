@@ -47,6 +47,7 @@ routes.delete('/session/delete/:id', SessionController.delete);
 // StartChatForm Routes
 routes.get('/startchat/get', StartChatForm.index);
 routes.post('/startchat/create', StartChatForm.create);
+routes.post('/startchat/add', StartChatForm.add);
 routes.put('/startchat/update', StartChatForm.update);
 routes.put('/startchat/updateAll', StartChatForm.updateAll);
 

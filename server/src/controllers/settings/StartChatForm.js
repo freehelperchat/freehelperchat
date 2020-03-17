@@ -43,10 +43,22 @@ module.exports = {
     // return res.status(400).send();
   },
 
-  async destroy(req, res) {
-    const { id } = req.params;
-    await StartChatForm.findByIdAndDelete(id);
+  async add(req, res) {
+    const { body } = req;
+    const input = await StartChatForm.findOne({ label: body.label });
+    if (input) return res.status(400).send();
+    return StartChatForm.create(body)
+      .then((resp) => res.status(201).json(resp))
+      .catch(() => res.status(400).send());
+  },
 
-    return res.status(200).send();
+  async destroy(req, res) {
+    if ((await StartChatForm.find()).length > 1) {
+      const { id } = req.params;
+      await StartChatForm.findByIdAndDelete(id);
+
+      return res.status(200).send();
+    }
+    return res.status(400).send();
   },
 };
