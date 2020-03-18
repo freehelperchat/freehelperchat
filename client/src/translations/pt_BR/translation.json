@@ -1,5 +1,8 @@
 {
     "input": {
         "select": "Selecione uma opção"
+    },
+    "department": {
+      "name": "Departamento"
     }
 }

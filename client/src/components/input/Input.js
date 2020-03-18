@@ -1,22 +1,42 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
+
+import classes from './Input.module.css';
 
 const Input = props => {
-  const { t } = useTranslation('translation');
+  const [activeClass, setActiveClass] = useState('');
+
+  const handleFocus = () => {
+    setActiveClass(classes.Active);
+  };
+
+  const handleBlur = () => {
+    if (!props.Value || props.Value === '') setActiveClass('');
+  };
+
   let input = null;
   switch (props.Type) {
     case 'select':
       input = (
         <>
-          <label htmlFor={props.Name}>{props.Label}</label>
+          <label
+            className={[classes.Label, activeClass].join(' ')}
+            htmlFor={props.Name}
+          >
+            {props.Label}
+            {props.Required ? '*' : ''}
+          </label>
           <select
+            className={classes.Select}
             id={props.Name}
             defaultValue=""
+            value={props.Value}
             onChange={props.Change}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             required={props.Required}
           >
             <option value="" disabled hidden>
-              {t('input.select')}
+              {' '}
             </option>
             {props.Options.map(op => (
               <option key={op} value={op}>
@@ -31,10 +51,20 @@ const Input = props => {
     default:
       input = (
         <>
-          <label htmlFor={props.Name}>{props.Label}</label>
+          <label
+            className={[classes.Label, activeClass].join(' ')}
+            htmlFor={props.Name}
+          >
+            {props.Label}
+            {props.Required ? '*' : ''}
+          </label>
           <input
+            className={classes.Input}
             type={props.Type}
+            value={props.Value}
             onChange={props.Change}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             id={props.Name}
             required={props.Required}
           />
@@ -42,7 +72,7 @@ const Input = props => {
       );
       break;
   }
-  return <div>{input}</div>;
+  return <div className={classes.Container}>{input}</div>;
 };
 
 export default Input;

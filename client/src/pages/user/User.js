@@ -1,10 +1,10 @@
-import React, { useMemo, useEffect, useState } from 'react';
-import socketio from 'socket.io-client';
+import React /* , { useMemo, useEffect, useState } */ from 'react';
+// import socketio from 'socket.io-client';
 
 import StartChatForm from '../../components/startChatForm/StartChatForm';
 
 function User() {
-  const [messages, setMessages] = useState([]);
+  /* const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
   const socket = useMemo(
@@ -29,12 +29,12 @@ function User() {
       message: newMessage,
     });
     setNewMessage('');
-  };
+  }; */
 
   return (
     <>
       <StartChatForm />
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <div
           style={{
             width: '100%',
@@ -54,7 +54,7 @@ function User() {
           required
         />
         <button type="submit">Enviar</button>
-      </form>
+          </form> */}
     </>
   );
 }
