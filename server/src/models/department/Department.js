@@ -7,17 +7,14 @@ const DepartmentSchema = new Schema({
   },
   priority: {
     type: Number,
-    required: true,
     default: 0,
   },
   disabled: {
     type: Boolean,
-    required: true,
     default: false,
   },
   hidden: {
     type: Boolean,
-    required: true,
     default: false,
   },
   maxActiveChats: {

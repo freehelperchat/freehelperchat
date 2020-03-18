@@ -36,7 +36,11 @@ module.exports = {
   async create(req, res) {
     // if (!config.server.installed) {
     const { body } = req;
-    return StartChatForm.insertMany(body)
+    const inputs = body.map((input) => ({
+      name: input.label.replace(/ /gi, '-').toLowerCase(),
+      ...input,
+    }));
+    return StartChatForm.insertMany(inputs)
       .then((resp) => res.status(201).json(resp))
       .catch(() => res.status(400).send());
     // }
@@ -45,9 +49,13 @@ module.exports = {
 
   async add(req, res) {
     const { body } = req;
-    const input = await StartChatForm.findOne({ label: body.label });
+    const name = body.label.replace(/ /gi, '-').toLowerCase();
+    const input = await StartChatForm.findOne({ name });
     if (input) return res.status(400).send();
-    return StartChatForm.create(body)
+    return StartChatForm.create({
+      name,
+      ...body,
+    })
       .then((resp) => res.status(201).json(resp))
       .catch(() => res.status(400).send());
   },

@@ -3,7 +3,16 @@ const Department = require('../../models/department/Department');
 module.exports = {
   async index(req, res) {
     Department.find()
-      .then((resp) => res.json(resp))
+      .then((resp) => res.status(200).json(resp))
+      .catch(() => res.status(400).send());
+  },
+
+  async getNames(req, res) {
+    Department.find()
+      .then((resp) => {
+        const names = resp.map((r) => r.name);
+        res.status(200).json(names);
+      })
       .catch(() => res.status(400).send());
   },
 

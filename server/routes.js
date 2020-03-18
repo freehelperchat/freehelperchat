@@ -31,6 +31,7 @@ routes.post('/message/create', MessageController.create);
 
 // Department Routes
 routes.get('/department/get', DepartmentController.index);
+routes.get('/department/names', DepartmentController.getNames);
 routes.post('/department/create', DepartmentController.create);
 routes.delete('/department/delete/:id', DepartmentController.destroy);
 

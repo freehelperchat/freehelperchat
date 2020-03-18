@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose');
 
 const StartChatFormSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
   label: {
     type: String,
     required: true,
