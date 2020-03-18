@@ -61,7 +61,7 @@ const Input = props => {
           <input
             className={classes.Input}
             type={props.Type}
-            value={props.Value}
+            value={props.Value || ''}
             onChange={props.Change}
             onFocus={handleFocus}
             onBlur={handleBlur}
