@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Api from '../../services/api';
 import Input from '../input/Input';
+import Button from '../button/Button';
 import chatStatus from '../../constants/chatStatus';
 import classes from './StartChatForm.module.css';
 
@@ -70,7 +71,7 @@ const StartChatForm = () => {
           Value={department}
           Change={e => setDepartment(e.target.value)}
         />
-        <button type="submit">Enviar</button>
+        <Button Type="submit" Label={t('button.startchat')} />
       </form>
     </div>
   );

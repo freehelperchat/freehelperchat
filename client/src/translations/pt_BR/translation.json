@@ -4,5 +4,8 @@
     },
     "department": {
       "name": "Departamento"
+    },
+    "button": {
+      "startchat": "Iniciar Chat"
     }
 }

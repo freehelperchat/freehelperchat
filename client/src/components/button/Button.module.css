@@ -1,0 +1,17 @@
+.submit {
+  width: 30%;
+  min-height: 35px;
+  border-radius: 5px;
+  font-size: 14px;
+  margin: 8px;
+  padding: 0 8px;
+  color: white;
+  background-color: #0d89ee;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.submit:hover, .submit:active {
+  background-color: #0e61a5;
+}

@@ -10,16 +10,23 @@
 
 .Label {
   background-color: rgba(0, 0, 0, 0);
+  color: #777777;
   font-size: 16px;
   position: absolute;
   transform-origin: top left;
   transform: translate(0, 13px) scale(1);
-  transition: all .1s ease-in-out;
+  transition: all .2s ease-in-out;
   z-index: -1;
 }
 
 .Active {
+  border-color: #0d89ee;
+  transition: border .2s ease-in-out;
+}
+
+.Active label {
   z-index: initial;
+  color: black;
   background-color: white;
   transform: translate(0, -8px) scale(.75);
 }

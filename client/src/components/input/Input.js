@@ -46,11 +46,8 @@ const Input = props => {
       break;
   }
   return (
-    <div className={classes.Container}>
-      <label
-        className={[classes.Label, activeClass].join(' ')}
-        htmlFor={props.Name}
-      >
+    <div className={[classes.Container, activeClass].join(' ')}>
+      <label className={classes.Label} htmlFor={props.Name}>
         {props.Label}
         {props.Required ? '*' : ''}
       </label>
