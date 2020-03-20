@@ -13,66 +13,50 @@ const Input = props => {
     if (!props.Value || props.Value === '') setActiveClass('');
   };
 
+  const commonProps = {
+    id: props.Name,
+    value: props.Value || '',
+    onChange: props.Change,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    required: props.Required,
+  };
+
   let input = null;
   switch (props.Type) {
     case 'select':
       input = (
-        <>
-          <label
-            className={[classes.Label, activeClass].join(' ')}
-            htmlFor={props.Name}
-          >
-            {props.Label}
-            {props.Required ? '*' : ''}
-          </label>
-          <select
-            className={classes.Select}
-            id={props.Name}
-            defaultValue=""
-            value={props.Value}
-            onChange={props.Change}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            required={props.Required}
-          >
-            <option value="" disabled hidden>
-              {' '}
+        <select className={classes.Select} {...commonProps}>
+          <option value="" disabled hidden>
+            {' '}
+          </option>
+          {props.Options.map(op => (
+            <option key={op} value={op}>
+              {op}
             </option>
-            {props.Options.map(op => (
-              <option key={op} value={op}>
-                {op}
-              </option>
-            ))}
-          </select>
-        </>
+          ))}
+        </select>
       );
       break;
 
     default:
       input = (
-        <>
-          <label
-            className={[classes.Label, activeClass].join(' ')}
-            htmlFor={props.Name}
-          >
-            {props.Label}
-            {props.Required ? '*' : ''}
-          </label>
-          <input
-            className={classes.Input}
-            type={props.Type}
-            value={props.Value || ''}
-            onChange={props.Change}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            id={props.Name}
-            required={props.Required}
-          />
-        </>
+        <input className={classes.Input} type={props.Type} {...commonProps} />
       );
       break;
   }
-  return <div className={classes.Container}>{input}</div>;
+  return (
+    <div className={classes.Container}>
+      <label
+        className={[classes.Label, activeClass].join(' ')}
+        htmlFor={props.Name}
+      >
+        {props.Label}
+        {props.Required ? '*' : ''}
+      </label>
+      {input}
+    </div>
+  );
 };
 
 export default Input;

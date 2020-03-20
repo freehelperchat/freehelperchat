@@ -1,5 +1,6 @@
 .Container {
   border: solid 1px #ccc;
+  border-radius: 5px;
   box-sizing: border-box;
   margin: 8px;
   padding: 0 8px;
