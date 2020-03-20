@@ -33,6 +33,11 @@ const ChatSchema = new Schema({
     type: Number,
     required: true,
   },
+  department: {
+    type: Schema.Types.ObjectId,
+    ref: 'Department',
+    required: true,
+  },
   operator: {
     type: Schema.Types.ObjectId,
     ref: 'Operator',

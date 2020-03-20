@@ -1,4 +1,4 @@
-const UserGroup = require('../../models/userGroups/UserGroups');
+const UserGroup = require('../../models/userGroup/UserGroup');
 
 module.exports = {
   async index(req, res) {

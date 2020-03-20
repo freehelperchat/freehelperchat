@@ -9,53 +9,54 @@ const OperatorController = require('./src/controllers/operator/Operator');
 const MessageController = require('./src/controllers/message/Message');
 const SessionController = require('./src/controllers/session/Session');
 const StartChatForm = require('./src/controllers/settings/StartChatForm');
-const UserGroups = require('./src/controllers/usergroups/UserGroups');
+const UserGroup = require('./src/controllers/userGroup/UserGroup');
 
 // Chat Routes
-routes.get('/chat/get', ChatController.index);
-routes.get('/chat/get/:id', ChatController.show);
-routes.post('/chat/create', ChatController.create);
-routes.put('/chat/update/:id', ChatController.update);
-routes.delete('/chat/delete/:id', ChatController.destroy);
+routes.get('/chat', ChatController.index);
+routes.get('/chat/:id', ChatController.show);
+routes.post('/chat', ChatController.create);
+routes.put('/chat/:id', ChatController.update);
+routes.delete('/chat/:id', ChatController.destroy);
 routes.put('/chat/transfer/:id', ChatController.tranferChat);
+routes.get('/chat/getbystatus', ChatController.getChatByStatus);
 
 // Operator Routes
-routes.get('/operator/get', OperatorController.index);
-routes.get('/operator/get/:id', OperatorController.show);
-routes.post('/operator/create', OperatorController.create);
-routes.delete('/operator/delete/:id', OperatorController.destroy);
+routes.get('/operator/', OperatorController.index);
+routes.get('/operator/:id', OperatorController.show);
+routes.post('/operator', OperatorController.create);
+routes.delete('/operator/:id', OperatorController.destroy);
 
 // Message Routes
-routes.get('/message/get/:id', MessageController.chatMessages);
-routes.post('/message/create', MessageController.create);
+routes.get('/message/:id', MessageController.chatMessages);
+routes.post('/message', MessageController.create);
 
 // Department Routes
-routes.get('/department/get', DepartmentController.index);
+routes.get('/department', DepartmentController.index);
 routes.get('/department/names', DepartmentController.getNames);
-routes.post('/department/create', DepartmentController.create);
-routes.delete('/department/delete/:id', DepartmentController.destroy);
+routes.post('/department/', DepartmentController.create);
+routes.delete('/department/:id', DepartmentController.destroy);
 
 // CannedMessage Routes
-routes.get('/cannedmsg/get', CannedMessage.index);
-routes.post('/cannedmsg/create', CannedMessage.create);
-routes.put('/cannedmsg/update/:id', CannedMessage.editMsg);
-routes.delete('/cannedmsg/delete/:id', CannedMessage.destroy);
+routes.get('/cannedmsg', CannedMessage.index);
+routes.post('/cannedmsg', CannedMessage.create);
+routes.put('/cannedmsg/:id', CannedMessage.editMsg);
+routes.delete('/cannedmsg/:id', CannedMessage.destroy);
 
 // Session Routes
-routes.post('/session/create', SessionController.create);
-routes.delete('/session/delete/:id', SessionController.delete);
+routes.post('/login', SessionController.create);
+routes.delete('/logout', SessionController.delete);
 
 // StartChatForm Routes
-routes.get('/startchat/get', StartChatForm.index);
+routes.get('/startchat', StartChatForm.index);
 routes.post('/startchat/create', StartChatForm.create);
 routes.post('/startchat/add', StartChatForm.add);
 routes.put('/startchat/update', StartChatForm.update);
 routes.put('/startchat/updateAll', StartChatForm.updateAll);
 
 // UserGroups Routes
-routes.get('/usergroups/get', UserGroups.index);
-routes.get('/usergroups/get/:id', UserGroups.show);
-routes.post('/usergroups/create', UserGroups.create);
-routes.delete('/usergroups/delete/:id', UserGroups.destroy);
+routes.get('/usergroup', UserGroup.index);
+routes.get('/usergroup/:id', UserGroup.show);
+routes.post('/usergroup', UserGroup.create);
+routes.delete('/usergroup/:id', UserGroup.destroy);
 
 module.exports = routes;

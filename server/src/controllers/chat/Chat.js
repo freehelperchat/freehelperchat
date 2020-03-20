@@ -1,4 +1,5 @@
 const Chat = require('../../models/chat/Chat');
+const Department = require('../../models/department/Department');
 
 module.exports = {
   async index(req, res) {
@@ -12,6 +13,10 @@ module.exports = {
     if (!body.userData || (body.userData && body.userData.length < 1)) {
       return res.status(400).send();
     }
+    const department = await Department.findOne({ name: body.department });
+    if (!department) return res.status(400).send();
+    body.department = department._id;
+
     return Chat.create(body)
       .then((chat) => res.status(201).json(chat))
       .catch(() => res.status(400).send());
@@ -42,6 +47,13 @@ module.exports = {
     const { id } = req.params;
     const { operator } = req.body;
     return Chat.findByIdAndUpdate(id, operator)
+      .then((resp) => res.status(200).json(resp))
+      .catch(() => res.status(400).send());
+  },
+
+  async getChatByStatus(req, res) {
+    const { status } = req.body;
+    return Chat.find({ status })
       .then((resp) => res.status(200).json(resp))
       .catch(() => res.status(400).send());
   },
