@@ -8,6 +8,7 @@ const MessageSchema = new Schema({
   time: {
     type: String,
     required: true,
+    default: new Date().getTime(),
   },
   chatId: {
     type: Schema.Types.ObjectId,
@@ -17,7 +18,6 @@ const MessageSchema = new Schema({
   operatorId: {
     type: Schema.Types.ObjectId,
     ref: 'Operator',
-    required: true,
   },
 });
 module.exports = model('Message', MessageSchema);

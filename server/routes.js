@@ -28,7 +28,6 @@ routes.delete('/operator/:id', OperatorController.destroy);
 
 // Message Routes
 routes.get('/message/:id', MessageController.chatMessages);
-routes.post('/message', MessageController.create);
 
 // Department Routes
 routes.get('/department', DepartmentController.index);

@@ -7,6 +7,7 @@ const http = require('http');
 const cors = require('cors');
 const routes = require('./server/routes');
 const config = require('./server/config/config.json');
+const socketMessages = require('./server/src/functions/SocketMessages');
 
 const app = express();
 const server = http.Server(app);
@@ -33,22 +34,17 @@ io.on('connection', (socket) => {
   if (operatorToken) {
     connectedOperators[operatorToken] = socket.id;
   }
-
-  socket.on('open_chat', (data) => {
-    const { chatId } = data;
-    socket.join(chatId);
-  });
-
-  socket.on('send_message', (data) => {
-    const { chatId, message } = data;
-    socket.to(chatId).emit('received_message', message);
-    socket.emit('received_message', message);
-  });
+  socketMessages(socket);
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+app.use((req, res, next) => {
+  req.io = io;
+  return next();
+});
 
 app.use('/api', routes);
 
