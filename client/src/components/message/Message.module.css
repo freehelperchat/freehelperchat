@@ -1,10 +1,13 @@
-.User {
+.MsgDiv {
   border-radius: 5px;
-  background-color: blue;
   margin: 4px;
   width: 60%;
-  color: white;
   padding: 5px;
+}
+
+.User {
+  background-color: blue;
+  color: white;
 }
 
 .Name {
