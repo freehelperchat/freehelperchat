@@ -5,6 +5,10 @@ const MessageSchema = new Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   time: {
     type: String,
     required: true,
@@ -14,6 +18,11 @@ const MessageSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Chat',
     required: true,
+  },
+  operator: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
   operatorId: {
     type: Schema.Types.ObjectId,

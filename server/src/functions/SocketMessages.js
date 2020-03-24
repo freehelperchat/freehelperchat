@@ -9,7 +9,7 @@ module.exports = (socket) => {
   socket.on('send_message', (data) => {
     const { chatId } = data;
     Message.create(data)
-      .then(() => socket.to(chatId).emit('received_message', data))
+      .then((res) => socket.to(chatId).emit('received_message', res))
       .catch((err) => socket.to(chatId).emit('error_sending_message', err));
   });
 };
