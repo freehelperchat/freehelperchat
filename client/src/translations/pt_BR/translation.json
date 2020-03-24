@@ -7,5 +7,9 @@
     },
     "button": {
       "startchat": "Iniciar Chat"
+    },
+    "startchatform": {
+      "name": "Nome",
+      "phone": "Número de Telefone"
     }
 }

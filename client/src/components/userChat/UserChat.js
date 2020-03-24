@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
+
 import Api from '../../services/api';
+import Message from '../message/Message';
 
 const UserChat = () => {
+  const [chatInfo, setChatInfo] = useState({});
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const { chatId } = useParams();
   const history = useHistory();
+  const messagesEndRef = useRef(null);
 
   const socket = useMemo(
     () =>
@@ -18,7 +22,7 @@ const UserChat = () => {
   );
 
   const renderMessage = message => {
-    return setMessages(msgs => [...msgs, message.message]);
+    return setMessages(msgs => [...msgs, message]);
   };
 
   useEffect(() => {
@@ -27,7 +31,8 @@ const UserChat = () => {
     });
     socket.emit('open_chat', { chatId });
     Api.get(`/api/chat/${chatId}`)
-      .then(() => {
+      .then(resp => {
+        setChatInfo(resp.data);
         Api.get(`/api/message/${chatId}`)
           .then(res => res.data.map(msg => renderMessage(msg)))
           .catch(err => console.log(err));
@@ -35,10 +40,17 @@ const UserChat = () => {
       .catch(() => history.push('/'));
   }, [socket, chatId, history]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
   const handleSubmit = e => {
     e.preventDefault();
     const message = {
       chatId,
+      name: chatInfo.name,
       message: newMessage,
     };
     socket.emit('send_message', message);
@@ -47,27 +59,34 @@ const UserChat = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <div
         style={{
-          width: '100%',
-          height: 200,
-          scrollBehavior: 'smooth',
-          overflowX: 'auto',
+          width: '30%',
+          maxHeight: 300,
+          overflow: 'auto',
         }}
       >
         {messages.map(m => (
-          <p key={Math.random()}>{m}</p>
+          <Message
+            key={m._id}
+            Operator={m.operator}
+            Message={m.message}
+            Name={m.name}
+          />
         ))}
+        <div ref={messagesEndRef} />
       </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={e => setNewMessage(e.target.value)}
-        required
-      />
-      <button type="submit">Enviar</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={e => setNewMessage(e.target.value)}
+          required
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </>
   );
 };
 

@@ -14,6 +14,8 @@ const StartChatForm = () => {
   const [chatForm, setChatForm] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [department, setDepartment] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [formValues, setFormValues] = useState({});
   useEffect(() => {
     Api.get('/api/startchat')
@@ -24,8 +26,8 @@ const StartChatForm = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const handleChange = (value, name) => {
-    setFormValues(fv => ({ ...fv, [name]: value }));
+  const handleChange = (value, id) => {
+    setFormValues(fv => ({ ...fv, [id]: value }));
   };
 
   const handleSubmit = e => {
@@ -47,6 +49,26 @@ const StartChatForm = () => {
   return (
     <div className={classes.Form}>
       <form onSubmit={handleSubmit}>
+        <Input
+          Type="text"
+          Label={t('startchatform.name')}
+          Name={t('startchatform.name')
+            .toLowerCase()
+            .replace(/ /gi, '-')}
+          Required
+          Value={name}
+          Change={e => setName(e.target.value)}
+        />
+        <Input
+          Type="text"
+          Label={t('startchatform.phone')}
+          Name={t('startchatform.phone')
+            .toLowerCase()
+            .replace(/ /gi, '-')}
+          Required
+          Value={phone}
+          Change={e => setPhone(e.target.value)}
+        />
         {chatForm.map(c => (
           <Input
             key={c._id}
