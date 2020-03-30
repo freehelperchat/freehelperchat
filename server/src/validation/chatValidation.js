@@ -16,9 +16,6 @@ module.exports = {
   }),
 
   updateChat: celebrate({
-    [Segments.PARAMS]: Joi.object().keys({
-      id: Joi.number().required(),
-    }),
     [Segments.BODY]: Joi.object().keys({
       department: Joi.string().optional(),
       status: Joi.number().optional().min(0).max(5),

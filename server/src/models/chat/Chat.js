@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose');
 
 const ChatSchema = new Schema({
+  chatId: {
+    type: Number,
+    required: true,
+  },
   userData: [{
     fieldId: {
       type: String,

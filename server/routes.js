@@ -9,7 +9,7 @@ const Controllers = require('./src/controllers');
 routes.get('/chat', Controllers.Chat.index);
 routes.get('/chat/:id', validation.idNumberParam, Controllers.Chat.show);
 routes.post('/chat', validation.chatValidation.createChat, Controllers.Chat.create);
-routes.put('/chat/:id', validation.chatValidation.updateChat, Controllers.Chat.update);
+routes.put('/chat/:id', validation.idNumberParam, validation.chatValidation.updateChat, Controllers.Chat.update);
 routes.delete('/chat/:id', validation.idNumberParam, Controllers.Chat.destroy);
 routes.put('/chat/transfer/:id', validation.idNumberParam, Controllers.Chat.tranferChat);
 routes.get('/chat/getbystatus', Controllers.Chat.getChatByStatus);
@@ -21,7 +21,7 @@ routes.post('/operator', validation.operatorValidation.createOperator, Controlle
 routes.delete('/operator/:id', validation.idStringParam, Controllers.Operator.destroy);
 
 // Message Routes
-routes.get('/message/:id', Controllers.Message.chatMessages);
+routes.get('/message/:id', validation.idNumberParam, Controllers.Message.chatMessages);
 
 // Department Routes
 routes.get('/department', Controllers.Department.index);

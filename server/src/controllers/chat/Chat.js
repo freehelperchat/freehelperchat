@@ -1,5 +1,6 @@
 const Chat = require('../../models/chat/Chat');
 const Department = require('../../models/chat/Department');
+const IdCounter = require('../../functions/IdCounter');
 
 module.exports = {
   async index(req, res) {
@@ -13,9 +14,14 @@ module.exports = {
     if (!department) return res.status(400).send();
     body.department = department._id;
 
-    return Chat.create(body)
+    const chatId = await IdCounter.getIdCounter(IdCounter.Models.CHAT);
+
+    return Chat.create({ chatId, ...body })
       .then((chat) => res.status(201).json(chat))
-      .catch(() => res.status(400).send());
+      .catch(async () => {
+        await IdCounter.rollbackIdCounter(IdCounter.Models.CHAT);
+        res.status(400).send();
+      });
   },
 
   async show(req, res) {
