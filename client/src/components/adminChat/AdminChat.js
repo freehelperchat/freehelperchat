@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
+
+import Message from '../message/Message';
 import Api from '../../services/api';
 
 const AdminChat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const { chatId } = useParams();
+  const messagesEndRef = useRef(null);
   const history = useHistory();
 
   const socket = useMemo(
@@ -18,7 +21,7 @@ const AdminChat = () => {
   );
 
   const renderMessage = message => {
-    return setMessages(msgs => [...msgs, message.message]);
+    return setMessages(msgs => [...msgs, message]);
   };
 
   useEffect(() => {
@@ -35,10 +38,18 @@ const AdminChat = () => {
       .catch(() => history.push('/'));
   }, [socket, chatId, history]);
 
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
   const handleSubmit = e => {
     e.preventDefault();
     const message = {
       chatId,
+      name: 'teste',
+      operator: true,
       message: newMessage,
     };
     socket.emit('send_message', message);
@@ -47,7 +58,7 @@ const AdminChat = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <div
         style={{
           width: '100%',
@@ -56,18 +67,33 @@ const AdminChat = () => {
           overflowX: 'auto',
         }}
       >
-        {messages.map(m => (
-          <p key={Math.random()}>{m}</p>
-        ))}
+        <div
+          style={{
+            width: '30%',
+            maxHeight: 300,
+            overflow: 'auto',
+          }}
+        >
+          {messages.map(m => (
+            <Message
+              key={m._id}
+              Operator={m.operator}
+              Message={m.message}
+              Name={m.name}
+            />
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
       </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={e => setNewMessage(e.target.value)}
-        required
-      />
-      <button type="submit">Enviar</button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={e => setNewMessage(e.target.value)}
+          required
+        />
+      </form>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-const CannedMessage = require('../../models/cannedMessage/CannedMessage');
+const CannedMessage = require('../../models/chat/CannedMessage');
 
 module.exports = {
   async index(req, res) {

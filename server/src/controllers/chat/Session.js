@@ -1,7 +1,7 @@
 const Encrypter = require('../../functions/Encrypter');
 const Sessions = require('../../functions/Session');
 
-const Operator = require('../../models/operator/Operator');
+const Operator = require('../../models/chat/Operator');
 
 module.exports = {
   async create(req, res) {

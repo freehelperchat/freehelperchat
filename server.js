@@ -5,6 +5,7 @@ const path = require('path');
 const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
+const { errors } = require('celebrate');
 const routes = require('./server/routes');
 const config = require('./server/config/config.json');
 const socketMessages = require('./server/src/functions/SocketMessages');
@@ -53,5 +54,7 @@ app.use('/chat', express.static(path.join(`${__dirname}/client/build`)));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
+
+app.use(errors());
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

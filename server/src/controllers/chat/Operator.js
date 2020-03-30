@@ -1,4 +1,4 @@
-const Operator = require('../../models/operator/Operator');
+const Operator = require('../../models/chat/Operator');
 const Encrypter = require('../../functions/Encrypter');
 
 module.exports = {

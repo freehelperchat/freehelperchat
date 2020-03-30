@@ -1,4 +1,4 @@
-const Department = require('../../models/department/Department');
+const Department = require('../../models/chat/Department');
 
 module.exports = {
   async index(req, res) {

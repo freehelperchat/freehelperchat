@@ -1,4 +1,3 @@
-const timestamp = require('timestamp');
 const encrypter = require('./Encrypter');
 
 const sessions = {};
@@ -9,7 +8,7 @@ module.exports = {
     const session = {
       userId: account._id,
       socketId: null,
-      time: timestamp(),
+      time: new Date().getTime(),
     };
     sessions[token] = session;
     return token;

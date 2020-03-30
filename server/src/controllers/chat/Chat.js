@@ -1,18 +1,14 @@
 const Chat = require('../../models/chat/Chat');
-const Department = require('../../models/department/Department');
+const Department = require('../../models/chat/Department');
 
 module.exports = {
   async index(req, res) {
-    return Chat.find()
-      .then((resp) => res.status(200).json(resp))
-      .catch(() => res.status(400).send());
+    const chats = await Chat.find();
+    return res.status(200).json(chats);
   },
 
   async create(req, res) {
     const { body } = req;
-    if (!body.userData || (body.userData && body.userData.length < 1)) {
-      return res.status(400).send();
-    }
     const department = await Department.findOne({ name: body.department });
     if (!department) return res.status(400).send();
     body.department = department._id;
@@ -26,7 +22,7 @@ module.exports = {
     const { id } = req.params;
     return Chat.findById(id)
       .then((resp) => res.status(200).json(resp))
-      .catch(() => res.status(400).send());
+      .catch(() => res.status(404).send());
   },
 
   async destroy(req, res) {

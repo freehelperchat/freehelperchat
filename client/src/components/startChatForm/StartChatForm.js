@@ -15,8 +15,9 @@ const StartChatForm = () => {
   const [departments, setDepartments] = useState([]);
   const [department, setDepartment] = useState('');
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [formValues, setFormValues] = useState({});
+
   useEffect(() => {
     Api.get('/api/startchat')
       .then(res => setChatForm(res.data))
@@ -60,14 +61,14 @@ const StartChatForm = () => {
           Change={e => setName(e.target.value)}
         />
         <Input
-          Type="text"
-          Label={t('startchatform.phone')}
-          Name={t('startchatform.phone')
+          Type="email"
+          Label={t('startchatform.email')}
+          Name={t('startchatform.email')
             .toLowerCase()
             .replace(/ /gi, '-')}
           Required
-          Value={phone}
-          Change={e => setPhone(e.target.value)}
+          Value={email}
+          Change={e => setEmail(e.target.value)}
         />
         {chatForm.map(c => (
           <Input

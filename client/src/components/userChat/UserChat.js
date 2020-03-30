@@ -84,7 +84,6 @@ const UserChat = () => {
           onChange={e => setNewMessage(e.target.value)}
           required
         />
-        <button type="submit">Enviar</button>
       </form>
     </>
   );
