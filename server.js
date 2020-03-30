@@ -28,19 +28,23 @@ const dbPort = config.database.port !== ''
 mongoose.connect(`${config.database.driver}://${dbUserInfo}${config.database.host}${dbPort}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   const { operatorToken } = socket.handshake.query;
   if (operatorToken) {
     connectedOperators[operatorToken] = socket.id;
   }
-  socketMessages(socket);
+
+  socketMessages(io, socket);
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 
 app.use((req, res, next) => {
   req.io = io;

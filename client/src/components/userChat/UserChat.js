@@ -9,16 +9,16 @@ const UserChat = () => {
   const [chatInfo, setChatInfo] = useState({});
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const { chatId } = useParams();
+  const { chatId, hash } = useParams();
   const history = useHistory();
   const messagesEndRef = useRef(null);
 
   const socket = useMemo(
     () =>
       socketio('http://localhost:3001/', {
-        query: { userHash: '123' },
+        query: { chatId, hash },
       }),
-    []
+    [chatId, hash]
   );
 
   const renderMessage = message => {
@@ -50,11 +50,11 @@ const UserChat = () => {
     e.preventDefault();
     const message = {
       chatId,
+      hash,
       name: chatInfo.name,
       message: newMessage,
     };
     socket.emit('send_message', message);
-    renderMessage(message);
     setNewMessage('');
   };
 

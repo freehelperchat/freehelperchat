@@ -41,9 +41,11 @@ const StartChatForm = () => {
     Api.post('/api/chat', {
       userData,
       department,
+      name,
+      email,
       status: chatStatus.PENDING,
     })
-      .then(res => history.push(`/id/${res.data._id}`))
+      .then(res => history.push(`/id/${res.data.chatId}/${res.data._id}`))
       .catch(err => console.log(err));
   };
 

@@ -26,23 +26,24 @@ module.exports = {
 
   async show(req, res) {
     const { id } = req.params;
-    return Chat.findById(id)
-      .then((resp) => res.status(200).json(resp))
-      .catch(() => res.status(404).send());
+    const chat = await Chat.findOne({ chatId: id });
+    if (!chat) return res.status(404).send();
+    return res.status(200).json(chat);
   },
 
   async destroy(req, res) {
     const { id } = req.params;
     await Chat.findByIdAndDelete(id);
 
-    return res.status(200).send();
+    return res.status(204).send();
   },
 
   async update(req, res) {
     const { id } = req.params;
     const { body } = req;
-    const chat = await Chat.findByIdAndUpdate(id, body);
-    return res.status(200).json({ status: chat.status });
+    const chat = await Chat.findOneAndUpdate({ chatId: id }, body);
+    if (!chat) return res.status(404).send();
+    return res.status(200).send();
   },
 
   async tranferChat(req, res) {

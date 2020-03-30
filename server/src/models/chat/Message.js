@@ -15,8 +15,7 @@ const MessageSchema = new Schema({
     default: new Date().getTime(),
   },
   chatId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Chat',
+    type: Number,
     required: true,
   },
   operator: {
