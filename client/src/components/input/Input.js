@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import classes from './Input.module.css';
 
 const Input = ({ type, value, name, label, change, required, options }) => {
   const [activeClass, setActiveClass] = useState('');
+  const ref = useRef(null);
 
   const handleFocus = () => {
     setActiveClass(classes.Active);
@@ -11,6 +12,27 @@ const Input = ({ type, value, name, label, change, required, options }) => {
 
   const handleBlur = () => {
     if (!value || value === '') setActiveClass('');
+  };
+
+  const handleTextAreaChange = e => {
+    const textareaRef = ref.current;
+    textareaRef.style.cssText = 'height: 30px';
+    textareaRef.style.cssText = `height: ${textareaRef.scrollHeight}px`;
+    change(e);
+  };
+
+  const handleTextAreaKeyDown = e => {
+    if (e.which === 13 && !e.shiftKey) {
+      if (e.target.value.trim() !== '') {
+        console.log('value', e.target.value);
+        const submitEvent = document.createEvent('Event');
+        submitEvent.initEvent('submit', false, true);
+        e.target.form.dispatchEvent(submitEvent);
+      }
+      e.preventDefault();
+      const textareaRef = ref.current;
+      textareaRef.style.cssText = 'height: 30px';
+    }
   };
 
   const commonProps = {
@@ -39,16 +61,36 @@ const Input = ({ type, value, name, label, change, required, options }) => {
       );
       break;
 
+    case 'textarea':
+      input = (
+        <textarea
+          className={classes.TextArea}
+          ref={ref}
+          {...commonProps}
+          onChange={handleTextAreaChange}
+          onKeyDown={handleTextAreaKeyDown}
+        />
+      );
+      break;
+
     default:
-      input = <input className={classes.Input} type={type} {...commonProps} />;
+      input = (
+        <input
+          className={classes.Input}
+          type={type || 'text'}
+          {...commonProps}
+        />
+      );
       break;
   }
   return (
     <div className={[classes.Container, activeClass].join(' ')}>
-      <label className={classes.Label} htmlFor={name}>
-        {label}
-        {required ? '*' : ''}
-      </label>
+      {label && (
+        <label className={classes.Label} htmlFor={name}>
+          {label}
+          {required ? '*' : ''}
+        </label>
+      )}
       {input}
     </div>
   );

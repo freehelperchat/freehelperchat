@@ -2,6 +2,23 @@
   display: flex;
   flex-direction: column;
   width: 30%;
-  max-height: 300px;
+  height: 300px;
+  min-height: 200px;
+  max-height: 1000px;
   overflow-x: hidden;
+  resize: vertical;
+  scrollbar-width: none;
+}
+
+.MessagesContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.MessagesContainer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.MessagesContainer::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }

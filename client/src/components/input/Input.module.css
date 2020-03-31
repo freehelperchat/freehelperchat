@@ -6,6 +6,7 @@
   padding: 0 8px;
   position: relative;
   width: 300px;
+  transition: border .2s ease-out;
 }
 
 .Label {
@@ -46,5 +47,18 @@
   font-size: 16px;
   outline: 0;
   padding: 16px 0 10px;
+  width: 100%;
+}
+
+.TextArea {
+  resize: none;
+  border: none;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 16px;
+  outline: 0;
+  padding: 12px 5px;
+  height: 44px;
+  min-height: 44px;
   width: 100%;
 }

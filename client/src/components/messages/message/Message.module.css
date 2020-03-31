@@ -1,7 +1,8 @@
 .MsgDiv {
   border-radius: 5px;
   margin: 4px;
-  width: 60%;
+  min-width: 30%;
+  max-width: 60%;
   padding: 5px;
 }
 
@@ -17,12 +18,15 @@
 }
 
 .Name {
+  font-weight: 700;
   font-size: 16px;
   margin-bottom: 5px;
 }
 
 .Message {
+  white-space: pre-wrap;
   text-align: left;
   width: 100%;
   font-size: 18px;
+  word-wrap: break-word;
 }

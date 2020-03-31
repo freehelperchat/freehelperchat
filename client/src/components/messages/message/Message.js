@@ -10,7 +10,7 @@ const Message = ({ operator, name, message }) => {
       )}
     >
       <p className={classes.Name}>{name}</p>
-      <p className={classes.Message}>{message}</p>
+      <div className={classes.Message}>{message}</div>
     </div>
   );
 };

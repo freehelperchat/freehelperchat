@@ -4,6 +4,7 @@ import socketio from 'socket.io-client';
 
 import Api from '../../services/api';
 import Messages from '../messages/Messages';
+import Input from '../input/Input';
 
 const UserChat = () => {
   const [chatInfo, setChatInfo] = useState({});
@@ -41,13 +42,15 @@ const UserChat = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const message = {
+    const message = newMessage.trim();
+    if (message === '') return;
+    const msg = {
+      name: chatInfo.name,
+      message,
       chatId,
       hash,
-      name: chatInfo.name,
-      message: newMessage,
     };
-    socket.emit('send_message', message);
+    socket.emit('send_message', msg);
     setNewMessage('');
   };
 
@@ -55,10 +58,10 @@ const UserChat = () => {
     <>
       <Messages messages={messages} />
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+        <Input
+          type="textarea"
           value={newMessage}
-          onChange={e => setNewMessage(e.target.value)}
+          change={e => setNewMessage(e.target.value)}
           required
         />
       </form>

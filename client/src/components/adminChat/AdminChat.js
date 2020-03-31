@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
 import Messages from '../messages/Messages';
+import Input from '../input/Input';
 import Api from '../../services/api';
 
 const AdminChat = () => {
@@ -39,13 +40,16 @@ const AdminChat = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const message = {
-      chatId,
+    const message = newMessage.trim();
+    console.log('message', message);
+    if (message === '') return;
+    const msg = {
       name: 'teste',
       operator: true,
-      message: newMessage,
+      message,
+      chatId,
     };
-    socket.emit('send_message', message);
+    socket.emit('send_message', msg);
     setNewMessage('');
   };
 
@@ -53,10 +57,10 @@ const AdminChat = () => {
     <>
       <Messages messages={messages} />
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+        <Input
+          type="textarea"
           value={newMessage}
-          onChange={e => setNewMessage(e.target.value)}
+          change={e => setNewMessage(e.target.value)}
           required
         />
       </form>
