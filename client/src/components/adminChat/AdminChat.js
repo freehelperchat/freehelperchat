@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
-import Message from '../message/Message';
+import Messages from '../messages/Messages';
 import Api from '../../services/api';
 
 const AdminChat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const { chatId } = useParams();
-  const messagesEndRef = useRef(null);
   const history = useHistory();
 
   const socket = useMemo(
@@ -38,12 +37,6 @@ const AdminChat = () => {
       .catch(() => history.push('/'));
   }, [socket, chatId, history]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(scrollToBottom, [messages]);
-
   const handleSubmit = e => {
     e.preventDefault();
     const message = {
@@ -53,38 +46,12 @@ const AdminChat = () => {
       message: newMessage,
     };
     socket.emit('send_message', message);
-    renderMessage(message);
     setNewMessage('');
   };
 
   return (
     <>
-      <div
-        style={{
-          width: '100%',
-          height: 200,
-          scrollBehavior: 'smooth',
-          overflowX: 'auto',
-        }}
-      >
-        <div
-          style={{
-            width: '30%',
-            maxHeight: 300,
-            overflow: 'auto',
-          }}
-        >
-          {messages.map(m => (
-            <Message
-              key={m._id}
-              Operator={m.operator}
-              Message={m.message}
-              Name={m.name}
-            />
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
+      <Messages messages={messages} />
       <form onSubmit={handleSubmit}>
         <input
           type="text"

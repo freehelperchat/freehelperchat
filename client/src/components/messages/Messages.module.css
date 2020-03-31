@@ -1,0 +1,7 @@
+.MessagesContainer {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  max-height: 300px;
+  overflow-x: hidden;
+}

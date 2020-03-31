@@ -3,7 +3,8 @@
   "license": "MIT",
   "version": "0.4.0",
   "scripts": {
-    "build": "cd client && yarn build",
+    "build": "cd client && yarn install && yarn build",
+	  "start": "node server.js",
     "client": "cd client && yarn start",
     "server": "nodemon server.js --ignore ./client/",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",

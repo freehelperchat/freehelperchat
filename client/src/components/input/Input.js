@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import classes from './Input.module.css';
 
-const Input = props => {
+const Input = ({ type, value, name, label, change, required, options }) => {
   const [activeClass, setActiveClass] = useState('');
 
   const handleFocus = () => {
@@ -10,27 +10,27 @@ const Input = props => {
   };
 
   const handleBlur = () => {
-    if (!props.Value || props.Value === '') setActiveClass('');
+    if (!value || value === '') setActiveClass('');
   };
 
   const commonProps = {
-    id: props.Name,
-    value: props.Value || '',
-    onChange: props.Change,
+    id: name,
+    value: value || '',
+    onChange: change,
     onFocus: handleFocus,
     onBlur: handleBlur,
-    required: props.Required,
+    required,
   };
 
   let input = null;
-  switch (props.Type) {
+  switch (type) {
     case 'select':
       input = (
         <select className={classes.Select} {...commonProps}>
           <option value="" disabled hidden>
             {' '}
           </option>
-          {props.Options.map(op => (
+          {options.map(op => (
             <option key={op} value={op}>
               {op}
             </option>
@@ -40,16 +40,14 @@ const Input = props => {
       break;
 
     default:
-      input = (
-        <input className={classes.Input} type={props.Type} {...commonProps} />
-      );
+      input = <input className={classes.Input} type={type} {...commonProps} />;
       break;
   }
   return (
     <div className={[classes.Container, activeClass].join(' ')}>
-      <label className={classes.Label} htmlFor={props.Name}>
-        {props.Label}
-        {props.Required ? '*' : ''}
+      <label className={classes.Label} htmlFor={name}>
+        {label}
+        {required ? '*' : ''}
       </label>
       {input}
     </div>

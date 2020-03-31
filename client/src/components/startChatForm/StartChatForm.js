@@ -53,47 +53,47 @@ const StartChatForm = () => {
     <div className={classes.Form}>
       <form onSubmit={handleSubmit}>
         <Input
-          Type="text"
-          Label={t('startchatform.name')}
-          Name={t('startchatform.name')
+          type="text"
+          label={t('startchatform.name')}
+          name={t('startchatform.name')
             .toLowerCase()
             .replace(/ /gi, '-')}
-          Required
-          Value={name}
-          Change={e => setName(e.target.value)}
+          required
+          value={name}
+          change={e => setName(e.target.value)}
         />
         <Input
-          Type="email"
-          Label={t('startchatform.email')}
-          Name={t('startchatform.email')
+          type="email"
+          label={t('startchatform.email')}
+          name={t('startchatform.email')
             .toLowerCase()
             .replace(/ /gi, '-')}
-          Required
-          Value={email}
-          Change={e => setEmail(e.target.value)}
+          required
+          value={email}
+          change={e => setEmail(e.target.value)}
         />
         {chatForm.map(c => (
           <Input
             key={c._id}
-            Type={c.inputType}
-            Label={c.label}
-            Name={c.name}
-            Required={c.required}
-            Options={c.options}
-            Value={formValues[c.name]}
-            Change={e => handleChange(e.target.value, c.name)}
+            type={c.inputType}
+            label={c.label}
+            name={c.name}
+            required={c.required}
+            options={c.options}
+            value={formValues[c.name]}
+            change={e => handleChange(e.target.value, c.name)}
           />
         ))}
         <Input
-          Type="select"
-          Label={t('department.name')}
-          Name={t('department.name').toLowerCase()}
-          Required
-          Options={departments}
-          Value={department}
-          Change={e => setDepartment(e.target.value)}
+          type="select"
+          label={t('department.name')}
+          name={t('department.name').toLowerCase()}
+          required
+          options={departments}
+          value={department}
+          change={e => setDepartment(e.target.value)}
         />
-        <Button Type="submit" Label={t('button.startchat')} />
+        <Button type="submit" label={t('button.startchat')} />
       </form>
     </div>
   );

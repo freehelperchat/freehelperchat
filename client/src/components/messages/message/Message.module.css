@@ -6,8 +6,14 @@
 }
 
 .User {
-  background-color: blue;
+  align-self: flex-start;
+  background-color: #314bdd;
   color: white;
+}
+
+.Operator {
+  align-self: flex-end;
+  background-color: #31dd31;
 }
 
 .Name {
