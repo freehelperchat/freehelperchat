@@ -6,15 +6,21 @@
   padding: 5px;
 }
 
-.User {
+.IncomingMessage {
   align-self: flex-start;
-  background-color: #314bdd;
-  color: white;
+  background-color: white;
+  color: black;
+  -webkit-box-shadow: 7px 7px 7px 0px rgba(150,150,150,0.75);
+  -moz-box-shadow: 7px 7px 7px 0px rgba(150,150,150,0.75);
+  box-shadow: 7px 7px 7px 0px rgba(150,150,150,0.75);
 }
 
-.Operator {
+.OutgoingMessage {
   align-self: flex-end;
-  background-color: #31dd31;
+  background-color: #DCF8C6;
+  -webkit-box-shadow: -7px 7px 7px 0px rgba(150,150,150,0.75);
+  -moz-box-shadow: -7px 7px 7px 0px rgba(150,150,150,0.75);
+  box-shadow: -7px 7px 7px 0px rgba(150,150,150,0.75);
 }
 
 .Name {

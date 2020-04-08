@@ -2,13 +2,9 @@ import React from 'react';
 
 import classes from './Message.module.css';
 
-const Message = ({ operator, name, message }) => {
+const Message = ({ type, name, message }) => {
   return (
-    <div
-      className={[classes.MsgDiv, classes[operator ? 'Operator' : 'User']].join(
-        ' '
-      )}
-    >
+    <div className={[classes.MsgDiv, classes[type]].join(' ')}>
       <p className={classes.Name}>{name}</p>
       <div className={classes.Message}>{message}</div>
     </div>
@@ -16,3 +12,8 @@ const Message = ({ operator, name, message }) => {
 };
 
 export default Message;
+
+export const messageTypes = {
+  OUTGOING_MESSAGE: 'OutgoingMessage',
+  INCOMING_MESSAGE: 'IncomingMessage',
+};

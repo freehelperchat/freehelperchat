@@ -54,7 +54,7 @@ const Chat = ({ chatId, token, hash }) => {
 
   return (
     <div className={classes.ChatContainer}>
-      <Messages messages={messages} />
+      <Messages messages={messages} user={typeof hash !== 'undefined'} />
       <form onSubmit={handleSubmit}>
         <Input
           type="textarea"

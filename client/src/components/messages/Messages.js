@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
 import classes from './Messages.module.css';
-import Message from './message/Message';
+import Message, { messageTypes } from './message/Message';
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, user }) => {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -14,14 +14,21 @@ const Messages = ({ messages }) => {
 
   return (
     <div className={classes.MessagesContainer}>
-      {messages.map(m => (
-        <Message
-          key={m._id}
-          operator={m.operator}
-          message={m.message}
-          name={m.name}
-        />
-      ))}
+      {messages.map(m => {
+        let type;
+        if (user) {
+          type = m.operator
+            ? messageTypes.INCOMING_MESSAGE
+            : messageTypes.OUTGOING_MESSAGE;
+        } else {
+          type = !m.operator
+            ? messageTypes.INCOMING_MESSAGE
+            : messageTypes.OUTGOING_MESSAGE;
+        }
+        return (
+          <Message key={m._id} type={type} message={m.message} name={m.name} />
+        );
+      })}
       <div ref={messagesEndRef} />
     </div>
   );
