@@ -9,13 +9,12 @@ const { errors } = require('celebrate');
 const routes = require('./server/routes');
 const config = require('./server/config/config.json');
 const socketMessages = require('./server/src/functions/SocketMessages');
+const session = require('./server/src/functions/Session');
 
 const app = express();
 const server = http.Server(app);
 const io = socketio(server);
 const port = process.env.PORT || config.server.port;
-
-const connectedOperators = {};
 
 const dbUserInfo = config.database.username !== '' && config.database.password !== ''
   ? `${config.database.username}:${config.database.password}@`
@@ -34,7 +33,7 @@ mongoose.connect(`${config.database.driver}://${dbUserInfo}${config.database.hos
 io.on('connection', async (socket) => {
   const { operatorToken } = socket.handshake.query;
   if (operatorToken) {
-    connectedOperators[operatorToken] = socket.id;
+    session.updateSession(operatorToken, socket.id);
   }
 
   socketMessages(io, socket);

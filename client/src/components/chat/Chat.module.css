@@ -1,0 +1,12 @@
+.ChatContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+  width: 70%;
+}
+
+.ChatContainer form {
+  width: 100%;
+}

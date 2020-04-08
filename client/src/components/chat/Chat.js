@@ -1,27 +1,31 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
-import Messages from '../messages/Messages';
 import Input from '../input/Input';
+import Messages from '../messages/Messages';
 import Api from '../../services/api';
+import classes from './Chat.module.css';
 
-const AdminChat = () => {
+const Chat = ({ chatId, token, hash }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const { chatId } = useParams();
-  const history = useHistory();
-
+  console.log(chatId, token, hash);
   const socket = useMemo(
     () =>
       socketio('http://localhost:3001/', {
-        query: { operatorToken: '1234' },
+        query: {
+          operatorToken: token,
+        },
       }),
-    []
+    [token]
   );
 
   const renderMessage = message => {
     return setMessages(msgs => [...msgs, message]);
+  };
+
+  const renderAllMessages = messageArray => {
+    return setMessages(msgs => [...msgs, ...messageArray]);
   };
 
   useEffect(() => {
@@ -29,32 +33,27 @@ const AdminChat = () => {
       renderMessage(data);
     });
     socket.emit('open_chat', { chatId });
-    Api.get(`/api/chat/${chatId}`)
-      .then(() => {
-        Api.get(`/api/message/${chatId}`)
-          .then(res => res.data.map(msg => renderMessage(msg)))
-          .catch(err => console.log(err));
-      })
-      .catch(() => history.push('/'));
-  }, [socket, chatId, history]);
+    Api.get(`/api/message/${chatId}`)
+      .then(res => renderAllMessages(res.data))
+      .catch(err => console.log(err));
+  }, [socket, chatId]);
 
   const handleSubmit = e => {
     e.preventDefault();
     const message = newMessage.trim();
-    console.log('message', message);
     if (message === '') return;
     const msg = {
-      name: 'teste',
-      operator: true,
       message,
       chatId,
+      token,
+      hash,
     };
     socket.emit('send_message', msg);
     setNewMessage('');
   };
 
   return (
-    <>
+    <div className={classes.ChatContainer}>
       <Messages messages={messages} />
       <form onSubmit={handleSubmit}>
         <Input
@@ -64,8 +63,8 @@ const AdminChat = () => {
           required
         />
       </form>
-    </>
+    </div>
   );
 };
 
-export default AdminChat;
+export default Chat;

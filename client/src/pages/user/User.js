@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import StartChatForm from '../../components/startChatForm/StartChatForm';
-import UserChat from '../../components/userChat/UserChat';
+import StartChatForm from './startChatForm/StartChatForm';
+import UserChat from './userChat/UserChat';
 
 function User() {
   return (

@@ -24,7 +24,6 @@ const Input = ({ type, value, name, label, change, required, options }) => {
   const handleTextAreaKeyDown = e => {
     if (e.which === 13 && !e.shiftKey) {
       if (e.target.value.trim() !== '') {
-        console.log('value', e.target.value);
         const submitEvent = document.createEvent('Event');
         submitEvent.initEvent('submit', false, true);
         e.target.form.dispatchEvent(submitEvent);

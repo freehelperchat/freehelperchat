@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import Api from '../../services/api';
-import Input from '../input/Input';
-import Button from '../button/Button';
-import chatStatus from '../../constants/chatStatus';
+import Api from '../../../services/api';
+import Input from '../../../components/input/Input';
+import Button from '../../../components/button/Button';
+import chatStatus from '../../../constants/chatStatus';
 import classes from './StartChatForm.module.css';
 
 const StartChatForm = () => {

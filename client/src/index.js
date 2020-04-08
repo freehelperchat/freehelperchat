@@ -4,7 +4,6 @@ import './index.css';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import Routes from './routes';
-import * as serviceWorker from './serviceWorker';
 import en_US from './translations/en_US/translation.json';
 import pt_BR from './translations/pt_BR/translation.json';
 
@@ -30,5 +29,3 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById('root'));
-
-serviceWorker.unregister();
