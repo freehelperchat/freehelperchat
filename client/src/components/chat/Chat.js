@@ -9,7 +9,7 @@ import classes from './Chat.module.css';
 const Chat = ({ chatId, token, hash }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  console.log(chatId, token, hash);
+
   const socket = useMemo(
     () =>
       socketio('http://localhost:3001/', {
