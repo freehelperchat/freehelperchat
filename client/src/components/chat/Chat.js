@@ -53,16 +53,18 @@ const Chat = ({ chatId, token, hash }) => {
   };
 
   return (
-    <div className={classes.ChatContainer}>
-      <Messages messages={messages} user={typeof hash !== 'undefined'} />
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="textarea"
-          value={newMessage}
-          change={e => setNewMessage(e.target.value)}
-          required
-        />
-      </form>
+    <div className={classes.Container}>
+      <div className={classes.ChatContainer}>
+        <Messages messages={messages} user={typeof hash !== 'undefined'} />
+        <form onSubmit={handleSubmit}>
+          <Input
+            type="textarea"
+            value={newMessage}
+            change={e => setNewMessage(e.target.value)}
+            required
+          />
+        </form>
+      </div>
     </div>
   );
 };

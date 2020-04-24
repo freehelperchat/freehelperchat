@@ -1,10 +1,13 @@
+.Container {
+  height: auto;
+}
+
 .ChatContainer {
   padding: 3px;
   border: 1px solid #ccc;
   background-color: #eeeeee;
   border-radius: 5px;
   display: inline-block;
-  height: auto;
   width: 95%;
 }
 
