@@ -9,9 +9,9 @@ module.exports = {
     const operator = await Operator.findOne({ username });
 
     if (operator) {
-      Sessions.deleteSessionByUserId(operator._id);
+      Sessions.deleteSessionByOperatorId(operator._id);
       if (Encrypter.sha256(password, operator.password.salt) === operator.password.hash) {
-        const token = Sessions.addSession(operator);
+        const token = await Sessions.addSession(operator);
         return res.status(200).json({ token });
       }
       return res.status(401).send();
@@ -21,6 +21,6 @@ module.exports = {
 
   async delete(req, res) {
     const token = req.headers.authorization;
-    return res.status(Sessions.deleteSession(token) ? 200 : 400).send();
+    return res.status(await Sessions.deleteSession(token) ? 200 : 400).send();
   },
 };

@@ -1,9 +1,9 @@
 const { celebrate, Joi, Segments } = require('celebrate');
 const Session = require('../functions/Session');
 
-function verifySession(req, res, next) {
+async function verifySession(req, res, next) {
   const token = req.headers.authorization;
-  if (!Session.sessionExists(token)) return res.status(401).send();
+  if (!await Session.sessionExists(token)) return res.status(401).send();
   return next();
 }
 

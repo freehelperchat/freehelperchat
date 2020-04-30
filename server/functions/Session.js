@@ -1,33 +1,34 @@
 const encrypter = require('./Encrypter');
-
-const sessions = {};
+const Session = require('../models/chat/Session');
 
 module.exports = {
   /**
    * Creates a new session for the given user
    * @param {*} operator Operator object from the database
-   * @returns {String} The session's token
+   * @returns {Promise<String>} The session's token
    */
-  addSession(operator) {
+  async addSession(operator) {
     const token = encrypter.randomString(256);
     const session = {
-      userId: operator._id,
-      socketId: null,
-      time: new Date().getTime(),
+      _id: token,
+      operatorId: operator._id,
     };
-    sessions[token] = session;
-    return token;
+    return Session.create(session)
+      .then((res) => res._id)
+      .catch(() => null);
   },
 
   /**
    * Adds the socket id to the User Session
    * @param {String} token Session's token
    * @param {String} socketId SocketId of the user
-   * @returns {boolean} Boolean that indicates that the session was updated or not
+   * @returns {Promise<boolean>} Boolean that indicates that the session was updated or not
    */
-  updateSession(token, socketId) {
-    if (sessions[token]) {
-      sessions[token].socketId = socketId;
+  async updateSession(token, socketId) {
+    const session = await Session.findById(token);
+    if (session) {
+      session.socketId = socketId;
+      await session.save();
       return true;
     }
     return false;
@@ -36,48 +37,41 @@ module.exports = {
   /**
    *
    * @param {String} token Session's token
-   * @returns {{
-   *  userId: String
-   *  socketId: String
-   *  time: String
-   * }} The user's session or null if token is invalid
+   * @returns {Promise<Document>} The session document
    */
-  getSession(token) {
-    return sessions[token];
+  async getSession(token) {
+    return Session.findById(token);
   },
 
   /**
    * Deletes an User Session by the token
    * @param {String} token Session's token
-   * @returns {boolean} Boolean that indicates that the session was delete or not
+   * @returns {Promise<boolean>} Boolean that indicates that the session was delete or not
    */
-  deleteSession(token) {
-    if (sessions[token]) {
-      delete sessions[token];
-      return true;
-    }
-    return false;
+  async deleteSession(token) {
+    return Session.findByIdAndDelete(token)
+      .then(() => true)
+      .catch(() => false);
   },
 
   /**
-   * Deletes an User Session by the UserID
-   * @param {String} userId User's ID
-   * @returns {boolean} Boolean that indicates that the session was deleted or not
+   * Deletes an User Session by the operatorId
+   * @param {String} operatorId User's ID
+   * @returns {Promise<boolean>} Boolean that indicates that the session was deleted or not
    */
-  deleteSessionByUserId(userId) {
-    const currentSessions = Object.keys(sessions)
-      .filter((s) => String(sessions[s].userId).trim() === String(userId).trim());
-    if (currentSessions.length > 0) return currentSessions.map((cs) => delete sessions[cs]);
-    return false;
+  async deleteSessionByOperatorId(operatorId) {
+    return Session.findOneAndDelete({ operatorId })
+      .then(() => true)
+      .catch(() => false);
   },
 
   /**
    * Checks if a session exists or not
    * @param {String} token Session's token
-   * @returns {boolean} Boolean that indicates if the session exists or not
+   * @returns {Promise<boolean>} Boolean that indicates if the session exists or not
    */
-  sessionExists(token) {
-    const session = this.getSession(token);
+  async sessionExists(token) {
+    const session = await this.getSession(token);
     return typeof session !== 'undefined' && session !== null;
   },
 };
