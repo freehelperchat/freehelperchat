@@ -20,7 +20,7 @@ module.exports = {
   },
 
   async delete(req, res) {
-    const token = req.header('token');
+    const token = req.headers.authorization;
     return res.status(Sessions.deleteSession(token) ? 200 : 400).send();
   },
 };

@@ -48,19 +48,20 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 'off',
     'array-callback-return': 'off',
     'prefer-destructuring': 'off',
-    "jsx-a11y/label-has-associated-control": [ "error", {
-      "required": {
-        "some": [ "nesting", "id"  ]
+    'jsx-a11y/label-has-associated-control': [ 'error', {
+      'required': {
+        'some': [ 'nesting', 'id'  ]
       }
     }],
-    "jsx-a11y/label-has-for": [ "error", {
-      "required": {
-        "some": [ "nesting", "id"  ]
+    'jsx-a11y/label-has-for': [ 'error', {
+      'required': {
+        'some': [ 'nesting', 'id'  ]
       }
     }],
     'no-console': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
+    'consistent-return': 'off'
   },
 };

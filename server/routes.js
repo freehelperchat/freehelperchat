@@ -15,10 +15,33 @@ routes.put('/chat/transfer/:id', validation.idNumberParam, Controllers.Chat.tran
 routes.get('/chat/getbystatus', Controllers.Chat.getChatByStatus);
 
 // Operator Routes
-routes.get('/operator/', Controllers.Operator.index);
-routes.get('/operator/:id', validation.idStringParam, Controllers.Operator.show);
-routes.post('/operator', validation.operatorValidation.createOperator, Controllers.Operator.create);
-routes.delete('/operator/:id', validation.idStringParam, Controllers.Operator.destroy);
+routes.get(
+  '/operator/',
+  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.Operator.index,
+);
+routes.get(
+  '/operator/:id',
+  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.verifySession,
+  validation.idStringParam,
+  Controllers.Operator.show,
+);
+routes.post(
+  '/operator',
+  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.verifySession,
+  validation.operatorValidation.createOperator,
+  Controllers.Operator.create,
+);
+routes.delete(
+  '/operator/:id',
+  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.verifySession,
+  validation.idStringParam,
+  Controllers.Operator.destroy,
+);
 
 // Message Routes
 routes.get('/message/:id', validation.idNumberParam, Controllers.Message.chatMessages);
@@ -36,8 +59,8 @@ routes.put('/cannedmsg/:id', Controllers.CannedMessage.editMsg);
 routes.delete('/cannedmsg/:id', Controllers.CannedMessage.destroy);
 
 // Session Routes
-routes.post('/login', Controllers.Session.create);
-routes.delete('/logout', Controllers.Session.delete);
+routes.post('/login', validation.sessionValidation.createSession, Controllers.Session.create);
+routes.delete('/logout', validation.sessionValidation.tokenHeader, Controllers.Session.delete);
 
 // StartChatForm Routes
 routes.get('/startchat', Controllers.StartChatForm.index);

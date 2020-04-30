@@ -1,6 +1,7 @@
 const { celebrate, Joi, Segments } = require('celebrate');
 const chatValidation = require('./chatValidation');
 const operatorValidation = require('./operatorValidation');
+const sessionValidation = require('./sessionValidation');
 
 module.exports = {
   idStringParam: celebrate({
@@ -17,4 +18,5 @@ module.exports = {
 
   chatValidation,
   operatorValidation,
+  sessionValidation,
 };

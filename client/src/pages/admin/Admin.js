@@ -10,6 +10,7 @@ const Admin = () => {
     <AuthContextProvider>
       <Route path="/admin/chat/:chatId" component={AdminChat} />
       <Route path="/admin/login" component={Login} />
+      <Route path="/admin" exact />
     </AuthContextProvider>
   );
 };
