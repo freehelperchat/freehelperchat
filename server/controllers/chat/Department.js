@@ -33,6 +33,6 @@ module.exports = {
     const { id } = req.params;
     await Department.findByIdAndDelete(id);
 
-    return res.send();
+    return res.status(204).send();
   },
 };

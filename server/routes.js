@@ -9,35 +9,54 @@ const Controllers = require('./controllers');
 routes.get('/chat', Controllers.Chat.index);
 routes.get('/chat/:id', validation.idNumberParam, Controllers.Chat.show);
 routes.post('/chat', validation.chatValidation.createChat, Controllers.Chat.create);
-routes.put('/chat/:id', validation.idNumberParam, validation.chatValidation.updateChat, Controllers.Chat.update);
-routes.delete('/chat/:id', validation.idNumberParam, Controllers.Chat.destroy);
-routes.put('/chat/transfer/:id', validation.idNumberParam, Controllers.Chat.tranferChat);
+routes.put(
+  '/chat/:id',
+  validation.idNumberParam,
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  validation.chatValidation.updateChat,
+  Controllers.Chat.update,
+);
+routes.delete(
+  '/chat/:id',
+  validation.idNumberParam,
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.Chat.destroy,
+);
+routes.put(
+  '/chat/transfer/:id',
+  validation.idNumberParam,
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.Chat.tranferChat,
+);
 routes.get('/chat/getbystatus', Controllers.Chat.getChatByStatus);
 
 // Operator Routes
 routes.get(
   '/operator/',
-  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.authHeader,
   validation.sessionValidation.verifySession,
   Controllers.Operator.index,
 );
 routes.get(
   '/operator/:id',
-  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.authHeader,
   validation.sessionValidation.verifySession,
   validation.idStringParam,
   Controllers.Operator.show,
 );
 routes.post(
   '/operator',
-  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.authHeader,
   validation.sessionValidation.verifySession,
   validation.operatorValidation.createOperator,
   Controllers.Operator.create,
 );
 routes.delete(
   '/operator/:id',
-  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.authHeader,
   validation.sessionValidation.verifySession,
   validation.idStringParam,
   Controllers.Operator.destroy,
@@ -50,17 +69,42 @@ routes.get('/message/:id', validation.idNumberParam, Controllers.Message.chatMes
 routes.get('/department', Controllers.Department.index);
 routes.get('/department/names', Controllers.Department.getNames);
 routes.post('/department/', Controllers.Department.create);
-routes.delete('/department/:id', Controllers.Department.destroy);
+routes.delete(
+  '/department/:id',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.Department.destroy,
+);
 
 // CannedMessage Routes
-routes.get('/cannedmsg', Controllers.CannedMessage.index);
-routes.post('/cannedmsg', Controllers.CannedMessage.create);
-routes.put('/cannedmsg/:id', Controllers.CannedMessage.editMsg);
-routes.delete('/cannedmsg/:id', Controllers.CannedMessage.destroy);
+routes.get(
+  '/cannedmsg',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.CannedMessage.index,
+);
+routes.post(
+  '/cannedmsg',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.CannedMessage.create,
+);
+routes.put(
+  '/cannedmsg/:id',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.CannedMessage.editMsg,
+);
+routes.delete(
+  '/cannedmsg/:id',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.CannedMessage.destroy,
+);
 
 // Session Routes
-routes.post('/login', validation.sessionValidation.createSession, Controllers.Session.create);
-routes.delete('/logout', validation.sessionValidation.tokenHeader, Controllers.Session.delete);
+routes.post('/login', validation.sessionValidation.authHeader, Controllers.Session.create);
+routes.delete('/logout', validation.sessionValidation.authHeader, Controllers.Session.delete);
 
 // StartChatForm Routes
 routes.get('/startchat', Controllers.StartChatForm.index);
@@ -70,9 +114,25 @@ routes.put('/startchat/update', Controllers.StartChatForm.update);
 routes.put('/startchat/updateAll', Controllers.StartChatForm.updateAll);
 
 // UserGroups Routes
-routes.get('/usergroup', Controllers.UserGroup.index);
-routes.get('/usergroup/:id', Controllers.UserGroup.show);
-routes.post('/usergroup', Controllers.UserGroup.create);
-routes.delete('/usergroup/:id', Controllers.UserGroup.destroy);
+routes.get(
+  '/usergroup',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.UserGroup.index,
+);
+routes.get(
+  '/usergroup/:id',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.verifySession,
+  Controllers.UserGroup.show,
+);
+routes.post(
+  '/usergroup',
+  Controllers.UserGroup.create,
+);
+routes.delete(
+  '/usergroup/:id',
+  Controllers.UserGroup.destroy,
+);
 
 module.exports = routes;

@@ -65,7 +65,7 @@ module.exports = {
       const { id } = req.params;
       await StartChatForm.findByIdAndDelete(id);
 
-      return res.status(200).send();
+      return res.status(204).send();
     }
     return res.status(400).send();
   },

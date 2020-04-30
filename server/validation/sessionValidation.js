@@ -9,13 +9,7 @@ async function verifySession(req, res, next) {
 
 module.exports = {
   verifySession,
-  createSession: celebrate({
-    [Segments.BODY]: Joi.object().keys({
-      username: Joi.string().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  tokenHeader: celebrate({
+  authHeader: celebrate({
     [Segments.HEADERS]: Joi.object({
       authorization: Joi.string().required(),
     }).unknown(),

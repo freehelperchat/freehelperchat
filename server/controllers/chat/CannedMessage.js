@@ -31,6 +31,6 @@ module.exports = {
     const { id } = req.params;
     await CannedMessage.findByIdAndDelete(id);
 
-    return res.send();
+    return res.status(204).send();
   },
 };

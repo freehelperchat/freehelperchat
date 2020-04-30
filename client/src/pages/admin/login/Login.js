@@ -14,7 +14,7 @@ const Login = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    Api.post('/login', { username, password })
+    Api.post('/login', {}, { auth: { username, password } })
       .then(res => {
         const { token } = res.data;
         localStorage.setItem('token', token);

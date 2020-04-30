@@ -38,6 +38,6 @@ module.exports = {
     const { id } = req.params;
     await Operator.findByIdAndDelete(id);
 
-    return res.send();
+    return res.status(204).send();
   },
 };

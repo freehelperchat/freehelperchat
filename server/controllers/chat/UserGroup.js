@@ -24,6 +24,6 @@ module.exports = {
     const { id } = req.params;
     await UserGroup.findByIdAndDelete(id);
 
-    return res.send();
+    return res.status(204).send();
   },
 };
