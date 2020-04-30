@@ -19,6 +19,7 @@
   transform: translate(0, 13px) scale(1);
   transition: all .2s ease-in-out;
   cursor: text;
+  pointer-events: none;
 }
 
 .Active {
@@ -33,14 +34,13 @@
   transform: translate(0, -8px) scale(.75);
 }
 
-.Input[type=text], .Input[type=email] {
+.Input[type=text], .Input[type=email], .Input[type=password] {
   border: none;
   background-color: rgba(0, 0, 0, 0);
   font-size: 16px;
   outline: 0;
   padding: 16px 0 10px;
   width: 100%;
-  z-index: 2;
 }
 
 .Select {
@@ -50,7 +50,6 @@
   outline: 0;
   padding: 16px 0 10px;
   width: 100%;
-  z-index: 2;
 }
 
 .TextArea {
@@ -64,5 +63,4 @@
   height: 44px;
   min-height: 44px;
   width: 100%;
-  z-index: 2;
 }

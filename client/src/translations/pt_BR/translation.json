@@ -1,15 +1,18 @@
 {
     "input": {
-        "select": "Selecione uma opção"
+      "select": "Selecione uma opção"
     },
     "department": {
       "name": "Departamento"
     },
     "button": {
-      "startchat": "Iniciar Chat"
+      "startchat": "Iniciar Chat",
+      "login": "Fazer Login"
     },
-    "startchatform": {
+    "form": {
       "name": "Nome",
-      "email": "Endereço de Email"
+      "email": "Endereço de Email",
+      "username": "Nome de usuário",
+      "password": "Senha"
     }
 }

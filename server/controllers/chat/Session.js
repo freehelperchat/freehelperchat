@@ -1,18 +1,16 @@
 const Encrypter = require('../../functions/Encrypter');
 const Sessions = require('../../functions/Session');
-
 const Operator = require('../../models/chat/Operator');
 
 module.exports = {
   async create(req, res) {
-    const email = req.header('email');
-    const pass = req.header('pass');
+    const { username, password } = req.body;
 
-    const operator = await Operator.findOne({ email });
+    const operator = await Operator.findOne({ username });
 
     if (operator) {
       Sessions.deleteSessionByUserId(operator._id);
-      if (Encrypter.sha256(pass, operator.pass.salt) === operator.pass.hash) {
+      if (Encrypter.sha256(password, operator.password.salt) === operator.password.hash) {
         const token = Sessions.addSession(operator);
         return res.status(200).json({ token });
       }

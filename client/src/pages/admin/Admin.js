@@ -1,15 +1,17 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-import AuthContextProvider from '../../context/AuthContext';
+import AuthContextProvider from 'context/AuthContext';
 import AdminChat from './adminChat/AdminChat';
+import Login from './login/Login';
 
-function Admin() {
+const Admin = () => {
   return (
     <AuthContextProvider>
       <Route path="/admin/chat/:chatId" component={AdminChat} />
+      <Route path="/admin/login" component={Login} />
     </AuthContextProvider>
   );
-}
+};
 
 export default Admin;

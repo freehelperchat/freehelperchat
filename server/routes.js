@@ -2,8 +2,8 @@ const express = require('express');
 
 const routes = express.Router();
 
-const validation = require('./src/validation');
-const Controllers = require('./src/controllers');
+const validation = require('./validation');
+const Controllers = require('./controllers');
 
 // Chat Routes
 routes.get('/chat', Controllers.Chat.index);

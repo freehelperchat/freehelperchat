@@ -11,7 +11,9 @@ const Input = ({ type, value, name, label, change, required, options }) => {
   };
 
   const handleBlur = () => {
-    if (!value || value === '') setActiveClass('');
+    if (!value) {
+      if (!ref.current.value || ref.current.value === '') setActiveClass('');
+    } else if (value === '') setActiveClass('');
   };
 
   const handleTextAreaChange = e => {
@@ -36,10 +38,11 @@ const Input = ({ type, value, name, label, change, required, options }) => {
 
   const commonProps = {
     id: name,
-    value: value || '',
+    value,
     onChange: change,
     onFocus: handleFocus,
     onBlur: handleBlur,
+    ref,
     required,
   };
 
@@ -47,7 +50,7 @@ const Input = ({ type, value, name, label, change, required, options }) => {
   switch (type) {
     case 'select':
       input = (
-        <select className={classes.Select} {...commonProps}>
+        <select className={classes.Select} defaultValue="" {...commonProps}>
           <option value="" disabled hidden>
             {' '}
           </option>
@@ -64,7 +67,6 @@ const Input = ({ type, value, name, label, change, required, options }) => {
       input = (
         <textarea
           className={classes.TextArea}
-          ref={ref}
           {...commonProps}
           onChange={handleTextAreaChange}
           onKeyDown={handleTextAreaKeyDown}

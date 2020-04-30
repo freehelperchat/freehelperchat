@@ -10,6 +10,6 @@ module.exports = (io, socket) => {
     const { chatId } = data;
     Message.create(data)
       .then((res) => io.to(chatId).emit('received_message', res))
-      .catch((err) => socket.to(chatId).emit('error_sending_message', err));
+      .catch((err) => socket.emit('error_sending_message', err));
   });
 };

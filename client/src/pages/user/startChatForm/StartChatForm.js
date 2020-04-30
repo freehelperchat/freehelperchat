@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import Api from '../../../services/api';
-import Input from '../../../components/input/Input';
-import Button from '../../../components/button/Button';
-import chatStatus from '../../../constants/chatStatus';
+import Api from 'services/api';
+import Input from 'components/input/Input';
+import Button from 'components/button/Button';
+import chatStatus from 'constants/chatStatus';
 import classes from './StartChatForm.module.css';
 
 const StartChatForm = () => {
@@ -19,10 +19,10 @@ const StartChatForm = () => {
   const [formValues, setFormValues] = useState({});
 
   useEffect(() => {
-    Api.get('/api/startchat')
+    Api.get('/startchat')
       .then(res => setChatForm(res.data))
       .catch(err => console.log(err));
-    Api.get('/api/department/names')
+    Api.get('/department/names')
       .then(res => setDepartments(res.data))
       .catch(err => console.log(err));
   }, []);
@@ -38,7 +38,7 @@ const StartChatForm = () => {
       value: formValues[fv],
     }));
 
-    Api.post('/api/chat', {
+    Api.post('/chat', {
       userData,
       department,
       name,
@@ -54,8 +54,8 @@ const StartChatForm = () => {
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
-          label={t('startchatform.name')}
-          name={t('startchatform.name')
+          label={t('form.name')}
+          name={t('form.name')
             .toLowerCase()
             .replace(/ /gi, '-')}
           required
@@ -64,8 +64,8 @@ const StartChatForm = () => {
         />
         <Input
           type="email"
-          label={t('startchatform.email')}
-          name={t('startchatform.email')
+          label={t('form.email')}
+          name={t('form.email')
             .toLowerCase()
             .replace(/ /gi, '-')}
           required

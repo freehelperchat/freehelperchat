@@ -9,7 +9,7 @@ const OperatorSchema = new Schema({
     type: String,
     required: true,
   },
-  pass: {
+  password: {
     hash: {
       type: String,
       required: true,

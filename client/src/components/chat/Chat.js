@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import socketio from 'socket.io-client';
 
-import Input from '../input/Input';
-import Messages from '../messages/Messages';
-import Api from '../../services/api';
+import Api from 'services/api';
+import Input from 'components/input/Input';
+import Messages from 'components/messages/Messages';
 import classes from './Chat.module.css';
 
 const Chat = ({ chatId, token, hash }) => {
@@ -32,8 +32,11 @@ const Chat = ({ chatId, token, hash }) => {
     socket.on('received_message', data => {
       renderMessage(data);
     });
+    socket.on('error_sending_message', data => {
+      console.log('error_sending_message', data);
+    });
     socket.emit('open_chat', { chatId });
-    Api.get(`/api/message/${chatId}`)
+    Api.get(`/message/${chatId}`)
       .then(res => renderAllMessages(res.data))
       .catch(err => console.log(err));
   }, [socket, chatId]);

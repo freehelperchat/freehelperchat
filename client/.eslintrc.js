@@ -1,4 +1,11 @@
 module.exports = {
+  settings: {
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'src/']
+      }
+    }
+  },
   env: {
     browser: true,
     es6: true,

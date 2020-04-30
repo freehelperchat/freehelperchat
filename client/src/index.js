@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import 'index.css';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
-import Routes from './routes';
-import en_US from './translations/en_US/translation.json';
-import pt_BR from './translations/pt_BR/translation.json';
+import Routes from 'routes';
+import en_US from 'translations/en_US/translation.json';
+import pt_BR from 'translations/pt_BR/translation.json';
 
 const lang = localStorage.getItem('lang');
 i18next.init({

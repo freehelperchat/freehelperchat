@@ -6,10 +6,11 @@ const socketio = require('socket.io');
 const http = require('http');
 const cors = require('cors');
 const { errors } = require('celebrate');
+
 const routes = require('./server/routes');
 const config = require('./server/config/config.json');
-const socketMessages = require('./server/src/functions/SocketMessages');
-const session = require('./server/src/functions/Session');
+const socketMessages = require('./server/functions/SocketMessages');
+const session = require('./server/functions/Session');
 
 const app = express();
 const server = http.Server(app);
