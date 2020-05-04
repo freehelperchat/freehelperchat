@@ -27,7 +27,7 @@ const ChatSchema = new Schema({
     started: {
       type: String,
       required: true,
-      default: new Date().getTime(),
+      default: () => new Date().getTime(),
     },
     closed: {
       type: String,

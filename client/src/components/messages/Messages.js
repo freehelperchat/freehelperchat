@@ -26,7 +26,13 @@ const Messages = ({ messages, user }) => {
             : messageTypes.OUTGOING_MESSAGE;
         }
         return (
-          <Message key={m._id} type={type} message={m.message} name={m.name} />
+          <Message
+            key={m._id}
+            type={type}
+            time={m.time}
+            message={m.message}
+            name={m.name}
+          />
         );
       })}
       <div ref={messagesEndRef} />
