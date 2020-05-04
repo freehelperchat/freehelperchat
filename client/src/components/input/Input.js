@@ -38,7 +38,7 @@ const Input = ({ type, value, name, label, change, required, options }) => {
 
   const commonProps = {
     id: name,
-    value,
+    value: value || '',
     onChange: change,
     onFocus: handleFocus,
     onBlur: handleBlur,
@@ -50,7 +50,7 @@ const Input = ({ type, value, name, label, change, required, options }) => {
   switch (type) {
     case 'select':
       input = (
-        <select className={classes.Select} defaultValue="" {...commonProps}>
+        <select className={classes.Select} {...commonProps}>
           <option value="" disabled hidden>
             {' '}
           </option>

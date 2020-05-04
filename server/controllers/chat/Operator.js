@@ -15,6 +15,10 @@ module.exports = {
       .catch(() => res.status(400));
   },
 
+  async self(req, res) {
+    return res.status(200).json(req.session.operator);
+  },
+
   async create(req, res) {
     const username = req.header('username');
     const pass = req.header('pass');

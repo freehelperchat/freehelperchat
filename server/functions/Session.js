@@ -40,7 +40,7 @@ module.exports = {
    * @returns {Promise<Document>} The session document
    */
   async getSession(token) {
-    return Session.findById(token);
+    return Session.findById(token).populate({ path: 'operator', select: '-password' });
   },
 
   /**

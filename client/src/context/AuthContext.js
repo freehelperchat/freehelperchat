@@ -9,7 +9,7 @@ export const AuthContext = React.createContext({
 
 const AuthContextProvider = props => {
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [isAuth, setIsAuth] = useState(token !== '');
+  const [isAuth, setIsAuth] = useState(localStorage.getItem('token') !== null);
 
   const login = id => {
     localStorage.setItem('token', id);
@@ -24,7 +24,7 @@ const AuthContextProvider = props => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuth, token, login, logout }}>
+    <AuthContext.Provider value={{ token, isAuth, login, logout }}>
       {props.children}
     </AuthContext.Provider>
   );

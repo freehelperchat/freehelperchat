@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
 import Api from 'services/api';
@@ -6,9 +7,10 @@ import Input from 'components/input/Input';
 import Messages from 'components/messages/Messages';
 import classes from './Chat.module.css';
 
-const Chat = ({ chatId, token, hash }) => {
+const Chat = ({ chatId, token, hash, name }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const history = useHistory();
 
   const socket = useMemo(
     () =>
@@ -35,17 +37,33 @@ const Chat = ({ chatId, token, hash }) => {
     socket.on('error_sending_message', data => {
       console.log('error_sending_message', data);
     });
+    const headers = token
+      ? {
+          Authorization: token,
+        }
+      : {
+          Hash: hash,
+        };
     socket.emit('open_chat', { chatId });
-    Api.get(`/message/${chatId}`)
+    Api.get(`/message/${chatId}`, {
+      headers,
+    })
       .then(res => renderAllMessages(res.data))
-      .catch(err => console.log(err));
-  }, [socket, chatId]);
+      .catch(err => {
+        if (err.response && err.response.status >= 400) {
+          console.log(err.response);
+          if (token) return history.push('/logout');
+          return history.push('/');
+        }
+      });
+  }, [socket, chatId, hash, token, history]);
 
   const handleSubmit = e => {
     e.preventDefault();
     const message = newMessage.trim();
     if (message === '') return;
     const msg = {
+      name,
       message,
       chatId,
       token,

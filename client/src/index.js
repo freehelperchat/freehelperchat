@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import 'index.css';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
+
 import Routes from 'routes';
+import AuthContextProvider from 'context/AuthContext';
 import en_US from 'translations/en_US/translation.json';
 import pt_BR from 'translations/pt_BR/translation.json';
 
@@ -24,7 +26,9 @@ i18next.init({
 
 const app = (
   <I18nextProvider i18n={i18next}>
-    <Routes />
+    <AuthContextProvider>
+      <Routes />
+    </AuthContextProvider>
   </I18nextProvider>
 );
 

@@ -5,11 +5,11 @@ const SessionSchema = new Schema({
     type: String,
     required: true,
   },
-  operatorId: {
+  operator: {
     type: Schema.Types.ObjectId,
     ref: 'Operator',
   },
-  socketId: {
+  socket: {
     type: String,
     default: null,
   },
