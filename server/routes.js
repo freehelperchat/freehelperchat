@@ -13,7 +13,11 @@ routes.get(
   validation.sessionValidation.validateSessionOrHash,
   Controllers.Chat.show,
 );
-routes.post('/chat', validation.chatValidation.createChat, Controllers.Chat.create);
+routes.post(
+  '/chat',
+  validation.chatValidation.createChat,
+  Controllers.Chat.create,
+);
 routes.put(
   '/chat/:id',
   validation.idNumberParam,
@@ -61,7 +65,8 @@ routes.get(
 routes.post(
   '/operator',
   validation.sessionValidation.authHeader,
-  validation.sessionValidation.validateSession,
+  validation.sessionValidation.tokenHeader,
+  validation.sessionValidation.validateTokenHeaderSession,
   validation.operatorValidation.createOperator,
   Controllers.Operator.create,
 );
@@ -120,8 +125,16 @@ routes.delete(
 );
 
 // Session Routes
-routes.post('/login', validation.sessionValidation.authHeader, Controllers.Session.create);
-routes.delete('/logout', validation.sessionValidation.authHeader, Controllers.Session.delete);
+routes.post(
+  '/login',
+  validation.sessionValidation.authHeader,
+  Controllers.Session.create,
+);
+routes.delete(
+  '/logout',
+  validation.sessionValidation.authHeader,
+  Controllers.Session.delete,
+);
 
 // StartChatForm Routes
 routes.get('/startchat', Controllers.StartChatForm.index);
@@ -143,13 +156,7 @@ routes.get(
   validation.sessionValidation.validateSession,
   Controllers.UserGroup.show,
 );
-routes.post(
-  '/usergroup',
-  Controllers.UserGroup.create,
-);
-routes.delete(
-  '/usergroup/:id',
-  Controllers.UserGroup.destroy,
-);
+routes.post('/usergroup', Controllers.UserGroup.create);
+routes.delete('/usergroup/:id', Controllers.UserGroup.destroy);
 
 module.exports = routes;

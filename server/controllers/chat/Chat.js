@@ -26,7 +26,10 @@ module.exports = {
 
   async show(req, res) {
     const { id } = req.params;
-    const chat = await Chat.findOne({ chatId: id });
+    const chat = await Chat.findOne({ chatId: id }).populate(
+      'department',
+      '_id name',
+    );
     if (!chat) return res.status(404).send();
     return res.status(200).json(chat);
   },

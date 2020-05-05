@@ -3,7 +3,10 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import Api from 'services/api';
 import { AuthContext } from 'context/AuthContext';
-import Chat from '../../../components/chat/Chat';
+
+import Chat from 'components/chat/Chat';
+import ChatInfo from 'components/chatInfo/ChatInfo';
+import classes from './AdminChat.module.css';
 
 const AdminChat = () => {
   const { chatId } = useParams();
@@ -14,7 +17,10 @@ const AdminChat = () => {
   const [operatorInfo, setOperatorInfo] = useState({});
   useEffect(() => {
     Api.get(`/chat/${chatId}`, { headers: { Authorization: token } })
-      .then(res => setChatInfo(res.data))
+      .then(res => {
+        console.log(res.data);
+        setChatInfo(res.data);
+      })
       .catch(err => {
         if (err.response && err.response >= 400) {
           history.push('/logout');
@@ -30,7 +36,16 @@ const AdminChat = () => {
       });
   }, [chatId, history, token]);
 
-  return <Chat chatId={chatId} token={token} name={operatorInfo.fullName} />;
+  return (
+    <div className={classes.Container}>
+      <div className={classes.AdminChat}>
+        <Chat chatId={chatId} token={token} name={operatorInfo.fullName} />
+      </div>
+      <div className={classes.ChatInfo}>
+        <ChatInfo chatInfo={chatInfo} />
+      </div>
+    </div>
+  );
 };
 
 export default AdminChat;

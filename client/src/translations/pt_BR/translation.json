@@ -1,18 +1,21 @@
 {
-    "input": {
-      "select": "Selecione uma opção"
-    },
-    "department": {
-      "name": "Departamento"
-    },
-    "button": {
-      "startchat": "Iniciar Chat",
-      "login": "Fazer Login"
-    },
-    "form": {
-      "name": "Nome",
-      "email": "Endereço de Email",
-      "username": "Nome de usuário",
-      "password": "Senha"
-    }
+  "input": {
+    "select": "Selecione uma opção"
+  },
+  "department": {
+    "name": "Departamento"
+  },
+  "button": {
+    "startchat": "Iniciar Chat",
+    "login": "Fazer Login"
+  },
+  "info": {
+    "name": "Nome",
+    "email": "Endereço de Email",
+    "username": "Nome de usuário",
+    "password": "Senha",
+    "department": "Departamento",
+    "chatId": "ID do Chat",
+    "createdAt": "Criado em"
+  }
 }

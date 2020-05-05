@@ -7,8 +7,7 @@
   border: 1px solid #ccc;
   background-color: #eeeeee;
   border-radius: 5px;
-  display: inline-block;
-  width: 95%;
+  min-width: 100%;
 }
 
 .ChatContainer form {

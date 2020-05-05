@@ -17,19 +17,24 @@ const server = http.Server(app);
 const io = socketio(server);
 const port = process.env.PORT || config.server.port;
 
-const dbUserInfo = config.database.username !== '' && config.database.password !== ''
-  ? `${config.database.username}:${config.database.password}@`
-  : '';
+const dbUserInfo =
+  config.database.username !== '' && config.database.password !== ''
+    ? `${config.database.username}:${config.database.password}@`
+    : '';
 
-const dbPort = config.database.port !== ''
-  ? `:${config.database.port}/${config.database.name}`
-  : '';
+const dbPort =
+  config.database.port !== ''
+    ? `:${config.database.port}/${config.database.name}`
+    : '';
 
-mongoose.connect(`${config.database.driver}://${dbUserInfo}${config.database.host}${dbPort}`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-});
+mongoose.connect(
+  `${config.database.driver}://${dbUserInfo}${config.database.host}${dbPort}`,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  },
+);
 
 io.on('connection', async (socket) => {
   const { operatorToken } = socket.handshake.query;
@@ -42,9 +47,7 @@ io.on('connection', async (socket) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: 'http://localhost:3000',
-}));
+app.use(cors());
 
 app.use((req, res, next) => {
   req.io = io;

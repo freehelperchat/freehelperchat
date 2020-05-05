@@ -29,8 +29,8 @@ const Login = () => {
     <form onSubmit={handleSubmit}>
       <Input
         type="text"
-        label={t('form.username')}
-        name={t('form.username')
+        label={t('info.username')}
+        name={t('info.username')
           .toLowerCase()
           .replace(/ /gi, '-')}
         required
@@ -39,8 +39,8 @@ const Login = () => {
       />
       <Input
         type="password"
-        label={t('form.password')}
-        name={t('form.password')
+        label={t('info.password')}
+        name={t('info.password')
           .toLowerCase()
           .replace(/ /gi, '-')}
         required

@@ -4,13 +4,19 @@ const Chat = require('../models/chat/Chat');
 
 async function validateSession(req, res, next) {
   const token = req.headers.authorization;
-  if (!await Session.sessionExists(token)) return res.status(401).send();
+  if (!(await Session.sessionExists(token))) return res.status(401).send();
+  return next();
+}
+
+async function validateTokenHeaderSession(req, res, next) {
+  const { token } = req.headers;
+  if (!(await Session.sessionExists(token))) return res.status(401).send();
   return next();
 }
 
 async function validadeAndGetSession(req, res, next) {
   const token = req.headers.authorization;
-  if (!await Session.sessionExists(token)) return res.status(401).send();
+  if (!(await Session.sessionExists(token))) return res.status(401).send();
   const session = await Session.getSession(token);
   req.session = session;
   return next();
@@ -33,11 +39,17 @@ async function validateSessionOrHash(req, res, next) {
 
 module.exports = {
   validateSession,
+  validateTokenHeaderSession,
   validadeAndGetSession,
   validateSessionOrHash,
   authHeader: celebrate({
     [Segments.HEADERS]: Joi.object({
       authorization: Joi.string().required(),
+    }).unknown(),
+  }),
+  tokenHeader: celebrate({
+    [Segments.HEADERS]: Joi.object({
+      token: Joi.string().required(),
     }).unknown(),
   }),
 };

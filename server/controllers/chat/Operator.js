@@ -1,3 +1,4 @@
+const basicAuth = require('basic-auth');
 const Operator = require('../../models/chat/Operator');
 const Encrypter = require('../../functions/Encrypter');
 
@@ -20,8 +21,7 @@ module.exports = {
   },
 
   async create(req, res) {
-    const username = req.header('username');
-    const pass = req.header('pass');
+    const { name: username, pass: password } = basicAuth(req);
     const { body } = req;
 
     let operator = await Operator.findOne({ username });
@@ -29,7 +29,7 @@ module.exports = {
     if (!operator) {
       operator = await Operator.create({
         username,
-        pass: Encrypter.hashPassword(pass),
+        password: Encrypter.hashPassword(password),
         ...body,
       });
       return res.status(201).json({ userId: operator._id });

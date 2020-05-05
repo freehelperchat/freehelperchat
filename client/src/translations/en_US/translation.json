@@ -1,18 +1,18 @@
 {
-    "input": {
-      "select": "Select an option"
-    },
-    "department": {
-      "name": "Department"
-    },
-    "button": {
-      "startchat": "Start Chat",
-      "login": "Login"
-    },
-    "form": {
-      "name": "Name",
-      "email": "Email Address",
-      "username": "Username",
-      "password": "Password"
-    }
+  "input": {
+    "select": "Select an option"
+  },
+  "button": {
+    "startchat": "Start Chat",
+    "login": "Login"
+  },
+  "info": {
+    "name": "Name",
+    "email": "Email Address",
+    "username": "Username",
+    "password": "Password",
+    "department": "Department",
+    "chatId": "Chat ID",
+    "createdAt": "Created at"
+  }
 }

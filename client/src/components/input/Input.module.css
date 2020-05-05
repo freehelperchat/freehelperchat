@@ -6,7 +6,7 @@
   padding: 0 8px;
   position: relative;
   width: 100%;
-  transition: border .2s ease-out;
+  transition: border 0.2s ease-out;
   background-color: #ffffff;
 }
 
@@ -17,24 +17,26 @@
   position: absolute;
   transform-origin: top left;
   transform: translate(0, 13px) scale(1);
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   cursor: text;
   pointer-events: none;
 }
 
 .Active {
   border-color: #0d89ee;
-  transition: border .2s ease-in-out;
+  transition: border 0.2s ease-in-out;
 }
 
 .Active label {
   z-index: initial;
   color: black;
   background-color: white;
-  transform: translate(0, -8px) scale(.75);
+  transform: translate(0, -8px) scale(0.75);
 }
 
-.Input[type=text], .Input[type=email], .Input[type=password] {
+.Input[type='text'],
+.Input[type='email'],
+.Input[type='password'] {
   border: none;
   background-color: rgba(0, 0, 0, 0);
   font-size: 16px;

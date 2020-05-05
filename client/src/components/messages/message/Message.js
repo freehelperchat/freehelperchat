@@ -7,7 +7,7 @@ const Message = ({ type, time, name, message }) => {
   return (
     <div
       className={[classes.MsgDiv, classes[type]].join(' ')}
-      title={getMessageTime(+time)}
+      title={getMessageTime(time)}
     >
       <p className={classes.Name}>{name}</p>
       <div className={classes.Message}>{message}</div>

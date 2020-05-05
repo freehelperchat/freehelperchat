@@ -74,6 +74,17 @@ const Input = ({ type, value, name, label, change, required, options }) => {
       );
       break;
 
+    case 'password':
+      input = (
+        <input
+          className={classes.Input}
+          type={type}
+          {...commonProps}
+          value={undefined}
+        />
+      );
+      break;
+
     default:
       input = (
         <input

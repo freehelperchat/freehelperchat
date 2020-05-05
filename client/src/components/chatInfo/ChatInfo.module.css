@@ -1,0 +1,19 @@
+.ChatInfoCell {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.ChatInfoTitle {
+  width: 50%;
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.ChatInfoContent {
+  width: 50%;
+  word-wrap: break-word;
+}

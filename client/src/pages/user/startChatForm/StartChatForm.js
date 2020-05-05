@@ -54,8 +54,8 @@ const StartChatForm = () => {
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
-          label={t('form.name')}
-          name={t('form.name')
+          label={t('info.name')}
+          name={t('info.name')
             .toLowerCase()
             .replace(/ /gi, '-')}
           required
@@ -64,8 +64,8 @@ const StartChatForm = () => {
         />
         <Input
           type="email"
-          label={t('form.email')}
-          name={t('form.email')
+          label={t('info.email')}
+          name={t('info.email')
             .toLowerCase()
             .replace(/ /gi, '-')}
           required
@@ -86,8 +86,8 @@ const StartChatForm = () => {
         ))}
         <Input
           type="select"
-          label={t('department.name')}
-          name={t('department.name').toLowerCase()}
+          label={t('info.department')}
+          name={t('info.department').toLowerCase()}
           required
           options={departments}
           value={department}
