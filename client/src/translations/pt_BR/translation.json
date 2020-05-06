@@ -2,9 +2,6 @@
   "input": {
     "select": "Selecione uma opção"
   },
-  "department": {
-    "name": "Departamento"
-  },
   "button": {
     "startchat": "Iniciar Chat",
     "login": "Fazer Login"

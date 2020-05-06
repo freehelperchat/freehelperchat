@@ -1,5 +1,6 @@
 const Chat = require('../../models/chat/Chat');
 const Department = require('../../models/chat/Department');
+const StartChatForm = require('../../models/settings/StartChatForm');
 const IdCounter = require('../../functions/IdCounter');
 
 module.exports = {
@@ -13,6 +14,15 @@ module.exports = {
     const department = await Department.findOne({ name: body.department });
     if (!department) return res.status(400).send();
     body.department = department._id;
+
+    await Promise.all(
+      body.userData.map(async (data, i) => {
+        const field = await StartChatForm.findOne({ name: data.fieldId });
+        if (field) {
+          body.userData[i].fieldId = field.label;
+        }
+      }),
+    );
 
     const chatId = await IdCounter.getIdCounter(IdCounter.Models.CHAT);
 

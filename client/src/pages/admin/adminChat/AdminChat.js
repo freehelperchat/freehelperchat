@@ -16,24 +16,42 @@ const AdminChat = () => {
   const [chatInfo, setChatInfo] = useState({});
   const [operatorInfo, setOperatorInfo] = useState({});
   useEffect(() => {
+    let redirected = false;
     Api.get(`/chat/${chatId}`, { headers: { Authorization: token } })
       .then(res => {
-        console.log(res.data);
-        setChatInfo(res.data);
+        if (!redirected) {
+          console.log(res.data);
+          setChatInfo(res.data);
+        }
       })
       .catch(err => {
-        if (err.response && err.response >= 400) {
-          history.push('/logout');
+        if (err.response) {
+          switch (err.response.status) {
+            case 400:
+            case 401:
+              history.push('/logout');
+              break;
+            case 404:
+              history.push('/admin');
+              break;
+            default:
+              break;
+          }
         }
       });
 
     Api.get('/operator', { headers: { Authorization: token } })
-      .then(res => setOperatorInfo(res.data))
+      .then(res => {
+        if (!redirected) setOperatorInfo(res.data);
+      })
       .catch(err => {
-        if (err.response && err.response >= 400) {
+        if (err.response && err.response.status >= 400) {
           history.push('/logout');
         }
       });
+    return () => {
+      redirected = true;
+    };
   }, [chatId, history, token]);
 
   return (

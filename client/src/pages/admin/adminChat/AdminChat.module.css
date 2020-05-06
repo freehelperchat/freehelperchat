@@ -18,11 +18,6 @@
   margin-bottom: 10px;
 }
 
-.ChatInfoContent {
-  width: 50%;
-  word-wrap: break-word;
-}
-
 @media (min-width: 700px) {
   .Container {
     display: flex;

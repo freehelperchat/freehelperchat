@@ -28,7 +28,6 @@
 }
 
 .Active label {
-  z-index: initial;
   color: black;
   background-color: white;
   transform: translate(0, -8px) scale(0.75);

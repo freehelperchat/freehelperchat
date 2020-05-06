@@ -9,7 +9,6 @@
 .IncomingMessage {
   align-self: flex-start;
   background-color: white;
-  color: black;
   -webkit-box-shadow: 7px 7px 7px 0px rgba(150, 150, 150, 0.75);
   -moz-box-shadow: 7px 7px 7px 0px rgba(150, 150, 150, 0.75);
   box-shadow: 7px 7px 7px 0px rgba(150, 150, 150, 0.75);

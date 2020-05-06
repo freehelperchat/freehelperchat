@@ -51,7 +51,6 @@ const Chat = ({ chatId, token, hash, name }) => {
       .then(res => renderAllMessages(res.data))
       .catch(err => {
         if (err.response && err.response.status >= 400) {
-          console.log(err.response);
           if (token) return history.push('/logout');
           return history.push('/');
         }

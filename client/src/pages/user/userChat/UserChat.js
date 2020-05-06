@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import Api from 'services/api';
 import Chat from 'components/chat/Chat';
+import classes from './UserChat.module.css';
 
 const UserChat = () => {
   const { chatId, hash } = useParams();
@@ -18,7 +19,11 @@ const UserChat = () => {
       });
   }, [chatId, history, hash]);
 
-  return <Chat chatId={chatId} hash={hash} name={chatInfo.name} />;
+  return (
+    <div className={classes.Container}>
+      <Chat chatId={chatId} hash={hash} name={chatInfo.name} />
+    </div>
+  );
 };
 
 export default UserChat;

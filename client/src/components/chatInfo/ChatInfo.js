@@ -7,7 +7,7 @@ import classes from './ChatInfo.module.css';
 const ChatInfo = ({ chatInfo }) => {
   const { t } = useTranslation('translation');
   return (
-    <div>
+    <>
       <div className={classes.ChatInfoCell}>
         <p className={classes.ChatInfoTitle}>{t('info.name')}</p>
         <p className={classes.ChatInfoContent}>{chatInfo.name}</p>
@@ -39,7 +39,7 @@ const ChatInfo = ({ chatInfo }) => {
             <p className={classes.ChatInfoContent}>{data.value}</p>
           </div>
         ))}
-    </div>
+    </>
   );
 };
 
