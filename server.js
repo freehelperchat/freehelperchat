@@ -17,6 +17,10 @@ const server = http.Server(app);
 const io = socketio(server);
 const port = process.env.PORT || config.server.port;
 
+const Permissions = require('./server/custom/permissions.json');
+
+console.log(Permissions.chat.send_messages);
+
 const dbUserInfo =
   config.database.username !== '' && config.database.password !== ''
     ? `${config.database.username}:${config.database.password}@`
