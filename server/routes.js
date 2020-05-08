@@ -52,7 +52,7 @@ routes.get(
 routes.get(
   '/operator',
   validation.sessionValidation.authHeader,
-  validation.sessionValidation.validadeAndGetSession,
+  validation.sessionValidation.validateAndGetSession,
   Controllers.Operator.self,
 );
 routes.get(

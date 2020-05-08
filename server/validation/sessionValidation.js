@@ -14,7 +14,7 @@ async function validateTokenHeaderSession(req, res, next) {
   return next();
 }
 
-async function validadeAndGetSession(req, res, next) {
+async function validateAndGetSession(req, res, next) {
   const token = req.headers.authorization;
   if (!(await Session.sessionExists(token))) return res.status(401).send();
   const session = await Session.getSession(token);
@@ -40,7 +40,7 @@ async function validateSessionOrHash(req, res, next) {
 module.exports = {
   validateSession,
   validateTokenHeaderSession,
-  validadeAndGetSession,
+  validateAndGetSession,
   validateSessionOrHash,
   authHeader: celebrate({
     [Segments.HEADERS]: Joi.object({

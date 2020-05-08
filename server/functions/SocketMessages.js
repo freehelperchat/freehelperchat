@@ -11,12 +11,15 @@ module.exports = (io, socket) => {
   socket.on('send_message', async (data) => {
     const { chatId, hash, token } = data;
     if (token) {
-      if (await Session.sessionExists(token)) {
-        data.operator = true;
+      if (!(await Session.sessionExists(token))) {
+        return socket.emit('error_sending_message', 'Unauthorized');
       }
+      data.operator = true;
     } else if (hash) {
       const chat = await Chat.findById(hash);
-      if (!chat || chat.chatId !== +chatId) return socket.emit('error_sending_message', 'Unauthorized');
+      if (!chat || chat.chatId !== +chatId) {
+        return socket.emit('error_sending_message', 'Unauthorized');
+      }
       data.operator = false;
     }
     Message.create(data)
