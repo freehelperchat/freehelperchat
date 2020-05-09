@@ -21,7 +21,7 @@ export default (io: SocketIO.Server, socket: SocketIO.Socket): void => {
       }
       data.operator = false;
     }
-    Message.create(data)
+    Message.create({ ...data, time: new Date().getTime() })
       .then((res) => io.to(chatId).emit('received_message', res))
       .catch((err) => socket.emit('error_sending_message', err));
   });

@@ -13,15 +13,6 @@ const UserDataSchema = createSchema({
   value: Type.string({ required: true }),
 });
 
-const TimeSchema = createSchema({
-  started: Type.string({
-    required: true,
-    default: (): number => new Date().getTime(),
-  }),
-  closed: Type.string(),
-  pending: Type.string(),
-});
-
 const ChatSchema = createSchema({
   chatId: Type.number({
     required: true,
@@ -29,7 +20,11 @@ const ChatSchema = createSchema({
   userData: Type.array().of(UserDataSchema),
   name: Type.string({ required: true }),
   email: Type.string({ required: true }),
-  time: Type.object().of(TimeSchema),
+  time: Type.object({ required: true }).of({
+    started: Type.number({ required: true }),
+    closed: Type.number(),
+    pending: Type.number(),
+  }),
   lastOperatorMsg: Type.string(),
   lastUserMsg: Type.string(),
   status: Type.number({ required: true }),

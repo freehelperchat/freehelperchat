@@ -43,11 +43,15 @@ export default {
 
     const chatId: number = await IdCounter.getIdCounter(IdCounter.Models.CHAT);
 
-    return Chat.create({ chatId, ...body })
+    return Chat.create({
+      chatId,
+      time: { started: new Date().getTime() },
+      ...body,
+    })
       .then((chat) => res.status(201).json(chat))
-      .catch(async () => {
+      .catch(async (err) => {
         await IdCounter.rollbackIdCounter(IdCounter.Models.CHAT);
-        res.status(400).send();
+        res.status(400).json({ err });
       });
   },
 

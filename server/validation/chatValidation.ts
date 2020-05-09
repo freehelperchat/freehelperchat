@@ -24,12 +24,6 @@ export default {
       department: Joi.string().optional(),
       status: Joi.number().optional().min(0).max(5),
       operator: Joi.string().optional(),
-      time: Joi.object()
-        .keys({
-          closed: Joi.string().optional(),
-          pending: Joi.string().optional(),
-        })
-        .optional(),
       lastOperatorMsg: Joi.string().optional(),
       lastUserMsg: Joi.string().optional(),
     }),

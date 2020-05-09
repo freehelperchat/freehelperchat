@@ -13,6 +13,7 @@ export default class SessionManager {
     const session = {
       _id: token,
       operator: operator._id,
+      time: new Date().getTime(),
     };
     return Session.create(session)
       .then((res) => res._id)

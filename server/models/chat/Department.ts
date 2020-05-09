@@ -6,7 +6,7 @@ import {
   ExtractProps,
 } from 'ts-mongoose';
 
-const DepartmentSchema = createSchema({
+export const DepartmentSchema = createSchema({
   name: Type.string({ required: true }),
   priority: Type.number({ default: 0 }),
   disabled: Type.boolean({ default: false }),

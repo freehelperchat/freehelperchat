@@ -56,10 +56,10 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
-app.use('/chat', express.static(path.join(`${__dirname}/client/build`)));
+app.use('/chat', express.static(path.join(`${__dirname}/build`)));
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/client/build/index.html`));
+  res.sendFile(path.join(`${__dirname}/build/index.html`));
 });
 
 app.use(errors());

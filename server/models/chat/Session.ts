@@ -11,10 +11,7 @@ const SessionSchema = createSchema({
   _id: Type.string({ required: true }),
   operator: Type.ref(Type.objectId()).to('Operator', OperatorSchema),
   socket: Type.string({ default: null }),
-  time: Type.number({
-    required: true,
-    default: (): number => new Date().getTime(),
-  }),
+  time: Type.number({ required: true }),
 });
 
 export default typedModel('Session', SessionSchema);
