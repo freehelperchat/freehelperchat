@@ -3,7 +3,14 @@ import React from 'react';
 import { getMessageTime } from 'utils/utils';
 import classes from './Message.module.css';
 
-const Message = ({ type, time, name, message }) => {
+interface IProps {
+  type: string;
+  time: number;
+  name: string;
+  message: string;
+}
+
+const Message: React.FC<IProps> = ({ type, time, name, message }) => {
   return (
     <div
       className={[classes.MsgDiv, classes[type]].join(' ')}

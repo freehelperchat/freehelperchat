@@ -5,26 +5,40 @@ import Api from 'services/api';
 import { AuthContext } from 'context/AuthContext';
 
 import Chat from 'components/chat/Chat';
-import ChatInfo from 'components/chatInfo/ChatInfo';
+import ChatInfo, { IChatInfo } from 'components/chatInfo/ChatInfo';
 import classes from './AdminChat.module.css';
+import { AxiosError } from 'axios';
 
-const AdminChat = () => {
+interface IOperator {
+  fullName: string;
+  username: string;
+  email?: string;
+  disabled?: boolean;
+  allDepartments?: string[];
+  departmentIds?: boolean;
+  autoAccept?: boolean;
+  maxActiveChats?: number;
+  hideOnline?: boolean;
+  invisibleMode?: boolean;
+}
+
+const AdminChat: React.FC = () => {
   const { chatId } = useParams();
   const authContext = useContext(AuthContext);
   const token = authContext.token;
   const history = useHistory();
-  const [chatInfo, setChatInfo] = useState({});
-  const [operatorInfo, setOperatorInfo] = useState({});
+  const [chatInfo, setChatInfo] = useState<IChatInfo>();
+  const [operatorInfo, setOperatorInfo] = useState<IOperator>();
   useEffect(() => {
     let redirected = false;
-    Api.get(`/chat/${chatId}`, { headers: { Authorization: token } })
+    Api.get<IChatInfo>(`/chat/${chatId}`, { headers: { Authorization: token } })
       .then(res => {
         if (!redirected) {
           console.log(res.data);
           setChatInfo(res.data);
         }
       })
-      .catch(err => {
+      .catch((err: AxiosError) => {
         if (err.response) {
           switch (err.response.status) {
             case 400:
@@ -57,10 +71,10 @@ const AdminChat = () => {
   return (
     <div className={classes.Container}>
       <div className={classes.AdminChat}>
-        <Chat chatId={chatId} token={token} name={operatorInfo.fullName} />
+        <Chat chatId={chatId} token={token} name={operatorInfo?.fullName} />
       </div>
       <div className={classes.ChatInfo}>
-        <ChatInfo chatInfo={chatInfo} />
+        {chatInfo && <ChatInfo chatInfo={chatInfo} />}
       </div>
     </div>
   );

@@ -6,17 +6,31 @@ import Api from 'services/api';
 import Input from 'components/input/Input';
 import Button from 'components/button/Button';
 import chatStatus from 'constants/chatStatus';
+import { IChatInfo } from 'components/chatInfo/ChatInfo';
 import classes from './StartChatForm.module.css';
 
-const StartChatForm = () => {
+interface IFormValues {
+  [key: string]: string | number;
+}
+
+interface IFormField {
+  _id: string;
+  name: string;
+  label: string;
+  inputType: string;
+  required: boolean;
+  options: string[];
+}
+
+const StartChatForm: React.FC = () => {
   const { t } = useTranslation('translation');
   const history = useHistory();
-  const [chatForm, setChatForm] = useState([]);
+  const [chatForm, setChatForm] = useState<IFormField[]>();
   const [departments, setDepartments] = useState([]);
   const [department, setDepartment] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState<IFormValues>({});
 
   useEffect(() => {
     Api.get('/startchat')
@@ -27,18 +41,18 @@ const StartChatForm = () => {
       .catch(err => console.log(err));
   }, []);
 
-  const handleChange = (value, id) => {
+  const handleChange = (value: string | number, id: string) => {
     setFormValues(fv => ({ ...fv, [id]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData = Object.keys(formValues).map(fv => ({
       fieldId: fv,
-      value: formValues[fv],
+      value: formValues[fv as keyof IFormValues],
     }));
 
-    Api.post('/chat', {
+    Api.post<IChatInfo>('/chat', {
       userData,
       department,
       name,
@@ -55,9 +69,7 @@ const StartChatForm = () => {
         <Input
           type="text"
           label={t('info.name')}
-          name={t('info.name')
-            .toLowerCase()
-            .replace(/ /gi, '-')}
+          name={t('info.name').toLowerCase().replace(/ /gi, '-')}
           required
           value={name}
           change={e => setName(e.target.value)}
@@ -65,14 +77,12 @@ const StartChatForm = () => {
         <Input
           type="email"
           label={t('info.email')}
-          name={t('info.email')
-            .toLowerCase()
-            .replace(/ /gi, '-')}
+          name={t('info.email').toLowerCase().replace(/ /gi, '-')}
           required
           value={email}
           change={e => setEmail(e.target.value)}
         />
-        {chatForm.map(c => (
+        {chatForm?.map(c => (
           <Input
             key={c._id}
             type={c.inputType}

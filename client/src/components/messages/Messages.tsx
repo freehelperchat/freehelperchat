@@ -3,11 +3,24 @@ import React, { useEffect, useRef } from 'react';
 import classes from './Messages.module.css';
 import Message, { messageTypes } from './message/Message';
 
-const Messages = ({ messages, user }) => {
-  const messagesEndRef = useRef(null);
+export interface IMessage {
+  _id: string;
+  operator: boolean;
+  time: number;
+  message: string;
+  name: string;
+}
+
+interface IProps {
+  messages: IMessage[];
+  user: boolean;
+}
+
+const Messages: React.FC<IProps> = ({ messages, user }) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef?.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(scrollToBottom, [messages]);

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 import Api from 'services/api';
 import { AuthContext } from 'context/AuthContext';
 
-const Logout = () => {
+const Logout: React.FC = () => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {

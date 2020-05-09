@@ -7,14 +7,14 @@ import Button from 'components/button/Button';
 import Input from 'components/input/Input';
 import { AuthContext } from 'context/AuthContext';
 
-const Login = () => {
+const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { t } = useTranslation('translation');
   const history = useHistory();
   const authContext = useContext(AuthContext);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     Api.post('/login', {}, { auth: { username, password } })
       .then(res => {
@@ -30,9 +30,7 @@ const Login = () => {
       <Input
         type="text"
         label={t('info.username')}
-        name={t('info.username')
-          .toLowerCase()
-          .replace(/ /gi, '-')}
+        name={t('info.username').toLowerCase().replace(/ /gi, '-')}
         required
         value={username}
         change={e => setUsername(e.target.value)}
@@ -40,9 +38,7 @@ const Login = () => {
       <Input
         type="password"
         label={t('info.password')}
-        name={t('info.password')
-          .toLowerCase()
-          .replace(/ /gi, '-')}
+        name={t('info.password').toLowerCase().replace(/ /gi, '-')}
         required
         change={e => setPassword(e.target.value)}
       />

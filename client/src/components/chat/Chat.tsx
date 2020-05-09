@@ -4,11 +4,19 @@ import socketio from 'socket.io-client';
 
 import Api from 'services/api';
 import Input from 'components/input/Input';
-import Messages from 'components/messages/Messages';
+import Messages, { IMessage } from 'components/messages/Messages';
 import classes from './Chat.module.css';
+import { AxiosError } from 'axios';
 
-const Chat = ({ chatId, token, hash, name }) => {
-  const [messages, setMessages] = useState([]);
+interface IProps {
+  chatId: number;
+  token?: string;
+  hash?: string;
+  name?: string;
+}
+
+const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
 
@@ -22,19 +30,19 @@ const Chat = ({ chatId, token, hash, name }) => {
     [token]
   );
 
-  const renderMessage = message => {
+  const renderMessage = (message: IMessage) => {
     return setMessages(msgs => [...msgs, message]);
   };
 
-  const renderAllMessages = messageArray => {
+  const renderAllMessages = (messageArray: IMessage[]) => {
     return setMessages(msgs => [...msgs, ...messageArray]);
   };
 
   useEffect(() => {
-    socket.on('received_message', data => {
+    socket.on('received_message', (data: IMessage) => {
       renderMessage(data);
     });
-    socket.on('error_sending_message', data => {
+    socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);
     });
     const headers = token
@@ -45,11 +53,11 @@ const Chat = ({ chatId, token, hash, name }) => {
           Hash: hash,
         };
     socket.emit('open_chat', { chatId });
-    Api.get(`/message/${chatId}`, {
+    Api.get<IMessage[]>(`/message/${chatId}`, {
       headers,
     })
       .then(res => renderAllMessages(res.data))
-      .catch(err => {
+      .catch((err: AxiosError) => {
         if (err.response && err.response.status >= 400) {
           if (token) return history.push('/logout');
           return history.push('/');
@@ -57,7 +65,7 @@ const Chat = ({ chatId, token, hash, name }) => {
       });
   }, [socket, chatId, hash, token, history]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const message = newMessage.trim();
     if (message === '') return;

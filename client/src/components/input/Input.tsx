@@ -2,9 +2,33 @@ import React, { useState, useRef } from 'react';
 
 import classes from './Input.module.css';
 
-const Input = ({ type, value, name, label, change, required, options }) => {
+interface IProps {
+  type: string;
+  value?: string | number;
+  name?: string;
+  label?: string;
+  change: (
+    event: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
+  ) => void;
+  required?: boolean;
+  options?: string[];
+}
+
+const Input: React.FC<IProps> = ({
+  type,
+  value,
+  name,
+  label,
+  change,
+  required,
+  options,
+}) => {
   const [activeClass, setActiveClass] = useState('');
-  const ref = useRef(null);
+  const ref = useRef<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >(null);
 
   const handleFocus = () => {
     setActiveClass(classes.Active);
@@ -12,27 +36,32 @@ const Input = ({ type, value, name, label, change, required, options }) => {
 
   const handleBlur = () => {
     if (!value) {
-      if (!ref.current.value || ref.current.value === '') setActiveClass('');
+      if (!ref?.current?.value || ref.current.value === '') setActiveClass('');
     } else if (value === '') setActiveClass('');
   };
 
-  const handleTextAreaChange = e => {
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textareaRef = ref.current;
-    textareaRef.style.cssText = 'height: 30px';
-    textareaRef.style.cssText = `height: ${textareaRef.scrollHeight}px`;
+    if (textareaRef) {
+      textareaRef.style.cssText = 'height: 30px';
+      textareaRef.style.cssText = `height: ${textareaRef?.scrollHeight}px`;
+    }
     change(e);
   };
 
-  const handleTextAreaKeyDown = e => {
+  const handleTextAreaKeyDown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>
+  ) => {
     if (e.which === 13 && !e.shiftKey) {
-      if (e.target.value.trim() !== '') {
+      const textArea = e.target as HTMLTextAreaElement;
+      if (textArea.value.trim() !== '') {
         const submitEvent = document.createEvent('Event');
         submitEvent.initEvent('submit', false, true);
-        e.target.form.dispatchEvent(submitEvent);
+        textArea.form?.dispatchEvent(submitEvent);
       }
       e.preventDefault();
       const textareaRef = ref.current;
-      textareaRef.style.cssText = 'height: 30px';
+      if (textareaRef) textareaRef.style.cssText = 'height: 30px';
     }
   };
 
@@ -42,7 +71,6 @@ const Input = ({ type, value, name, label, change, required, options }) => {
     onChange: change,
     onFocus: handleFocus,
     onBlur: handleBlur,
-    ref,
     required,
   };
 
@@ -54,7 +82,7 @@ const Input = ({ type, value, name, label, change, required, options }) => {
           <option value="" disabled hidden>
             {' '}
           </option>
-          {options.map(op => (
+          {options?.map(op => (
             <option key={op} value={op}>
               {op}
             </option>

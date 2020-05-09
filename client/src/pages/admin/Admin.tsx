@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import AdminChat from './adminChat/AdminChat';
 
-const Admin = () => {
+const Admin: React.FC = () => {
   return (
     <>
       <Route path="/admin" component={() => <h1>TESTE</h1>} />
