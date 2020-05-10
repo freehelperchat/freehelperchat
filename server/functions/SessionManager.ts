@@ -2,13 +2,13 @@ import encrypter from './Encrypter';
 import Session, { SessionDoc } from '../models/chat/Session';
 import { OperatorDoc } from '../models/chat/Operator';
 
-export default class SessionManager {
+class SessionManager {
   /**
    * Creates a new session for the given user
    * @param {*} operator Operator object from the database
    * @returns {Promise<String>} The session's token
    */
-  static async addSession(operator: OperatorDoc): Promise<string> {
+  public async addSession(operator: OperatorDoc): Promise<string> {
     const token = encrypter.randomString(256);
     const session = {
       _id: token,
@@ -26,7 +26,7 @@ export default class SessionManager {
    * @param {String} socketId SocketId of the user
    * @returns {Promise<boolean>} Boolean that indicates that the session was updated or not
    */
-  static async updateSession(
+  public async updateSession(
     token: string,
     socketId: string,
   ): Promise<boolean> {
@@ -44,7 +44,7 @@ export default class SessionManager {
    * @param {String} token Session's token
    * @returns {Promise<Document>} The session document
    */
-  static async getSession(token?: string): Promise<SessionDoc | null> {
+  public async getSession(token?: string): Promise<SessionDoc | null> {
     return Session.findById(token).populate({
       path: 'operator',
       select: '-password',
@@ -56,7 +56,7 @@ export default class SessionManager {
    * @param {String} token Session's token
    * @returns {Promise<boolean>} Boolean that indicates that the session was deleted or not
    */
-  static async deleteSession(token: string): Promise<boolean> {
+  public async deleteSession(token: string): Promise<boolean> {
     return Session.findByIdAndDelete(token)
       .then(() => true)
       .catch(() => false);
@@ -67,7 +67,7 @@ export default class SessionManager {
    * @param {String} operator Operator's ID
    * @returns {Promise<boolean>} Boolean that indicates that the session was deleted or not
    */
-  static async deleteSessionByOperator(operator: string): Promise<boolean> {
+  public async deleteSessionByOperator(operator: string): Promise<boolean> {
     return Session.findOneAndDelete({ operator })
       .then(() => true)
       .catch(() => false);
@@ -78,8 +78,10 @@ export default class SessionManager {
    * @param {String} token Session's token
    * @returns {Promise<boolean>} Boolean that indicates if the session exists or not
    */
-  static async sessionExists(token?: string): Promise<boolean> {
+  public async sessionExists(token?: string): Promise<boolean> {
     const session = await this.getSession(token);
     return typeof session !== 'undefined' && session !== null;
   }
 }
+
+export default new SessionManager();

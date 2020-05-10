@@ -1,7 +1,7 @@
 import express from 'express';
 
 import validation from './validation';
-import Controllers from './controllers';
+import * as Controllers from './controllers';
 
 const routes = express.Router();
 

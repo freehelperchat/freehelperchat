@@ -3,74 +3,73 @@ import { NextFunction, Request, Response } from 'express';
 import Session from '../functions/SessionManager';
 import Chat from '../models/chat/Chat';
 
-async function validateSession(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<Response | void> {
-  const token = req.headers.authorization;
-  if (!(await Session.sessionExists(token))) return res.status(401).send();
-  return next();
-}
+class SessionValidation {
+  public readonly authHeader = celebrate({
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+  });
 
-async function validateTokenHeaderSession(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<Response | void> {
-  const { token } = req.headers;
-  if (!(await Session.sessionExists(token?.toString()))) {
-    return res.status(401).send();
+  public readonly tokenHeader = celebrate({
+    [Segments.HEADERS]: Joi.object({
+      token: Joi.string().required(),
+    }).unknown(),
+  });
+
+  public async validateSession(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const token = req.headers.authorization;
+    if (!(await Session.sessionExists(token))) return res.status(401).send();
+    return next();
   }
-  return next();
-}
 
-async function validateAndGetSession(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<Response | void> {
-  const token = req.headers.authorization;
-  if (!(await Session.sessionExists(token))) return res.status(401).send();
-  const session = await Session.getSession(token);
-  req.session = session;
-  return next();
-}
-
-async function validateSessionOrHash(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<Response | void> {
-  const { authorization } = req.headers;
-  const { hash } = req.headers;
-  if (authorization) {
-    return validateSession(req, res, next);
-  }
-  if (typeof hash !== 'undefined') {
-    const chatId = req.params.id;
-    const chat = await Chat.findById(hash);
-    if (!chat || chat.chatId !== +chatId) {
+  public async validateTokenHeaderSession(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const { token } = req.headers;
+    if (!(await Session.sessionExists(token?.toString()))) {
       return res.status(401).send();
     }
     return next();
   }
-  return res.status(400).send();
+
+  public async validateAndGetSession(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const token = req.headers.authorization;
+    if (!(await Session.sessionExists(token))) return res.status(401).send();
+    const session = await Session.getSession(token);
+    req.session = session;
+    return next();
+  }
+
+  public async validateSessionOrHash(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const { authorization } = req.headers;
+    const { hash } = req.headers;
+    if (authorization) {
+      return this.validateSession(req, res, next);
+    }
+    if (typeof hash !== 'undefined') {
+      const chatId = req.params.id;
+      const chat = await Chat.findById(hash);
+      if (!chat || chat.chatId !== +chatId) {
+        return res.status(401).send();
+      }
+      return next();
+    }
+    return res.status(400).send();
+  }
 }
 
-export default {
-  validateSession,
-  validateTokenHeaderSession,
-  validateAndGetSession,
-  validateSessionOrHash,
-  authHeader: celebrate({
-    [Segments.HEADERS]: Joi.object({
-      authorization: Joi.string().required(),
-    }).unknown(),
-  }),
-  tokenHeader: celebrate({
-    [Segments.HEADERS]: Joi.object({
-      token: Joi.string().required(),
-    }).unknown(),
-  }),
-};
+export default new SessionValidation();

@@ -1,7 +1,7 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export default {
-  createChat: celebrate({
+class ChatValidation {
+  public readonly createChat = celebrate({
     [Segments.BODY]: Joi.object().keys({
       name: Joi.string().required(),
       email: Joi.string().email().required(),
@@ -17,9 +17,9 @@ export default {
         )
         .optional(),
     }),
-  }),
+  });
 
-  updateChat: celebrate({
+  public readonly updateChat = celebrate({
     [Segments.BODY]: Joi.object().keys({
       department: Joi.string().optional(),
       status: Joi.number().optional().min(0).max(5),
@@ -27,5 +27,7 @@ export default {
       lastOperatorMsg: Joi.string().optional(),
       lastUserMsg: Joi.string().optional(),
     }),
-  }),
-};
+  });
+}
+
+export default new ChatValidation();

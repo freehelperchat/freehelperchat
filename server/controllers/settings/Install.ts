@@ -1,9 +1,9 @@
-/* const config = require('../../../config/config.json');
-const StartChatForm = require('../../models/settings/StartChatForm');
-const Operator = require('../../models/operator/Operator');
-const Encrypter = require('../../functions/Encrypter');
+/* import config from '../../../config/config.json';
+import StartChatForm from '../../models/settings/StartChatForm';
+import Operator from '../../models/operator/Operator';
+import Encrypter from '../../functions/Encrypter';
 
-export default {
+class InstallController {
   async install(req, res) {
     if (!config.server.installed) {
       const username = req.header('username');
@@ -17,4 +17,6 @@ export default {
       });
     }
   },
-}; */
+};
+
+export default new InstallController(); */

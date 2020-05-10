@@ -42,7 +42,7 @@ io.on('connection', async (socket) => {
     session.updateSession(operatorToken, socket.id);
   }
 
-  socketMessages(io, socket);
+  socketMessages.setSocketMessages(io, socket);
 });
 
 app.use(bodyParser.json());

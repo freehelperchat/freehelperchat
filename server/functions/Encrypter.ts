@@ -5,14 +5,14 @@ export interface Hash {
   hash: string;
 }
 
-export default class Encrypter {
+class Encrypter {
   /**
    * Generates a random number within the given range
    * @param {number} min The minimum value the random number can be
    * @param {number} max The maximum value the random number can be
    * @returns {number} A generated number
    */
-  static randomNumber(min: number, max: number): number {
+  public randomNumber(min: number, max: number): number {
     return Math.ceil(Math.random() * (max - min) + min);
   }
 
@@ -21,7 +21,7 @@ export default class Encrypter {
    * @param {number} length The length of the string
    * @returns {string} The generated string
    */
-  static randomString(length: number): string {
+  public randomString(length: number): string {
     return crypto
       .randomBytes(Math.ceil(length / 2))
       .toString('hex')
@@ -34,7 +34,7 @@ export default class Encrypter {
    * @param {string} salt Random string generated for the password
    * @returns {string} The random hash
    */
-  static sha256(password: string, salt: string): string {
+  public sha256(password: string, salt: string): string {
     const hash = crypto.createHmac('sha512', salt);
     hash.update(password);
     return hash.digest('hex');
@@ -50,7 +50,7 @@ export default class Encrypter {
    * }} An object containing the generated salt and
    * generated hash for the password
    */
-  static hashPassword(password: string): Hash {
+  public hashPassword(password: string): Hash {
     const salt = this.randomString(16);
     return {
       salt,
@@ -58,3 +58,5 @@ export default class Encrypter {
     };
   }
 }
+
+export default new Encrypter();

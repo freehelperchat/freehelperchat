@@ -1,7 +1,7 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export default {
-  createOperator: celebrate({
+class OperatorValidation {
+  public readonly createOperator = celebrate({
     [Segments.BODY]: Joi.object().keys({
       fullName: Joi.string().required(),
       email: Joi.string().email().optional(),
@@ -13,5 +13,7 @@ export default {
       hideOnline: Joi.bool().optional(),
       invisibleMode: Joi.bool().optional(),
     }),
-  }),
-};
+  });
+}
+
+export default new OperatorValidation();

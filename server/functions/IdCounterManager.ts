@@ -1,11 +1,11 @@
 import IdCounter from '../models/chat/IdCounter';
 
-const Models = {
-  CHAT: 'CHAT',
-};
+class IdCounterManager {
+  public readonly Models = {
+    CHAT: 'CHAT',
+  };
 
-export default {
-  async getIdCounter(model: string): Promise<number> {
+  public async getIdCounter(model: string): Promise<number> {
     let counter = await IdCounter.findById(model);
     if (!counter) {
       counter = await IdCounter.create({ _id: model });
@@ -13,16 +13,16 @@ export default {
     counter.value += 1;
     await counter.save();
     return counter.value;
-  },
+  }
 
-  async rollbackIdCounter(model: string): Promise<boolean> {
+  public async rollbackIdCounter(model: string): Promise<boolean> {
     const counter = await IdCounter.findById(model);
     if (!counter) return false;
     counter.value -= 1;
     if (counter.value < 0) return false;
     await counter.save();
     return true;
-  },
+  }
+}
 
-  Models,
-};
+export default new IdCounterManager();

@@ -4,8 +4,8 @@ import Encrypter from '../../functions/Encrypter';
 import Sessions from '../../functions/SessionManager';
 import Operator from '../../models/chat/Operator';
 
-export default {
-  async create(req: Request, res: Response): Promise<Response> {
+class SessionController {
+  public async create(req: Request, res: Response): Promise<Response> {
     const auth = basicAuth(req);
     if (auth) {
       const { name: username, pass: password } = auth;
@@ -23,11 +23,13 @@ export default {
       }
     }
     return res.status(404).send();
-  },
+  }
 
-  async delete(req: Request, res: Response): Promise<Response> {
+  public async delete(req: Request, res: Response): Promise<Response> {
     const token = req.headers.authorization;
     if (!token) return res.status(403).send();
     return res.status((await Sessions.deleteSession(token)) ? 204 : 400).send();
-  },
-};
+  }
+}
+
+export default new SessionController();
