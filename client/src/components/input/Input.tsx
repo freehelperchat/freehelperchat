@@ -36,7 +36,8 @@ const Input: React.FC<IProps> = ({
 
   const handleBlur = () => {
     if (!value) {
-      if (!ref?.current?.value || ref.current.value === '') setActiveClass('');
+      console.log(ref.current?.value);
+      if (!ref.current?.value || ref.current.value === '') setActiveClass('');
     } else if (value === '') setActiveClass('');
   };
 
@@ -78,7 +79,11 @@ const Input: React.FC<IProps> = ({
   switch (type) {
     case 'select':
       input = (
-        <select className={classes.Select} {...commonProps}>
+        <select
+          className={classes.Select}
+          {...commonProps}
+          ref={ref as React.RefObject<HTMLSelectElement>}
+        >
           <option value="" disabled hidden>
             {' '}
           </option>
@@ -98,6 +103,7 @@ const Input: React.FC<IProps> = ({
           {...commonProps}
           onChange={handleTextAreaChange}
           onKeyDown={handleTextAreaKeyDown}
+          ref={ref as React.RefObject<HTMLTextAreaElement>}
         />
       );
       break;
@@ -109,6 +115,7 @@ const Input: React.FC<IProps> = ({
           type={type}
           {...commonProps}
           value={undefined}
+          ref={ref as React.RefObject<HTMLInputElement>}
         />
       );
       break;
@@ -119,6 +126,7 @@ const Input: React.FC<IProps> = ({
           className={classes.Input}
           type={type || 'text'}
           {...commonProps}
+          ref={ref as React.RefObject<HTMLInputElement>}
         />
       );
       break;

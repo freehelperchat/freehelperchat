@@ -6,6 +6,16 @@ import {
   ExtractProps,
 } from 'ts-mongoose';
 import { DepartmentSchema } from './Department';
+import { permissionOperation } from '../../functions/PermissionManager';
+import MongoType from '../../functions/MongoType';
+
+const CustomPermissionsSchema = createSchema({
+  operation: Type.string({
+    required: true,
+    enum: MongoType.enumToArray(permissionOperation),
+  }),
+  permission: Type.string({ required: true }),
+});
 
 export const OperatorSchema = createSchema({
   fullName: Type.string({ required: true }),
@@ -24,6 +34,8 @@ export const OperatorSchema = createSchema({
   maxActiveChats: Type.number({ default: 0 }),
   hideOnline: Type.boolean({ default: false }),
   invisibleMode: Type.boolean({ default: false }),
+  role: Type.array().of(Type.string()),
+  customPermissions: Type.array().of(CustomPermissionsSchema),
 });
 
 export default typedModel('Operator', OperatorSchema);

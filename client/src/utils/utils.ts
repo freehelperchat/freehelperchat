@@ -1,6 +1,6 @@
 /**
  * Converts a timestamp into a time string
- * @param {number|string} timestamp The timestamp (if it is a string, it will be converted to a number)
+ * @param {number|string} timestamp The timestamp
  * @returns {string} Time string contaning the day, month, full year, hours, minutes and seconds
  */
 export function getMessageTime(timestamp: number): string {
