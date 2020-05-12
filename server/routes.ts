@@ -15,7 +15,6 @@ routes.get(
 routes.get(
   '/chat/:id',
   validation.globalValidation.idNumberParam,
-  validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSessionOrHash,
   Controllers.Chat.show,
 );

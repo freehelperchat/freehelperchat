@@ -47,6 +47,7 @@ class ChatController {
     return Chat.create({
       chatId,
       time: { started: new Date().getTime() },
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       ...body,
     })
       .then((chat) => res.status(201).json(chat))

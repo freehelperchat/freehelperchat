@@ -20,6 +20,7 @@ const ChatSchema = createSchema({
   userData: Type.array().of(UserDataSchema),
   name: Type.string({ required: true }),
   email: Type.string({ required: true }),
+  ip: Type.string({ required: true }),
   time: Type.object({ required: true }).of({
     started: Type.number({ required: true }),
     closed: Type.number(),

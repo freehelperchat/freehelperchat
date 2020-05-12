@@ -1,31 +1,21 @@
-import { Types, Document, Schema, model } from 'mongoose';
+import {
+  typedModel,
+  createSchema,
+  Type,
+  ExtractDoc,
+  ExtractProps,
+} from 'ts-mongoose';
+import { DepartmentSchema } from './Department';
 
-const CannedSchema = new Schema({
-  msg: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  departmentIds: [
-    {
-      type: Types.ObjectId,
-      ref: 'Department',
-    },
-  ],
-  autoSend: {
-    type: Boolean,
-    default: false,
-  },
+const CannedMessageSchema = createSchema({
+  msg: Type.string({ required: true }),
+  title: Type.string({ required: true }),
+  departmentIds: Type.array().of(
+    Type.ref(Type.string()).to('Department', DepartmentSchema),
+  ),
+  autoSend: Type.boolean({ default: false }),
 });
 
-export interface ICannedMessage extends Document {
-  msg: string;
-  title: string;
-  departmentIds: Types.Array<Types.ObjectId>;
-  autoSend: boolean;
-}
-
-export default model<ICannedMessage>('CannedMessage', CannedSchema);
+export default typedModel('CannedMessage', CannedMessageSchema);
+export type CannedMessageDoc = ExtractDoc<typeof CannedMessageSchema>;
+export type CannedMessageProps = ExtractProps<typeof CannedMessageSchema>;

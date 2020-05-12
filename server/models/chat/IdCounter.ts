@@ -1,4 +1,3 @@
-// import { Document, Schema, model } from 'mongoose';
 import {
   typedModel,
   createSchema,
