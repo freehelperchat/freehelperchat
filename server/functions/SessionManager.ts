@@ -3,6 +3,8 @@ import Session, { SessionDoc } from '../models/chat/Session';
 import { OperatorDoc } from '../models/chat/Operator';
 
 class SessionManager {
+  public currentSession: SessionDoc | null = null;
+
   /**
    * Creates a new session for the given user
    * @param {*} operator Operator object from the database
@@ -44,10 +46,14 @@ class SessionManager {
    * @param {String} token Session's token
    * @returns {Promise<Document>} The session document
    */
-  public async getSession(token?: string): Promise<SessionDoc | null> {
+  private async getSession(token: string): Promise<SessionDoc | null> {
     return Session.findById(token).populate({
       path: 'operator',
-      select: '-password',
+      select: '-password -__v',
+      populate: {
+        path: 'roles',
+        select: '-__v',
+      },
     });
   }
 
@@ -78,10 +84,10 @@ class SessionManager {
    * @param {String} token Session's token
    * @returns {Promise<boolean>} Boolean that indicates if the session exists or not
    */
-  public async sessionExists(token?: string): Promise<boolean> {
-    const session = await this.getSession(token);
-    return typeof session !== 'undefined' && session !== null;
-  }
+  public validateSession = async (token: string): Promise<boolean> => {
+    this.currentSession = await this.getSession(token);
+    return this.currentSession !== null;
+  };
 }
 
 export default new SessionManager();

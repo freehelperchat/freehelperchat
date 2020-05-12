@@ -3,15 +3,15 @@
   "department": {
     "chat": {
       "messages": {
-        "readAll": "department_chat_messages_read_all",
-        "sendAll": "department_chat_messages_send_all",
-        "readAssigned": "department_chat_messages_read_assigned",
-        "sendAssigned": "department_chat_messages_send_assigned"
+        "readAll": "department.chat.messages.readAll",
+        "sendAll": "department.chat.messages.sendAll",
+        "readAssigned": "department.chat.messages.readAssigned",
+        "sendAssigned": "department.chat.messages.sendAssigned"
       }
     }
   },
   "analytics": {
-    "read": "analytics_read",
-    "send": "analytics_send"
+    "read": "analytics.read",
+    "send": "analytics.send"
   }
 }

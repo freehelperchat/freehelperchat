@@ -4,6 +4,7 @@ class OperatorValidation {
   public readonly createOperator = celebrate({
     [Segments.BODY]: Joi.object().keys({
       fullName: Joi.string().required(),
+      roles: Joi.array().items(Joi.string()).min(1).required(),
       email: Joi.string().email().optional(),
       disabled: Joi.bool().optional(),
       allDepartments: Joi.bool().optional(),

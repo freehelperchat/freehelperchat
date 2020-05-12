@@ -1,15 +1,21 @@
 import express from 'express';
 
-import validation from './validation';
+import * as validation from './validation';
 import * as Controllers from './controllers';
 
 const routes = express.Router();
 
 // Chat Routes
-routes.get('/chat', Controllers.Chat.index);
+routes.get(
+  '/chat',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  Controllers.Chat.index,
+);
 routes.get(
   '/chat/:id',
-  validation.idNumberParam,
+  validation.globalValidation.idNumberParam,
+  validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSessionOrHash,
   Controllers.Chat.show,
 );
@@ -20,7 +26,7 @@ routes.post(
 );
 routes.put(
   '/chat/:id',
-  validation.idNumberParam,
+  validation.globalValidation.idNumberParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   validation.chatValidation.updateChat,
@@ -28,14 +34,14 @@ routes.put(
 );
 routes.delete(
   '/chat/:id',
-  validation.idNumberParam,
+  validation.globalValidation.idNumberParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   Controllers.Chat.destroy,
 );
 routes.put(
   '/chat/transfer/:id',
-  validation.idNumberParam,
+  validation.globalValidation.idNumberParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   Controllers.Chat.tranferChat,
@@ -59,7 +65,7 @@ routes.get(
   '/operator/:id',
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
-  validation.idStringParam,
+  validation.globalValidation.idStringParam,
   Controllers.Operator.show,
 );
 routes.post(
@@ -74,14 +80,14 @@ routes.delete(
   '/operator/:id',
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
-  validation.idStringParam,
+  validation.globalValidation.idStringParam,
   Controllers.Operator.destroy,
 );
 
 // Message Routes
 routes.get(
   '/message/:id',
-  validation.idNumberParam,
+  validation.globalValidation.idNumberParam,
   validation.messageValidation.getMessages,
   validation.sessionValidation.validateSessionOrHash,
   Controllers.Message.chatMessages,
@@ -158,5 +164,21 @@ routes.get(
 );
 routes.post('/usergroup', Controllers.UserGroup.create);
 routes.delete('/usergroup/:id', Controllers.UserGroup.destroy);
+
+// Role Routes
+routes.post(
+  '/role',
+  validation.roleValidation.createRole,
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  Controllers.Role.create,
+);
+routes.delete(
+  '/role',
+  validation.roleValidation.deleteRole,
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  Controllers.Role.delete,
+);
 
 export default routes;

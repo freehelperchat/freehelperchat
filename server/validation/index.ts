@@ -1,24 +1,23 @@
 import { celebrate, Joi, Segments } from 'celebrate';
-import chatValidation from './chatValidation';
-import operatorValidation from './operatorValidation';
-import sessionValidation from './sessionValidation';
-import messageValidation from './messageValidation';
 
-export default {
-  idStringParam: celebrate({
+export { default as chatValidation } from './chatValidation';
+export { default as operatorValidation } from './operatorValidation';
+export { default as sessionValidation } from './sessionValidation';
+export { default as messageValidation } from './messageValidation';
+export { default as roleValidation } from './roleValidation';
+
+class GlobalValidation {
+  public readonly idStringParam = celebrate({
     [Segments.PARAMS]: Joi.object().keys({
       id: Joi.string().required(),
     }),
-  }),
+  });
 
-  idNumberParam: celebrate({
+  public readonly idNumberParam = celebrate({
     [Segments.PARAMS]: Joi.object().keys({
       id: Joi.number().required(),
     }),
-  }),
+  });
+}
 
-  chatValidation,
-  operatorValidation,
-  sessionValidation,
-  messageValidation,
-};
+export const globalValidation = new GlobalValidation();

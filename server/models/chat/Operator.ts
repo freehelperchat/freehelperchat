@@ -6,6 +6,7 @@ import {
   ExtractProps,
 } from 'ts-mongoose';
 import { DepartmentSchema } from './Department';
+import { RoleSchema } from './Role';
 import { permissionOperation } from '../../functions/PermissionManager';
 import MongoType from '../../functions/MongoType';
 
@@ -28,13 +29,15 @@ export const OperatorSchema = createSchema({
   disabled: Type.boolean({ default: false }),
   allDepartments: Type.boolean({ default: false }),
   departmentIds: Type.array().of(
-    Type.ref(Type.objectId()).to('Department', DepartmentSchema),
+    Type.ref(Type.string()).to('Department', DepartmentSchema),
   ),
   autoAccept: Type.boolean({ default: false }),
   maxActiveChats: Type.number({ default: 0 }),
   hideOnline: Type.boolean({ default: false }),
   invisibleMode: Type.boolean({ default: false }),
-  role: Type.array().of(Type.string()),
+  roles: Type.array({ required: true }).of(
+    Type.ref(Type.string()).to('Role', RoleSchema),
+  ),
   customPermissions: Type.array().of(CustomPermissionsSchema),
 });
 

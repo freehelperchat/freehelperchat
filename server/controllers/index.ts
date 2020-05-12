@@ -5,4 +5,5 @@ export { default as Operator } from './chat/Operator';
 export { default as Message } from './chat/Message';
 export { default as Session } from './chat/Session';
 export { default as UserGroup } from './chat/UserGroup';
+export { default as Role } from './chat/Role';
 export { default as StartChatForm } from './settings/StartChatForm';

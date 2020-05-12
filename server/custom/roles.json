@@ -1,7 +1,0 @@
-{
-  "admin": ["all"],
-  "operator": [
-    "department_chat_messages_read_assigned",
-    "department_chat_messages_send_assigned"
-  ]
-}

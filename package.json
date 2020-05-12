@@ -3,10 +3,10 @@
   "license": "MIT",
   "version": "0.4.0",
   "scripts": {
-    "build": "tsc --project tsconfig.json && cd client && yarn install --production && yarn build",
+    "build": "tsc --project tsconfig.json && cd client && yarn install && yarn build",
     "postbuild": "run-script-os",
-    "postbuild:linux:darwin": "mv ./client/build ./dist",
-    "postbuild:windows": "move ./client/build ./dist",
+    "postbuild:linux:darwin": "rm -rf ./dist/build && mv ./client/build ./dist",
+    "postbuild:windows": "if exist \"./dist/build/\" (rmdir \"./dist/build\" /Q /S && move ./client/build ./dist) else move ./client/build ./dist",
     "start": "node dist/server.js",
     "client": "cd client && yarn start",
     "server": "ts-node-dev --respawn --transpileOnly server.ts",

@@ -36,7 +36,6 @@ const Input: React.FC<IProps> = ({
 
   const handleBlur = () => {
     if (!value) {
-      console.log(ref.current?.value);
       if (!ref.current?.value || ref.current.value === '') setActiveClass('');
     } else if (value === '') setActiveClass('');
   };

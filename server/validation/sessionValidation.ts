@@ -22,8 +22,13 @@ class SessionValidation {
     next: NextFunction,
   ): Promise<Response | void> {
     const token = req.headers.authorization;
-    if (!(await Session.sessionExists(token))) return res.status(401).send();
-    return next();
+    if (token) {
+      if (!(await Session.validateSession(token))) {
+        return res.status(401).send();
+      }
+      return next();
+    }
+    return res.status(400).send();
   }
 
   public async validateTokenHeaderSession(
@@ -32,10 +37,13 @@ class SessionValidation {
     next: NextFunction,
   ): Promise<Response | void> {
     const { token } = req.headers;
-    if (!(await Session.sessionExists(token?.toString()))) {
-      return res.status(401).send();
+    if (token) {
+      if (!(await Session.validateSession(token.toString()))) {
+        return res.status(401).send();
+      }
+      return next();
     }
-    return next();
+    return res.status(400).send();
   }
 
   public async validateAndGetSession(
@@ -44,17 +52,21 @@ class SessionValidation {
     next: NextFunction,
   ): Promise<Response | void> {
     const token = req.headers.authorization;
-    if (!(await Session.sessionExists(token))) return res.status(401).send();
-    const session = await Session.getSession(token);
-    req.session = session;
-    return next();
+    if (token) {
+      if (!(await Session.validateSession(token))) {
+        return res.status(401).send();
+      }
+      req.session = Session.currentSession;
+      return next();
+    }
+    return res.status(400).send();
   }
 
-  public async validateSessionOrHash(
+  public validateSessionOrHash = async (
     req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<Response | void> {
+  ): Promise<Response | void> => {
     const { authorization } = req.headers;
     const { hash } = req.headers;
     if (authorization) {
@@ -69,7 +81,7 @@ class SessionValidation {
       return next();
     }
     return res.status(400).send();
-  }
+  };
 }
 
 export default new SessionValidation();
