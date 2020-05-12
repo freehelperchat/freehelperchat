@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import socketio from 'socket.io-client';
 
-import Api from 'services/api';
+import Api, { baseURL } from 'services/api';
 import Input from 'components/input/Input';
 import Messages, { IMessage } from 'components/messages/Messages';
 import classes from './Chat.module.css';
@@ -22,7 +22,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
 
   const socket = useMemo(
     () =>
-      socketio('http://localhost:3001/', {
+      socketio(baseURL, {
         query: {
           operatorToken: token,
         },
@@ -39,6 +39,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
   };
 
   useEffect(() => {
+    let redirected = false;
     socket.on('received_message', (data: IMessage) => {
       renderMessage(data);
     });
@@ -56,13 +57,16 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
     Api.get<IMessage[]>(`/message/${chatId}`, {
       headers,
     })
-      .then(res => renderAllMessages(res.data))
+      .then(res => {
+        if(!redirected) return renderAllMessages(res.data)
+      })
       .catch((err: AxiosError) => {
         if (err.response && err.response.status >= 400) {
           if (token) return history.push('/logout');
           return history.push('/');
         }
       });
+      return () => { redirected = true; }
   }, [socket, chatId, hash, token, history]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

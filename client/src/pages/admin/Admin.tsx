@@ -4,13 +4,14 @@ import socketio from 'socket.io-client';
 
 import AdminChat from './adminChat/AdminChat';
 import { AuthContext } from 'context/AuthContext';
+import { baseURL } from 'services/api';
 
 const Admin: React.FC = () => {
   const authContext = useContext(AuthContext);
 
   const socket = useMemo(
     () =>
-      socketio('http://localhost:3001/', {
+      socketio(baseURL, {
         query: {
           operatorToken: authContext.token,
         },
