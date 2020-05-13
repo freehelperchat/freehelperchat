@@ -7,8 +7,8 @@ class SessionManager {
 
   /**
    * Creates a new session for the given user
-   * @param {*} operator Operator object from the database
-   * @returns {Promise<String>} The session's token
+   * @param operator Operator object from the database
+   * @returns The session's token
    */
   public async addSession(operator: OperatorDoc): Promise<string> {
     const token = encrypter.randomString(256);
@@ -24,27 +24,22 @@ class SessionManager {
 
   /**
    * Adds the socket id to the User Session
-   * @param {String} token Session's token
-   * @param {String} socketId SocketId of the user
-   * @returns {Promise<boolean>} Boolean that indicates that the session was updated or not
+   * @param token Session's token
+   * @param socket SocketId of the user
+   * @returns Boolean that indicates that the session was updated or not
    */
-  public async updateSession(
-    token: string,
-    socketId: string,
-  ): Promise<boolean> {
+  public async updateSession(token: string, socket: string): Promise<boolean> {
     const session = await Session.findById(token);
-    if (session) {
-      session.socket = socketId;
-      await session.save();
-      return true;
-    }
-    return false;
+    if (!session) return false;
+    session.socket = socket;
+    await session.save();
+    return true;
   }
 
   /**
-   *
-   * @param {String} token Session's token
-   * @returns {Promise<Document>} The session document
+   * Returns the session if it exists
+   * @param token Session's token
+   * @returns The session document
    */
   private async getSession(token: string): Promise<SessionDoc | null> {
     return Session.findById(token).populate({
@@ -57,10 +52,21 @@ class SessionManager {
     });
   }
 
+  public async getAllActiveSessions(): Promise<SessionDoc[] | null> {
+    return Session.find({ socket: /^(?!\s*$).+/ }).populate({
+      path: 'operator',
+      select: 'fullName allDepartments departmentIds',
+      populate: {
+        path: 'departmentIds',
+        select: 'name',
+      },
+    });
+  }
+
   /**
    * Deletes an User Session by the token
-   * @param {String} token Session's token
-   * @returns {Promise<boolean>} Boolean that indicates that the session was deleted or not
+   * @param token Session's token
+   * @returns Boolean that indicates that the session was deleted or not
    */
   public async deleteSession(token: string): Promise<boolean> {
     return Session.findByIdAndDelete(token)
@@ -70,8 +76,8 @@ class SessionManager {
 
   /**
    * Deletes an Operator Session by the operatorId
-   * @param {String} operator Operator's ID
-   * @returns {Promise<boolean>} Boolean that indicates that the session was deleted or not
+   * @param operator Operator's ID
+   * @returns Boolean that indicates that the session was deleted or not
    */
   public async deleteSessionByOperator(operator: string): Promise<boolean> {
     return Session.findOneAndDelete({ operator })
@@ -79,10 +85,18 @@ class SessionManager {
       .catch(() => false);
   }
 
+  public async deleteSessionSocket(socket: string): Promise<boolean> {
+    const session = await Session.findOne({ socket });
+    if (!session) return false;
+    session.socket = undefined;
+    await session.save();
+    return true;
+  }
+
   /**
    * Checks if a session exists or not
-   * @param {String} token Session's token
-   * @returns {Promise<boolean>} Boolean that indicates if the session exists or not
+   * @param token Session's token
+   * @returns Boolean that indicates if the session exists or not
    */
   public validateSession = async (token: string): Promise<boolean> => {
     this.currentSession = await this.getSession(token);

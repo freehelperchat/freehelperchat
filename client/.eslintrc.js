@@ -2,18 +2,19 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    jest: true,
   },
   extends: [
-    'react-app',
     'airbnb',
+    'prettier',
+    'prettier/react',
+    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -21,20 +22,21 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', 'import', 'jsx-a11y'],
+  plugins: ['import', 'react', 'prettier', '@typescript-eslint'],
   rules: {
+    'import/extensions': 'off',
+    'import/prefer-default-export': 'off',
     'react/jsx-filename-extension': [
       'error',
       {
         extensions: ['.tsx'],
       },
     ],
-    'import/prefer-default-export': 'off',
-    //'@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     'linebreak-style': ['error', 'unix'],
     'prettier/prettier': 'error',
-    'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.js'] }],
+    'react/jsx-filename-extension': ['warn', { extensions: ['.jsx', '.tsx'] }],
     'import/prefer-default-export': 'off',
     camelcase: 'off',
     'react/prop-types': 'off',
@@ -75,6 +77,7 @@ module.exports = {
       typescript: {},
       node: {
         moduleDirectory: ['node_modules', 'src/'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

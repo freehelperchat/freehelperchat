@@ -135,6 +135,11 @@ routes.post(
   validation.sessionValidation.authHeader,
   Controllers.Session.create,
 );
+routes.get(
+  '/online',
+  validation.sessionValidation.authHeader,
+  Controllers.Session.activeSessions,
+);
 routes.delete(
   '/logout',
   validation.sessionValidation.authHeader,

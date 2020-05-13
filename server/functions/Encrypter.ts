@@ -8,9 +8,9 @@ export interface Hash {
 class Encrypter {
   /**
    * Generates a random number within the given range
-   * @param {number} min The minimum value the random number can be
-   * @param {number} max The maximum value the random number can be
-   * @returns {number} A generated number
+   * @param min The minimum value the random number can be
+   * @param max The maximum value the random number can be
+   * @returns A generated number
    */
   public randomNumber(min: number, max: number): number {
     return Math.ceil(Math.random() * (max - min) + min);
@@ -18,8 +18,8 @@ class Encrypter {
 
   /**
    * Generates a random string of the given length
-   * @param {number} length The length of the string
-   * @returns {string} The generated string
+   * @param length The length of the string
+   * @returns The generated string
    */
   public randomString(length: number): string {
     return crypto
@@ -30,9 +30,9 @@ class Encrypter {
 
   /**
    * Generates a random hash
-   * @param {string} password The password to be hashed
-   * @param {string} salt Random string generated for the password
-   * @returns {string} The random hash
+   * @param password The password to be hashed
+   * @param salt Random string generated for the password
+   * @returns The random hash
    */
   public sha256(password: string, salt: string): string {
     const hash = crypto.createHmac('sha512', salt);
@@ -43,11 +43,8 @@ class Encrypter {
   /**
    * Generates a salt string to the password and uses it
    * to create a random hash for the given password
-   * @param {string} password The password to be hashed
-   * @returns {{
-   *  salt: string
-   *  hash: string
-   * }} An object containing the generated salt and
+   * @param password The password to be hashed
+   * @returns An object containing the generated salt and
    * generated hash for the password
    */
   public hashPassword(password: string): Hash {

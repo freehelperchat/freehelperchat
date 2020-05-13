@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import socketio from 'socket.io-client';
 
-import Api, { baseURL } from 'services/api';
+import socket from 'services/socket';
+import Api from 'services/api';
 import Input from 'components/input/Input';
 import Messages, { IMessage } from 'components/messages/Messages';
-import classes from './Chat.module.css';
 import { AxiosError } from 'axios';
+import classes from './Chat.module.css';
 
 interface IProps {
   chatId: number;
@@ -19,16 +19,6 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
-
-  const socket = useMemo(
-    () =>
-      socketio(baseURL, {
-        query: {
-          operatorToken: token,
-        },
-      }),
-    [token]
-  );
 
   const renderMessage = (message: IMessage) => {
     return setMessages(msgs => [...msgs, message]);
@@ -58,7 +48,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
       headers,
     })
       .then(res => {
-        if(!redirected) return renderAllMessages(res.data)
+        if (!redirected) return renderAllMessages(res.data);
       })
       .catch((err: AxiosError) => {
         if (err.response && err.response.status >= 400) {
@@ -66,8 +56,10 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
           return history.push('/');
         }
       });
-      return () => { redirected = true; }
-  }, [socket, chatId, hash, token, history]);
+    return () => {
+      redirected = true;
+    };
+  }, [chatId, hash, token, history]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

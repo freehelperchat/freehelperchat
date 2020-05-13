@@ -10,7 +10,6 @@ import { errors } from 'celebrate';
 import routes from './server/routes';
 import config from './server/config/config.json';
 import socketMessages from './server/functions/SocketMessages';
-import session from './server/functions/SessionManager';
 
 const app = express();
 const server = new http.Server(app);
@@ -36,14 +35,7 @@ mongoose.connect(
   },
 );
 
-io.on('connection', async (socket) => {
-  const { operatorToken } = socket.handshake.query;
-  if (operatorToken) {
-    session.updateSession(operatorToken, socket.id);
-  }
-
-  socketMessages.setSocketMessages(io, socket);
-});
+socketMessages.setSocketMessages(io);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

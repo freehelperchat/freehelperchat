@@ -1,26 +1,52 @@
 import Message from '../models/chat/Message';
 import Chat from '../models/chat/Chat';
 import { OperatorDoc } from '../models/chat/Operator';
-import Session from './SessionManager';
+import SessionManager from './SessionManager';
 import PermissionManager, {
   checkingOperation,
   Permissions,
 } from './PermissionManager';
 
 class SocketMessages {
-  public setSocketMessages(io: SocketIO.Server, socket: SocketIO.Socket): void {
+  public setSocketMessages(io: SocketIO.Server): void {
+    io.on('connection', (socket) => {
+      this.login(socket);
+      this.logout(socket);
+      this.openChat(socket);
+      this.sendMessage(socket, io);
+    });
+  }
+
+  private login(socket: SocketIO.Socket): void {
+    socket.on('login', (data) => {
+      const { token } = data;
+      if (token) {
+        SessionManager.updateSession(token, socket.id);
+      }
+    });
+  }
+
+  private async logout(socket: SocketIO.Socket): Promise<void> {
+    socket.on('disconnect', async () => {
+      await SessionManager.deleteSessionSocket(socket.id);
+    });
+  }
+
+  private openChat(socket: SocketIO.Socket): void {
     socket.on('open_chat', (data) => {
       const { chatId } = data;
       socket.join(chatId);
     });
+  }
 
+  private sendMessage(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('send_message', async (data) => {
       const { chatId, hash, token } = data;
       if (token) {
-        if (!(await Session.validateSession(token))) {
+        if (!(await SessionManager.validateSession(token))) {
           return socket.emit('error_sending_message', 'Unauthorized');
         }
-        const session = Session.currentSession;
+        const session = SessionManager.currentSession;
         if (session?.operator) {
           const operator = session.operator as OperatorDoc;
           if (
