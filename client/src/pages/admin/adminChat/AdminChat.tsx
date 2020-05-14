@@ -5,9 +5,9 @@ import Api from 'services/api';
 import { AuthContext } from 'context/AuthContext';
 
 import Chat from 'components/chat/Chat';
-import ChatInfo, { IChatInfo } from 'components/chatInfo/ChatInfo';
-import classes from './AdminChat.module.css';
+import ChatInfo, { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
 import { AxiosError } from 'axios';
+import classes from './AdminChat.module.css';
 
 interface IOperator {
   fullName: string;

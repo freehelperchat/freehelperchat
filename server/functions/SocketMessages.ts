@@ -13,15 +13,20 @@ class SocketMessages {
       this.login(socket);
       this.logout(socket);
       this.openChat(socket);
+      this.closeChat(socket);
       this.sendMessage(socket, io);
     });
   }
 
   private login(socket: SocketIO.Socket): void {
-    socket.on('login', (data) => {
+    socket.on('login', async (data) => {
       const { token } = data;
       if (token) {
-        SessionManager.updateSession(token, socket.id);
+        if (await SessionManager.validateSession(token)) {
+          await SessionManager.updateSession(token, socket.id);
+          const activeSessions = await SessionManager.getAllActiveSessions();
+          socket.emit('online_operators', activeSessions);
+        }
       }
     });
   }
@@ -36,6 +41,13 @@ class SocketMessages {
     socket.on('open_chat', (data) => {
       const { chatId } = data;
       socket.join(chatId);
+    });
+  }
+
+  private closeChat(socket: SocketIO.Socket): void {
+    socket.on('close_chat', (data) => {
+      const { chatId } = data;
+      socket.leave(chatId);
     });
   }
 

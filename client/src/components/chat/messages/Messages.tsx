@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
+import Message, {
+  messageTypes,
+} from 'components/chat/messages/message/Message';
 import classes from './Messages.module.css';
-import Message, { messageTypes } from './message/Message';
 
 export interface IMessage {
   _id: string;
@@ -20,7 +22,9 @@ const Messages: React.FC<IProps> = ({ messages, user }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef?.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   useEffect(scrollToBottom, [messages]);

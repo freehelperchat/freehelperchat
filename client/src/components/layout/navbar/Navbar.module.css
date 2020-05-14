@@ -1,0 +1,21 @@
+.Navbar {
+  margin: 0 10px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: 100%;
+}
+
+@media (min-width: 500px) {
+  .Navbar {
+    margin: 0 10px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    height: 100%;
+  }
+}

@@ -12,7 +12,7 @@ const Logout: React.FC = () => {
       headers: {
         Authorization: authContext.token,
       },
-    }).catch(() => {});
+    }).catch(() => undefined);
     authContext.logout();
   }, [authContext]);
 

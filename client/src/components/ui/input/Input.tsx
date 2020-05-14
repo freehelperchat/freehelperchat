@@ -57,7 +57,7 @@ const Input: React.FC<IProps> = ({
       if (textArea.value.trim() !== '') {
         const submitEvent = document.createEvent('Event');
         submitEvent.initEvent('submit', false, true);
-        textArea.form?.dispatchEvent(submitEvent);
+        if (textArea.form) textArea.form.dispatchEvent(submitEvent);
       }
       e.preventDefault();
       const textareaRef = ref.current;

@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import Api from 'services/api';
-import Button from 'components/button/Button';
-import Input from 'components/input/Input';
+import Button from 'components/ui/button/Button';
+import Input from 'components/ui/input/Input';
 import { AuthContext } from 'context/AuthContext';
 
 const Login: React.FC = () => {
@@ -27,6 +28,7 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <Helmet title="Login - Free Helper Chat" />
       <Input
         type="text"
         label={t('info.username')}

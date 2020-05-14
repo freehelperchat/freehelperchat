@@ -1,6 +1,8 @@
-const CLOSED = 0;
-const PENDING = 1;
-const ACTIVE = 2;
-const OPERATOR = 3;
+enum chatStatus {
+  CLOSED,
+  PENDING,
+  ACTIVE,
+  OPERATOR,
+}
 
-export default { CLOSED, PENDING, ACTIVE, OPERATOR };
+export default chatStatus;

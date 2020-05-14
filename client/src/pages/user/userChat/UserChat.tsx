@@ -3,9 +3,9 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import Api from 'services/api';
 import Chat from 'components/chat/Chat';
-import { IChatInfo } from 'components/chatInfo/ChatInfo';
-import classes from './UserChat.module.css';
+import { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
 import { AxiosError } from 'axios';
+import classes from './UserChat.module.css';
 
 interface IParams {
   chatId: string;

@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 
 import socket from 'services/socket';
 import Api from 'services/api';
-import Input from 'components/input/Input';
-import Messages, { IMessage } from 'components/messages/Messages';
+import Input from 'components/ui/input/Input';
+import Messages, { IMessage } from 'components/chat/messages/Messages';
 import { AxiosError } from 'axios';
 import classes from './Chat.module.css';
 

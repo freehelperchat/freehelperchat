@@ -69,6 +69,7 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'consistent-return': 'off',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
   },
   settings: {
     'import/parsers': {

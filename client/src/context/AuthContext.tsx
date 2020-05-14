@@ -10,8 +10,8 @@ interface IAuthContext {
 export const AuthContext = React.createContext<IAuthContext>({
   isAuth: false,
   token: '',
-  login: (id: string) => {},
-  logout: () => {},
+  login: () => undefined,
+  logout: () => undefined,
 });
 
 const AuthContextProvider: React.FC = ({ children }) => {

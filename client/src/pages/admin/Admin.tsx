@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
-import Api from 'services/api';
 import socket from 'services/socket';
 import { AuthContext } from 'context/AuthContext';
-import AdminChat from './adminChat/AdminChat';
+import Layout from 'components/layout/Layout';
+import AdminChat from 'pages/admin/adminChat/AdminChat';
 
 interface IDepartment {
   _id: string;
@@ -34,21 +35,14 @@ const Admin: React.FC = () => {
       return undefined;
     };
     socket.emit('login', { token: authContext.token });
-    Api.get<IOnlineOperator[]>('/online', {
-      headers: {
-        Authorization: authContext.token,
-      },
-    })
-      .then(res => {
-        console.log(res.data);
-        setOnlineOperators(res.data);
-      })
-      .catch(err => console.log(err));
+    socket.on('online_operators', (data: IOnlineOperator[]) => {
+      setOnlineOperators(data);
+    });
   }, [authContext.token]);
 
   return (
-    <>
-      <Route component={() => <h1>TODO: HEADER ADMIN</h1>} />
+    <Layout>
+      <Helmet title="Admin - Free Helper Chat" />
       <Route path="/admin/chat/:chatId" component={AdminChat} />
       <Route path="/admin" exact>
         <div>
@@ -71,7 +65,7 @@ const Admin: React.FC = () => {
           </div>
         </div>
       </Route>
-    </>
+    </Layout>
   );
 };
 

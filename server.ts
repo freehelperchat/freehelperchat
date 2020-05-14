@@ -54,6 +54,13 @@ app.get('/chat/*', (req, res) => {
   res.sendFile(path.join(`${__dirname}/build/index.html`));
 });
 
+app.use('/images', express.static(path.join(`${__dirname}/server/images`)));
+
+app.use(
+  '/translations',
+  express.static(path.join(`${__dirname}/server/translations`)),
+);
+
 app.get('/*', (req, res) => {
   res.redirect('/chat');
 });

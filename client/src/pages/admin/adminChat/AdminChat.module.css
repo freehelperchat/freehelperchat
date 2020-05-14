@@ -1,7 +1,7 @@
 .Container {
   display: inline-block;
-  width: 80%;
-  height: 90%;
+  width: 100%;
+  padding: 28px 2%;
 }
 
 .AdminChat {
@@ -24,6 +24,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
+    width: 100%;
   }
 
   .AdminChat {
