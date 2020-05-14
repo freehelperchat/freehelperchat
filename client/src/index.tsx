@@ -7,7 +7,7 @@ import { I18nextProvider } from 'react-i18next';
 
 import Routes from 'routes';
 import AuthContextProvider from 'context/AuthContext';
-import Loading from 'components/layout/loading/Loading';
+import Loading from 'components/ui/loading/Loading';
 import { baseURL } from 'services/api';
 
 import 'index.css';
