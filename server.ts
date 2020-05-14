@@ -48,18 +48,20 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
-app.use('/chat', express.static(path.join(`${__dirname}/build`)));
-
-app.get('/chat/*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/build/index.html`));
-});
-
-app.use('/images', express.static(path.join(`${__dirname}/server/images`)));
+app.use('/images', express.static(path.resolve(`${__dirname}/server/images`)));
 
 app.use(
   '/translations',
-  express.static(path.join(`${__dirname}/server/translations`)),
+  express.static(path.resolve(`${__dirname}/server/translations`)),
 );
+
+app.get('/translations/*', (req, res) => res.status(400).send());
+
+app.use('/chat', express.static(path.resolve(`${__dirname}/build`)));
+
+app.get('/chat/*', (req, res) => {
+  res.sendFile(path.resolve(`${__dirname}/build/index.html`));
+});
 
 app.get('/*', (req, res) => {
   res.redirect('/chat');
