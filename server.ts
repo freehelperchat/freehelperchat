@@ -55,7 +55,7 @@ app.use(
   express.static(path.resolve(`${__dirname}/server/translations`)),
 );
 
-app.get('/translations/*', (req, res) => res.status(400).send());
+app.get('/translations/*', (req, res) => res.status(404).send());
 
 app.use('/chat', express.static(path.resolve(`${__dirname}/build`)));
 
