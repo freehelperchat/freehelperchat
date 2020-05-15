@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import basicAuth from 'basic-auth';
 import Operator from '../../models/chat/Operator';
-import Encrypter from '../../functions/Encrypter';
+import Encrypter from '../../utils/Encrypter';
 
 class OperatorController {
   public async index(req: Request, res: Response): Promise<Response> {

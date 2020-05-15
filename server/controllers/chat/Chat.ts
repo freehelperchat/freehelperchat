@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import Chat from '../../models/chat/Chat';
 import Department from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
-import IdCounterManager from '../../functions/IdCounterManager';
+import IdCounterManager from '../../utils/IdCounterManager';
 
 interface IUserData {
   fieldId: string;

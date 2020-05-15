@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import basicAuth from 'basic-auth';
-import Encrypter from '../../functions/Encrypter';
-import SessionManager from '../../functions/SessionManager';
+import Encrypter from '../../utils/Encrypter';
+import SessionManager from '../../utils/SessionManager';
 import Operator from '../../models/chat/Operator';
 
 class SessionController {

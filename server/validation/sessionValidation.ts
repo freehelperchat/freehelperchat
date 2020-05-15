@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { NextFunction, Request, Response } from 'express';
-import Session from '../functions/SessionManager';
+import Session from '../utils/SessionManager';
 import Chat from '../models/chat/Chat';
 
 class SessionValidation {

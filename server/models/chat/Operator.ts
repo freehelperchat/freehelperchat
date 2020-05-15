@@ -7,8 +7,8 @@ import {
 } from 'ts-mongoose';
 import { DepartmentSchema } from './Department';
 import { RoleSchema } from './Role';
-import { permissionOperation } from '../../functions/PermissionManager';
-import MongoType from '../../functions/MongoType';
+import { permissionOperation } from '../../utils/PermissionManager';
+import MongoType from '../../utils/MongoType';
 
 const CustomPermissionsSchema = createSchema({
   operation: Type.string({

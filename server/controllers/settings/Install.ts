@@ -1,7 +1,7 @@
 /* import config from '../../../config/config.json';
 import StartChatForm from '../../models/settings/StartChatForm';
 import Operator from '../../models/operator/Operator';
-import Encrypter from '../../functions/Encrypter';
+import Encrypter from '../../utils/Encrypter';
 
 class InstallController {
   async install(req, res) {

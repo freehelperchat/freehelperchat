@@ -9,7 +9,7 @@ import { errors } from 'celebrate';
 
 import routes from './server/routes';
 import config from './server/config/config.json';
-import socketMessages from './server/functions/SocketMessages';
+import socketMessages from './server/utils/SocketMessages';
 
 const app = express();
 const server = new http.Server(app);
