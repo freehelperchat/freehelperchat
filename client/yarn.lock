@@ -5355,12 +5355,26 @@ https-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM=
 
+i18next-chained-backend@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-2.0.1.tgz#762f78b30aafc5cab9f85f520f8281172380d1a1"
+  integrity sha512-IKLRCJ767tPWd3nKQMbcqbjd/tHcv+DjFIkaNd1yJSdnS6PME4lvCRYx+gl3gMMMbCL0r+l1bvRVBkTkRRXGVQ==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
+
 i18next-http-backend@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-1.0.10.tgz#56d0c4edca44b4210253f7f07bc340d1ac682d50"
   integrity sha512-HQl3N2plhU7WQd2Bcq3UWrpgM01w/Lkee76airTsKsLG4jnWKy6mYH3O7xz1da2ga9R6AN1MTSVVzJTp0uDl7A==
   dependencies:
     node-fetch "2.6.0"
+
+i18next-localstorage-backend@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/i18next-localstorage-backend/-/i18next-localstorage-backend-3.1.1.tgz#c60e86c696cebccf2ff4d8a90637cf0b67c59b21"
+  integrity sha512-/IRvORQni6sutcjnDT2ZBDns4/zXK1b4SIg0aF2sSjAqwTfoyt7PEg8HmRf0zS7fqPC1mDy6g4uNFWmvqRGbvQ==
+  dependencies:
+    "@babel/runtime" "^7.4.5"
 
 i18next@^19.3.2:
   version "19.4.4"

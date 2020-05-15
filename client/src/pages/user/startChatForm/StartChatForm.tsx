@@ -23,7 +23,7 @@ interface IFormField {
 }
 
 const StartChatForm: React.FC = () => {
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation();
   const history = useHistory();
   const [chatForm, setChatForm] = useState<IFormField[]>();
   const [departments, setDepartments] = useState([]);

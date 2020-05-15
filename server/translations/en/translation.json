@@ -14,5 +14,9 @@
     "department": "Department",
     "chatId": "Chat ID",
     "createdAt": "Created at"
+  },
+  "navbar": {
+    "dashboard": "Dashboard",
+    "settings": "Settings"
   }
 }

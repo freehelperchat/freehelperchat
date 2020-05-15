@@ -11,7 +11,7 @@ import { AuthContext } from 'context/AuthContext';
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation();
   const history = useHistory();
   const authContext = useContext(AuthContext);
 

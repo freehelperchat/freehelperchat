@@ -14,5 +14,9 @@
     "department": "Departamento",
     "chatId": "ID do Chat",
     "createdAt": "Criado em"
+  },
+  "navbar": {
+    "dashboard": "Painel",
+    "settings": "Configurações"
   }
 }

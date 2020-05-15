@@ -32,7 +32,7 @@ interface IProps {
 }
 
 const ChatInfo: React.FC<IProps> = ({ chatInfo }) => {
-  const { t } = useTranslation('translation');
+  const { t } = useTranslation();
   return (
     <>
       <div className={classes.ChatInfoCell}>
