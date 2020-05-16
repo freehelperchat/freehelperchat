@@ -1,6 +1,6 @@
 import Message from '../models/chat/Message';
 import Chat from '../models/chat/Chat';
-import { OperatorDoc } from '../models/chat/Operator';
+import { OperatorProps } from '../models/chat/Operator';
 import SessionManager from './SessionManager';
 import PermissionManager, {
   checkingOperation,
@@ -60,7 +60,7 @@ class SocketMessages {
         }
         const session = SessionManager.currentSession;
         if (session?.operator) {
-          const operator = session.operator as OperatorDoc;
+          const operator = session.operator as OperatorProps;
           if (
             PermissionManager.checkPermissions(
               operator,

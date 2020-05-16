@@ -1,11 +1,5 @@
 // import { Document, Schema, model } from 'mongoose';
-import {
-  typedModel,
-  createSchema,
-  Type,
-  ExtractDoc,
-  ExtractProps,
-} from 'ts-mongoose';
+import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 
 const StartChatFormSchema = createSchema({
   name: Type.string({ required: true }),
@@ -15,5 +9,4 @@ const StartChatFormSchema = createSchema({
   options: Type.array({ default: [] }).of(Type.string()),
 });
 export default typedModel('StartChatForm', StartChatFormSchema);
-export type StartChatFormDoc = ExtractDoc<typeof StartChatFormSchema>;
 export type StartChatFormProps = ExtractProps<typeof StartChatFormSchema>;

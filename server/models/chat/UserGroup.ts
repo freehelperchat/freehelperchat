@@ -1,10 +1,4 @@
-import {
-  typedModel,
-  createSchema,
-  Type,
-  ExtractDoc,
-  ExtractProps,
-} from 'ts-mongoose';
+import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 
 const UserGroupSchema = createSchema({
   title: Type.string({ required: true }),
@@ -12,5 +6,4 @@ const UserGroupSchema = createSchema({
 });
 
 export default typedModel('UserGroup', UserGroupSchema);
-export type UserGroupDoc = ExtractDoc<typeof UserGroupSchema>;
 export type UserGroupProps = ExtractProps<typeof UserGroupSchema>;

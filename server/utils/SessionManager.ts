@@ -1,16 +1,22 @@
 import encrypter from './Encrypter';
-import Session, { SessionDoc } from '../models/chat/Session';
-import { OperatorDoc } from '../models/chat/Operator';
+import Session, { SessionProps } from '../models/chat/Session';
+import { OperatorProps } from '../models/chat/Operator';
+
+interface IPopulate {
+  path: string;
+  select?: string;
+  populate?: IPopulate;
+}
 
 class SessionManager {
-  public currentSession: SessionDoc | null = null;
+  public currentSession: SessionProps | null = null;
 
   /**
    * Creates a new session for the given user
    * @param operator Operator object from the database
    * @returns The session's token
    */
-  public async addSession(operator: OperatorDoc): Promise<string> {
+  public async addSession(operator: OperatorProps): Promise<string> {
     const token = encrypter.randomString(256);
     const session = {
       _id: token,
@@ -41,7 +47,7 @@ class SessionManager {
    * @param token Session's token
    * @returns The session document
    */
-  private async getSession(token: string): Promise<SessionDoc | null> {
+  private async getSession(token: string): Promise<SessionProps | null> {
     return Session.findById(token).populate({
       path: 'operator',
       select: '-password -__v',
@@ -52,15 +58,26 @@ class SessionManager {
     });
   }
 
-  public async getAllActiveSessions(): Promise<SessionDoc[] | null> {
-    return Session.find({ socket: /^(?!\s*$).+/ }).populate({
-      path: 'operator',
-      select: 'fullName allDepartments departmentIds',
-      populate: {
-        path: 'departmentIds',
-        select: 'name',
-      },
-    });
+  /**
+   * Gets all the active operator sessions
+   * @param options Optional options object that will be sent to the populate function
+   * @returns All the active sessions
+   */
+  public async getAllActiveSessions(
+    options?: IPopulate,
+  ): Promise<SessionProps[] | null> {
+    if (!options) {
+      return Session.find({ socket: /^(?!\s*$).+/ }).populate({
+        path: 'operator',
+        select: 'fullName allDepartments activeChats departmentIds',
+        populate: {
+          path: 'departmentIds',
+          select: 'name',
+        },
+      });
+    }
+
+    return Session.find({ socket: /^(?!\s*$).+/ }).populate(options);
   }
 
   /**
@@ -85,6 +102,11 @@ class SessionManager {
       .catch(() => false);
   }
 
+  /**
+   * Removes the socketId from a session
+   * @param socket The socketId to be removed from its session]
+   * @returns Boolean indicating if the socket was removed from the session or not
+   */
   public async deleteSessionSocket(socket: string): Promise<boolean> {
     const session = await Session.findOne({ socket });
     if (!session) return false;

@@ -1,10 +1,4 @@
-import {
-  typedModel,
-  createSchema,
-  Type,
-  ExtractDoc,
-  ExtractProps,
-} from 'ts-mongoose';
+import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 
 const IdCounterSchema = createSchema({
   _id: Type.string({ required: true }),
@@ -12,5 +6,4 @@ const IdCounterSchema = createSchema({
 });
 
 export default typedModel('IdCounter', IdCounterSchema);
-export type IdCounterDoc = ExtractDoc<typeof IdCounterSchema>;
 export type IdCounterProps = ExtractProps<typeof IdCounterSchema>;

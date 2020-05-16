@@ -1,10 +1,4 @@
-import {
-  typedModel,
-  createSchema,
-  Type,
-  ExtractDoc,
-  ExtractProps,
-} from 'ts-mongoose';
+import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 
 export const RoleSchema = createSchema({
   _id: Type.string({ required: true }),
@@ -12,5 +6,4 @@ export const RoleSchema = createSchema({
 });
 
 export default typedModel('Role', RoleSchema);
-export type RoleDoc = ExtractDoc<typeof RoleSchema>;
 export type RoleProps = ExtractProps<typeof RoleSchema>;

@@ -1,10 +1,4 @@
-import {
-  typedModel,
-  createSchema,
-  Type,
-  ExtractDoc,
-  ExtractProps,
-} from 'ts-mongoose';
+import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 import { OperatorSchema } from './Operator';
 
 const MessageSchema = createSchema({
@@ -17,5 +11,4 @@ const MessageSchema = createSchema({
 });
 
 export default typedModel('Message', MessageSchema);
-export type MessageDoc = ExtractDoc<typeof MessageSchema>;
 export type MessageProps = ExtractProps<typeof MessageSchema>;

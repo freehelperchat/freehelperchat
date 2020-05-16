@@ -2,8 +2,8 @@ import {
   typedModel,
   createSchema,
   Type,
-  ExtractDoc,
   ExtractProps,
+  ExtractDoc,
 } from 'ts-mongoose';
 import { DepartmentSchema } from './Department';
 import { OperatorSchema } from './Operator';
@@ -29,7 +29,10 @@ const ChatSchema = createSchema({
   lastOperatorMsg: Type.string(),
   lastUserMsg: Type.string(),
   status: Type.number({ required: true }),
-  department: Type.ref(Type.string()).to('Department', DepartmentSchema),
+  department: Type.ref(Type.string({ required: true })).to(
+    'Department',
+    DepartmentSchema,
+  ),
   operator: Type.ref(Type.objectId()).to('Operator', OperatorSchema),
 });
 
