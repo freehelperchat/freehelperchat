@@ -5,10 +5,11 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { LangContext } from 'context/LangContext';
 import { baseURL } from 'services/api';
 import PrivateRoute from 'components/privateRoute/PrivateRoute';
-import Admin from 'pages/admin/Admin';
 import User from 'pages/user/User';
-import Login from 'pages/login/Login';
-import Logout from 'pages/logout/Logout';
+
+const Admin = React.lazy(() => import('pages/admin/Admin'));
+const Login = React.lazy(() => import('pages/login/Login'));
+const Logout = React.lazy(() => import('pages/logout/Logout'));
 
 const Routes: React.FC = () => {
   const { lang } = useContext(LangContext);
@@ -18,7 +19,7 @@ const Routes: React.FC = () => {
         <html lang={lang} />
         <title>Free Helper Chat</title>
         <link rel="icon" href={`${baseURL}images/favicon.ico`} />
-        <link rel="apple-touch-icon" href={`${baseURL}images/logo192.png`} />
+        <link rel="apple-touch-icon" href={`${baseURL}images/logo.png`} />
         <meta name="description" content="Free Helper Chat" />
         <meta httpEquiv="content-language" content={lang} />
       </Helmet>

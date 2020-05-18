@@ -23,7 +23,7 @@ class SessionValidation {
   ): Promise<Response | void> {
     const token = req.headers.authorization;
     if (token) {
-      if (!(await Session.validateSession(token))) {
+      if (!(await Session.getSession(token))) {
         return res.status(401).send();
       }
       return next();
@@ -38,7 +38,7 @@ class SessionValidation {
   ): Promise<Response | void> {
     const { token } = req.headers;
     if (token) {
-      if (!(await Session.validateSession(token.toString()))) {
+      if (!(await Session.getSession(token.toString()))) {
         return res.status(401).send();
       }
       return next();
@@ -53,10 +53,11 @@ class SessionValidation {
   ): Promise<Response | void> {
     const token = req.headers.authorization;
     if (token) {
-      if (!(await Session.validateSession(token))) {
+      const session = await Session.getSession(token);
+      if (!session) {
         return res.status(401).send();
       }
-      req.session = Session.currentSession;
+      req.session = session;
       return next();
     }
     return res.status(400).send();

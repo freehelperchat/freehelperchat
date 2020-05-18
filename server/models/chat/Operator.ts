@@ -34,6 +34,7 @@ export const OperatorSchema = createSchema({
   autoAccept: Type.boolean({ required: true, default: false }),
   maxActiveChats: Type.number({ required: true, default: 0 }),
   activeChats: Type.number({ required: true, default: 0 }),
+  lastActiveChat: Type.number(),
   hideOnline: Type.boolean({ required: true, default: false }),
   invisibleMode: Type.boolean({ required: true, default: false }),
   roles: Type.array({ required: true }).of(

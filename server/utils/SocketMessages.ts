@@ -1,6 +1,6 @@
 import Message from '../models/chat/Message';
 import Chat from '../models/chat/Chat';
-import { OperatorProps } from '../models/chat/Operator';
+import Operator, { OperatorProps } from '../models/chat/Operator';
 import SessionManager from './SessionManager';
 import PermissionManager, {
   checkingOperation,
@@ -22,7 +22,7 @@ class SocketMessages {
     socket.on('login', async (data) => {
       const { token } = data;
       if (token) {
-        if (await SessionManager.validateSession(token)) {
+        if (await SessionManager.getSession(token)) {
           await SessionManager.updateSession(token, socket.id);
           const activeSessions = await SessionManager.getAllActiveSessions();
           socket.emit('online_operators', activeSessions);
@@ -38,15 +38,42 @@ class SocketMessages {
   }
 
   private openChat(socket: SocketIO.Socket): void {
-    socket.on('open_chat', (data) => {
+    socket.on('open_chat', async (data) => {
       const { chatId } = data;
       socket.join(chatId);
     });
   }
 
+  private acceptChat(socket: SocketIO.Socket): void {
+    socket.on('accept_chat', async (data) => {
+      const { token } = data;
+      const session = await SessionManager.getSession(token);
+      const operator = await Operator.findById(
+        (session?.operator as OperatorProps)._id,
+      );
+      if (operator) {
+        operator.lastActiveChat = new Date().getTime();
+        operator.activeChats =
+          operator.activeChats > operator.maxActiveChats
+            ? operator.maxActiveChats
+            : operator.activeChats + 1;
+        operator.save();
+      }
+    });
+  }
+
   private closeChat(socket: SocketIO.Socket): void {
-    socket.on('close_chat', (data) => {
-      const { chatId } = data;
+    socket.on('close_chat', async (data) => {
+      const { chatId, token } = data;
+      const session = await SessionManager.getSession(token);
+      const operator = await Operator.findById(
+        (session?.operator as OperatorProps)._id,
+      );
+      if (operator) {
+        operator.activeChats =
+          operator.activeChats < 0 ? 0 : operator.activeChats - 1;
+        operator.save();
+      }
       socket.leave(chatId);
     });
   }
@@ -55,11 +82,11 @@ class SocketMessages {
     socket.on('send_message', async (data) => {
       const { chatId, hash, token } = data;
       if (token) {
-        if (!(await SessionManager.validateSession(token))) {
+        const session = await SessionManager.getSession(token);
+        if (!session) {
           return socket.emit('error_sending_message', 'Unauthorized');
         }
-        const session = SessionManager.currentSession;
-        if (session?.operator) {
+        if (session.operator) {
           const operator = session.operator as OperatorProps;
           if (
             PermissionManager.checkPermissions(

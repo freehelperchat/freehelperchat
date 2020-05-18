@@ -9,8 +9,6 @@ interface IPopulate {
 }
 
 class SessionManager {
-  public currentSession: SessionProps | null = null;
-
   /**
    * Creates a new session for the given user
    * @param operator Operator object from the database
@@ -47,7 +45,7 @@ class SessionManager {
    * @param token Session's token
    * @returns The session document
    */
-  private async getSession(token: string): Promise<SessionProps | null> {
+  public async getSession(token: string): Promise<SessionProps | null> {
     return Session.findById(token).populate({
       path: 'operator',
       select: '-password -__v',
@@ -114,16 +112,6 @@ class SessionManager {
     await session.save();
     return true;
   }
-
-  /**
-   * Checks if a session exists or not
-   * @param token Session's token
-   * @returns Boolean that indicates if the session exists or not
-   */
-  public validateSession = async (token: string): Promise<boolean> => {
-    this.currentSession = await this.getSession(token);
-    return this.currentSession !== null;
-  };
 }
 
 export default new SessionManager();

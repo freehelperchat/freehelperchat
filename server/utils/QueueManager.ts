@@ -3,6 +3,7 @@ import SessionManager from './SessionManager';
 // import PermissionManager from './PermissionManager';
 import { OperatorDoc, OperatorProps } from '../models/chat/Operator';
 import { DepartmentProps } from '../models/chat/Department';
+import General from '../custom/general.json';
 
 enum chatStatus {
   CLOSED,
@@ -11,7 +12,7 @@ enum chatStatus {
   OPERATOR,
 }
 
-class ChatQueue {
+class ChatQueueManager {
   public async getQueue(): Promise<ChatDoc[]> {
     return Chat.find({
       status: chatStatus.PENDING,
@@ -24,29 +25,43 @@ class ChatQueue {
     return queue.shift();
   }
 
-  public async asignNextChatToNextOperator(): Promise<boolean> {
+  public async assignNextChatToNextOperator(): Promise<boolean> {
     const chat = await this.getNextChatInQueue();
     if (!chat) return false;
     const department = chat.department as DepartmentProps;
     const onlineSessions = await SessionManager.getAllActiveSessions({
       path: 'operator',
       select:
-        'fullName allDepartments departmentIds maxActiveChats activeChats roles customPermissions',
+        'fullName allDepartments departmentIds maxActiveChats activeChats hideOnline roles customPermissions',
       populate: {
         path: 'roles',
-        select: 'maxActiveChats permissions',
+        select: 'permissions',
       },
     });
     if (!onlineSessions) return false;
     onlineSessions.sort((prev, next) => {
-      const prevChats = (prev.operator as OperatorProps).activeChats;
-      const nextChats = (next.operator as OperatorProps).activeChats;
-      if (prevChats > nextChats) return 1;
-      if (nextChats > prevChats) return -1;
-      return 0;
+      const prevOperator = prev.operator as OperatorProps;
+      const nextOperator = next.operator as OperatorProps;
+      if (prevOperator.activeChats > nextOperator.activeChats) return 1;
+      if (nextOperator.activeChats > prevOperator.activeChats) return -1;
+      if (
+        Math.abs(
+          (prevOperator.lastActiveChat || 0) -
+            (nextOperator.lastActiveChat || 0),
+        ) >
+        General.chat.queue.chatStartedTimeTolerance * 1000
+      ) {
+        return (prevOperator.lastActiveChat || 0) <
+          (nextOperator.lastActiveChat || 0)
+          ? 1
+          : -1;
+      }
+      return Math.round(Math.random()) ? 1 : -1;
     });
+
     onlineSessions.some(async (session) => {
       const operator = session.operator as OperatorDoc;
+      if (operator.hideOnline) return false;
       if (
         operator.departmentIds.indexOf(department._id.toHexString()) === -1 &&
         !operator.allDepartments
@@ -61,7 +76,6 @@ class ChatQueue {
           operator.activeChats < department.maxActiveChats ||
           department.maxActiveChats === 0
         ) {
-          chat.depopulate('operator');
           chat.operator = operator._id;
           operator.activeChats += 1;
           await operator.save();
@@ -76,4 +90,4 @@ class ChatQueue {
   }
 }
 
-export default new ChatQueue();
+export default new ChatQueueManager();
