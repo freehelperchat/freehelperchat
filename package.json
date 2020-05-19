@@ -2,6 +2,7 @@
   "name": "chat-server",
   "license": "MIT",
   "version": "0.4.0",
+  "main": "server.ts",
   "scripts": {
     "build": "tsc --p tsconfig.json && cd client && yarn install && yarn build",
     "postbuild": "run-script-os",
@@ -38,6 +39,7 @@
     "concurrently": "^4.0.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.1.0",

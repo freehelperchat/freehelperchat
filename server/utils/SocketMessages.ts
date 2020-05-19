@@ -13,6 +13,7 @@ class SocketMessages {
       this.login(socket);
       this.logout(socket);
       this.openChat(socket);
+      this.acceptChat(socket);
       this.closeChat(socket);
       this.sendMessage(socket, io);
     });
