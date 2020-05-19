@@ -4,10 +4,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'airbnb-base',
-    'prettier',
-    'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'airbnb-base',
   ],
   globals: {
     Atomics: 'readonly',
@@ -15,10 +14,10 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'linebreak-style': ['error', 'unix'],
     'class-methods-use-this': 'off',
