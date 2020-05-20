@@ -64,18 +64,14 @@ class SessionManager {
   public async getAllActiveSessions(
     options?: IPopulate,
   ): Promise<SessionProps[] | null> {
-    if (!options) {
-      return Session.find({ socket: /^(?!\s*$).+/ }).populate({
-        path: 'operator',
-        select: 'fullName allDepartments activeChats departmentIds',
-        populate: {
-          path: 'departmentIds',
-          select: 'name',
-        },
-      });
-    }
-
-    return Session.find({ socket: /^(?!\s*$).+/ }).populate(options);
+    return Session.find({ socket: /^(?!\s*$).+/ }).populate(options || {
+      path: 'operator',
+      select: 'fullName allDepartments activeChats departmentIds',
+      populate: {
+        path: 'departmentIds',
+        select: 'name',
+      },
+    });
   }
 
   /**
