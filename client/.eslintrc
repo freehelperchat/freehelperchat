@@ -1,0 +1,84 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["import", "react", "prettier", "@typescript-eslint"],
+  "rules": {
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".tsx"]
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "linebreak-style": ["error", "unix"],
+    "prettier/prettier": "error",
+    "camelcase": "off",
+    "react/prop-types": "off",
+    "react/destructuring-assignment": "off",
+    "react/button-has-type": "off",
+    "no-nested-ternary": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "array-callback-return": "off",
+    "prefer-destructuring": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "no-console": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-restricted-syntax": "off",
+    "no-underscore-dangle": "off",
+    "consistent-return": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/interface-name-prefix": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
