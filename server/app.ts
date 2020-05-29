@@ -72,19 +72,19 @@ class App {
 
     this.express.use('/api', routes);
 
-    this.express.use('/images', express.static(path.resolve(`${__dirname}/images`)));
+    this.express.use('/images', express.static(path.resolve(`${__dirname}/../images`)));
 
     this.express.use(
       '/translations',
-      express.static(path.resolve(`${__dirname}/translations`)),
+      express.static(path.resolve(`${__dirname}/../translations`)),
     );
 
     this.express.get('/translations/*', (req, res) => res.status(404).send());
 
-    this.express.use('/chat', express.static(path.resolve(`${__dirname}/../build`)));
+    this.express.use('/chat', express.static(path.resolve(`${__dirname}/build`)));
 
     this.express.get('/chat/*', (req, res) => {
-      res.sendFile(path.resolve(`${__dirname}/../build/index.html`));
+      res.sendFile(path.resolve(`${__dirname}/build/index.html`));
     });
 
     this.express.get('/*', (req, res) => {

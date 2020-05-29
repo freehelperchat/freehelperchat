@@ -1,5 +1,5 @@
-import app from './server/app';
-import config from './server/config/config.json';
+import app from './app';
+import config from './config/config.json';
 
 const port = process.env.PORT || config.server.port;
 

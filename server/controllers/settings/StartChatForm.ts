@@ -38,8 +38,8 @@ class StartChatFormController {
     // if (!config.server.installed) {
     const { body }: { body: Array<IInput> } = req;
     const inputs = body.map((input) => ({
-      name: input.label.replace(/ /gi, '-').toLowerCase(),
       ...input,
+      name: input.label.replace(/ /gi, '-').toLowerCase(),
     }));
     return StartChatForm.insertMany(inputs)
       .then((resp) => res.status(201).json(resp))
