@@ -1,15 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { LangContext } from 'context/LangContext';
 import { baseURL } from 'services/api';
-import PrivateRoute from 'components/privateRoute/PrivateRoute';
 import User from 'pages/user/User';
 
-const Admin = React.lazy(() => import('pages/admin/Admin'));
-const Login = React.lazy(() => import('pages/login/Login'));
-const Logout = React.lazy(() => import('pages/logout/Logout'));
+const PrivateRoute = lazy(() => import('components/privateRoute/PrivateRoute'));
+const Admin = lazy(() => import('pages/admin/Admin'));
+const Login = lazy(() => import('pages/login/Login'));
+const Logout = lazy(() => import('pages/logout/Logout'));
 
 const Routes: React.FC = () => {
   const { lang } = useContext(LangContext);
