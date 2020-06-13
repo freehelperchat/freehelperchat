@@ -2,10 +2,8 @@ import Message from '../models/chat/Message';
 import Chat from '../models/chat/Chat';
 import Operator, { OperatorProps } from '../models/chat/Operator';
 import SessionManager from './SessionManager';
-import PermissionManager, {
-  checkingOperation,
-  Permissions,
-} from './PermissionManager';
+import Permissions from './PermissionManager';
+import QueueManager, { chatStatus } from './QueueManager';
 
 class SocketMessages {
   public setSocketMessages(io: SocketIO.Server): void {
@@ -20,6 +18,7 @@ class SocketMessages {
   }
 
   private login(socket: SocketIO.Socket): void {
+    QueueManager.assignNextChatToNextOperator();
     socket.on('login', async (data) => {
       const { token } = data;
       if (token) {
@@ -47,23 +46,40 @@ class SocketMessages {
 
   private acceptChat(socket: SocketIO.Socket): void {
     socket.on('accept_chat', async (data) => {
-      const { token } = data;
+      const { token, chatId } = data;
       const session = await SessionManager.getSession(token);
       const operator = await Operator.findById(
         (session?.operator as OperatorProps)._id,
       );
       if (operator) {
-        operator.lastActiveChat = new Date().getTime();
-        operator.activeChats =
-          operator.activeChats > operator.maxActiveChats
-            ? operator.maxActiveChats
-            : operator.activeChats + 1;
-        operator.save();
+        const chat = await Chat.findOne({ chatId });
+        Permissions.get();
+        if (chat) {
+          const operatorPermissions = Permissions.getPermissions(operator);
+          if ((operatorPermissions
+              & Permissions.get('sendAssignedMessages')
+              && chat.operator === operator._id)
+            || (operatorPermissions
+              & Permissions.get('sendOnDepartmentChats')
+              && operator.departmentIds.includes(chat.department))
+            || operatorPermissions
+            & (Permissions.get('sendAllMessages', 'all'))) {
+            if (chat.operator !== operator._id) chat.operator = operator._id;
+            operator.lastActiveChat = new Date().getTime();
+            operator.activeChats += 1;
+            operator.save();
+            chat.status = chatStatus.ACTIVE;
+            chat.time.pending = new Date().getTime();
+            chat.save();
+            socket.emit('chat_accepted', { chatId });
+          }
+        }
       }
     });
   }
 
   private closeChat(socket: SocketIO.Socket): void {
+    QueueManager.assignNextChatToNextOperator();
     socket.on('close_chat', async (data) => {
       const { chatId, token } = data;
       const session = await SessionManager.getSession(token);
@@ -71,9 +87,32 @@ class SocketMessages {
         (session?.operator as OperatorProps)._id,
       );
       if (operator) {
-        operator.activeChats =
-          operator.activeChats < 0 ? 0 : operator.activeChats - 1;
-        operator.save();
+        const chat = await Chat.findOne({ chatId });
+        const operatorPermissions = Permissions.getPermissions(operator);
+        if (chat) {
+          if (chat.operator === operator._id
+            || (operatorPermissions
+              & Permissions.get('closeDepartmentChats')
+              && operator.departmentIds.includes(chat.department))
+            || operatorPermissions
+            & Permissions.get('closeAllChats')) {
+            if (chat.operator !== operator._id) {
+              const actualOperator = await Operator.findById(chat.operator);
+              if (actualOperator) {
+                actualOperator.activeChats =
+                  actualOperator.activeChats < 0 ? 0 : actualOperator.activeChats - 1;
+                actualOperator.save();
+              }
+            } else {
+              operator.activeChats =
+                operator.activeChats < 0 ? 0 : operator.activeChats - 1;
+              operator.save();
+            }
+            chat.status = chatStatus.CLOSED;
+            chat.time.closed = new Date().getTime();
+            chat.save();
+          }
+        }
       }
       socket.leave(chatId);
     });
@@ -89,21 +128,11 @@ class SocketMessages {
         }
         if (session.operator) {
           const operator = session.operator as OperatorProps;
-          if (
-            PermissionManager.checkPermissions(
-              operator,
-              [Permissions.department.chat.messages.sendAll],
-              checkingOperation.AND,
-            )
-          ) {
+          if (Permissions.getPermissions(operator)
+            & Permissions.get('all')) {
             data.operator = true;
-          } else if (
-            PermissionManager.checkPermissions(
-              operator,
-              [Permissions.department.chat.messages.sendAssigned],
-              checkingOperation.AND,
-            )
-          ) {
+          } else if (Permissions.getPermissions(operator)
+          & Permissions.get('sendAssignedMessages')) {
             const chat = await Chat.findOne({ chatId });
             if (chat?.operator === operator._id) {
               data.operator = true;

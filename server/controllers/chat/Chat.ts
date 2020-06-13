@@ -3,6 +3,7 @@ import Chat from '../../models/chat/Chat';
 import Department from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
 import IdCounterManager from '../../utils/IdCounterManager';
+import QueueManager from '../../utils/QueueManager';
 
 interface IUserData {
   fieldId: string;
@@ -50,7 +51,10 @@ class ChatController {
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       ...body,
     })
-      .then((chat) => res.status(201).json(chat))
+      .then((chat) => {
+        QueueManager.assignNextChatToNextOperator();
+        return res.status(201).json(chat);
+      })
       .catch(async (err) => {
         await IdCounterManager.rollbackIdCounter(IdCounterManager.Models.CHAT);
         res.status(400).json({ err });

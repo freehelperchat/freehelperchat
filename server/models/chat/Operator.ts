@@ -7,16 +7,6 @@ import {
 } from 'ts-mongoose';
 import { DepartmentSchema } from './Department';
 import { RoleSchema } from './Role';
-import { permissionOperation } from '../../utils/PermissionManager';
-import MongoType from '../../utils/MongoType';
-
-const CustomPermissionsSchema = createSchema({
-  operation: Type.string({
-    required: true,
-    enum: MongoType.enumToArray(permissionOperation),
-  }),
-  permission: Type.string({ required: true }),
-});
 
 export const OperatorSchema = createSchema({
   fullName: Type.string({ required: true }),
@@ -40,7 +30,7 @@ export const OperatorSchema = createSchema({
   roles: Type.array({ required: true }).of(
     Type.ref(Type.string()).to('Role', RoleSchema),
   ),
-  customPermissions: Type.array().of(CustomPermissionsSchema),
+  customPermissions: Type.number({ default: 0, required: true }),
 });
 
 export default typedModel('Operator', OperatorSchema);

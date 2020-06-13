@@ -1,17 +1,15 @@
 {
-  "all": "all",
-  "department": {
-    "chat": {
-      "messages": {
-        "readAll": "department.chat.messages.readAll",
-        "sendAll": "department.chat.messages.sendAll",
-        "readAssigned": "department.chat.messages.readAssigned",
-        "sendAssigned": "department.chat.messages.sendAssigned"
-      }
-    }
-  },
-  "analytics": {
-    "read": "analytics.read",
-    "send": "analytics.send"
-  }
+  "list": [
+    "all",
+    "readAllChats",
+    "sendOnAllChats",
+    "closeAllChats",
+    "readAssignedChats",
+    "sendOnAssignedChats",
+    "closeAssignedChats",
+    "readDepartmentChats",
+    "sendOnDepartmentChats",
+    "closeDepartmentChats",
+    "readAnalytics"
+  ]
 }

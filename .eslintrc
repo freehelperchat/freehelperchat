@@ -30,7 +30,8 @@
     "operator-linebreak": "off",
     "import/extensions": "off",
     "@typescript-eslint/interface-name-prefix": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "no-bitwise": "off"
   },
   "settings": {
     "import/resolver": {

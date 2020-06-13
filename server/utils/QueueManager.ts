@@ -5,7 +5,7 @@ import { OperatorDoc, OperatorProps } from '../models/chat/Operator';
 import { DepartmentProps } from '../models/chat/Department';
 import General from '../custom/general.json';
 
-enum chatStatus {
+export enum chatStatus {
   CLOSED,
   PENDING,
   ACTIVE,
