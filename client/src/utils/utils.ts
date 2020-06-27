@@ -2,8 +2,8 @@ import { DEFAULT_LANGUAGE } from 'constants/translation';
 
 /**
  * Converts a timestamp into a time string
- * @param {number|string} timestamp The timestamp
- * @returns {string} Time string contaning the day, month, full year, hours, minutes and seconds
+ * @param timestamp The timestamp
+ * @returns Time string contaning the day, month, full year, hours, minutes and seconds
  */
 export function getMessageTime(timestamp: number): string {
   const date = new Date(timestamp);

@@ -1,0 +1,22 @@
+.Container {
+
+}
+
+.Image {
+
+}
+
+.Message {
+  background : #2980B9;
+  background : rgba(41, 128, 185, 1);
+  border-radius : 34px 0px 41px 41px;
+  -moz-border-radius : 34px 0px 41px 41px;
+  -webkit-border-radius : 34px 0px 41px 41px;
+}
+
+.Message p {
+  font-family : Ubuntu;
+  font-size : 20px;
+  color : #FFFFFF;
+  color : rgb(255, 255, 255);
+}

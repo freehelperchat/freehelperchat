@@ -12,7 +12,7 @@ class RoleController {
   public async delete(req: Request, res: Response): Promise<Response> {
     const { name } = req.body;
     return RoleModel.deleteOne({ _id: name })
-      .then(() => res.status(201).send())
+      .then(() => res.status(204).send())
       .catch((err) => res.status(400).json(err));
   }
 }

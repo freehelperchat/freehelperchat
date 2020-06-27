@@ -1,4 +1,3 @@
-// import { Document, Schema, model } from 'mongoose';
 import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 
 const StartChatFormSchema = createSchema({
