@@ -8,4 +8,3 @@ export { default as UserGroup } from './chat/UserGroup';
 export { default as Role } from './chat/Role';
 export { default as Notification } from './chat/Notification';
 export { default as StartChatForm } from './settings/StartChatForm';
-export { default as NotificationType } from './settings/NotificationType';
