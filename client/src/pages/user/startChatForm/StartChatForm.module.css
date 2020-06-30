@@ -5,4 +5,22 @@
   justify-content: center;
   padding: 20px;
   border: 1px solid black;
+  justify-self: flex-start;
+}
+
+.Container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.NotificationContainer {
+  justify-self: flex-end;
+  margin-left: 5%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }

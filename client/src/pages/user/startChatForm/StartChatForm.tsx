@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Api from 'services/api';
 import Input from 'components/ui/input/Input';
 import Button from 'components/ui/button/Button';
+import Notification from 'components/ui/notification/Notification';
 import chatStatus from 'constants/chatStatus';
 import { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
 import classes from './StartChatForm.module.css';
@@ -64,47 +65,66 @@ const StartChatForm: React.FC = () => {
   };
 
   return (
-    <div className={classes.Form}>
-      <form onSubmit={handleSubmit}>
-        <Input
-          type="text"
-          label={t('info.name')}
-          name={t('info.name').toLowerCase().replace(/ /gi, '-')}
-          required
-          value={name}
-          change={e => setName(e.target.value)}
-        />
-        <Input
-          type="email"
-          label={t('info.email')}
-          name={t('info.email').toLowerCase().replace(/ /gi, '-')}
-          required
-          value={email}
-          change={e => setEmail(e.target.value)}
-        />
-        {chatForm?.map(c => (
+    <div className={classes.Container}>
+      <div className={classes.Form}>
+        <form onSubmit={handleSubmit}>
           <Input
-            key={c._id}
-            type={c.inputType}
-            label={c.label}
-            name={c.name}
-            required={c.required}
-            options={c.options}
-            value={formValues[c.name]}
-            change={e => handleChange(e.target.value, c.name)}
+            type="text"
+            label={t('info.name')}
+            name={t('info.name').toLowerCase().replace(/ /gi, '-')}
+            required
+            value={name}
+            change={e => setName(e.target.value)}
           />
-        ))}
-        <Input
-          type="select"
-          label={t('info.department')}
-          name={t('info.department').toLowerCase()}
-          required
-          options={departments}
-          value={department}
-          change={e => setDepartment(e.target.value)}
+          <Input
+            type="email"
+            label={t('info.email')}
+            name={t('info.email').toLowerCase().replace(/ /gi, '-')}
+            required
+            value={email}
+            change={e => setEmail(e.target.value)}
+          />
+          {chatForm?.map(c => (
+            <Input
+              key={c._id}
+              type={c.inputType}
+              label={c.label}
+              name={c.name}
+              required={c.required}
+              options={c.options}
+              value={formValues[c.name]}
+              change={e => handleChange(e.target.value, c.name)}
+            />
+          ))}
+          <Input
+            type="select"
+            label={t('info.department')}
+            name={t('info.department').toLowerCase()}
+            required
+            options={departments}
+            value={department}
+            change={e => setDepartment(e.target.value)}
+          />
+          <Button type="submit" label={t('button.startchat')} />
+        </form>
+      </div>
+      <div className={classes.NotificationContainer}>
+        <Notification
+          timestamp="29 de junho de 2020"
+          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
+          type="info"
         />
-        <Button type="submit" label={t('button.startchat')} />
-      </form>
+        <Notification
+          timestamp="29 de junho de 2020"
+          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
+          type="warning"
+        />
+        <Notification
+          timestamp="29 de junho de 2020"
+          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
+          type="critical"
+        />
+      </div>
     </div>
   );
 };
