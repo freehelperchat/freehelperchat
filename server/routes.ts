@@ -185,4 +185,27 @@ routes.delete(
   Controllers.Role.delete,
 );
 
+// Notification Routes
+routes.get('/notification', Controllers.Notification.read);
+routes.get('/notification/types', Controllers.Notification.readTypes);
+routes.post(
+  '/notification/add',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  validation.notificationValidation.createNotification,
+  Controllers.Notification.create,
+);
+routes.put(
+  '/notification/update',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  Controllers.Notification.update,
+);
+routes.delete(
+  '/notification/delete',
+  validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
+  Controllers.Notification.delete,
+);
+
 export default routes;

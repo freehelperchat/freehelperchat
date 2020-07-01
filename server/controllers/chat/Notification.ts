@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Notification from '../../models/chat/Notification';
+import Notification, { notificationTypes } from '../../models/chat/Notification';
 
 interface INewNotification {
   text: string;
@@ -19,14 +19,18 @@ class NotificationController {
     const { text, type }: INewNotification = req.body;
     let { index }: INewNotification = req.body;
     if (!index) index = await Notification.countDocuments();
-    return Notification.create({ index, text, type })
+    return Notification.create({ index, text, type, time: new Date().getTime() })
       .then(() => res.status(201).send())
-      .catch(() => res.status(400).send());
+      .catch((err) => res.status(400).json(err));
   }
 
   public async read(req: Request, res: Response): Promise<Response> {
-    const notifications = await Notification.find();
+    const notifications = await Notification.find().sort({ index: 1 });
     return res.status(200).json(notifications);
+  }
+
+  public async readTypes(req: Request, res: Response): Promise<Response> {
+    return res.status(200).json(notificationTypes);
   }
 
   public async update(req: Request, res: Response): Promise<Response> {

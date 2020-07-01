@@ -18,5 +18,10 @@
   "navbar": {
     "dashboard": "Dashboard",
     "settings": "Settings"
+  },
+  "notification": {
+    "info": "Informative",
+    "warning": "Warning",
+    "critical": "Critical"
   }
 }

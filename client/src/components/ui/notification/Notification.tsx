@@ -4,40 +4,28 @@ import { baseURL } from 'services/api';
 import classes from './Notification.module.css';
 
 interface IProps {
-  type: string;
   text: string;
+  color: string;
+  vector: string;
   timestamp: string;
 }
 
-const Notification: React.FC<IProps> = ({ type, text, timestamp }) => {
+const Notification: React.FC<IProps> = ({ text, color, vector, timestamp }) => {
   return (
     <div className={classes.Container}>
-      {/* <object
-        className={classes.Image}
-        type="image/svg+xml"
-        data={`${baseURL}images/notifications/${type.toLowerCase()}.svg`}
-      >
-        Image
-      </object> */}
       <div
         className={classes.Image}
         style={{
-          maskSize: 'contain',
-          maskPosition: 'center',
-          maskRepeat: 'no-repeat',
-          WebkitMaskImage: `url(${baseURL}images/notifications/${type.toLowerCase()}.svg)`,
-          backgroundColor: '#2980B9',
+          WebkitMaskImage: `url(${baseURL}images/notifications/${vector})`,
+          backgroundColor: color,
         }}
       />
-      {/* <img
-        className={classes.Image}
-        src={`${baseURL}images/notifications/${type.toLowerCase()}.svg`}
-        alt={type}
-      /> */}
-      <div className={classes.Message}>
+      <div className={classes.Message} style={{ backgroundColor: color }}>
         <p>{text}</p>
       </div>
-      <p className={classes.Timestamp}>{timestamp}</p>
+      <p className={classes.Timestamp} style={{ color }}>
+        {timestamp}
+      </p>
     </div>
   );
 };

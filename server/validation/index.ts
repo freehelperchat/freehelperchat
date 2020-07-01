@@ -5,6 +5,7 @@ export { default as operatorValidation } from './operatorValidation';
 export { default as sessionValidation } from './sessionValidation';
 export { default as messageValidation } from './messageValidation';
 export { default as roleValidation } from './roleValidation';
+export { default as notificationValidation } from './notificationValidation';
 
 class GlobalValidation {
   public readonly idStringParam = celebrate({

@@ -8,7 +8,22 @@ import Button from 'components/ui/button/Button';
 import Notification from 'components/ui/notification/Notification';
 import chatStatus from 'constants/chatStatus';
 import { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
+import { getMessageTime } from 'utils/utils';
 import classes from './StartChatForm.module.css';
+
+interface INotificationTypes {
+  [key: string]: {
+    color: string;
+    vector: string;
+  };
+}
+
+interface INotification {
+  text: string;
+  type: string;
+  index: number;
+  time: number;
+}
 
 interface IFormValues {
   [key: string]: string | number;
@@ -32,6 +47,10 @@ const StartChatForm: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [formValues, setFormValues] = useState<IFormValues>({});
+  const [notificationTypes, setNotificationTypes] = useState<
+    INotificationTypes
+  >({});
+  const [notifications, setNotifications] = useState<INotification[]>([]);
 
   useEffect(() => {
     Api.get('/startchat')
@@ -39,6 +58,19 @@ const StartChatForm: React.FC = () => {
       .catch(err => console.log(err));
     Api.get('/department/names')
       .then(res => setDepartments(res.data))
+      .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    Api.get('/notification/types')
+      .then(res => {
+        setNotificationTypes(res.data);
+        Api.get('/notification')
+          .then(resp => {
+            setNotifications(resp.data);
+          })
+          .catch(err => console.log(err));
+      })
       .catch(err => console.log(err));
   }, []);
 
@@ -109,21 +141,14 @@ const StartChatForm: React.FC = () => {
         </form>
       </div>
       <div className={classes.NotificationContainer}>
-        <Notification
-          timestamp="29 de junho de 2020"
-          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
-          type="info"
-        />
-        <Notification
-          timestamp="29 de junho de 2020"
-          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
-          type="warning"
-        />
-        <Notification
-          timestamp="29 de junho de 2020"
-          text="Informamos que este canal de atendimento é para advogados, partes, peritos e servidores de outros estados. Para servidores do TJDFT, por favor, procurar a equipe do POSREL (Ramal: 5000)."
-          type="critical"
-        />
+        {notifications.map(n => (
+          <Notification
+            timestamp={getMessageTime(n.time)}
+            text={n.text}
+            color={notificationTypes[n.type].color}
+            vector={notificationTypes[n.type].vector}
+          />
+        ))}
       </div>
     </div>
   );

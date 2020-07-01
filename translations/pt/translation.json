@@ -18,5 +18,10 @@
   "navbar": {
     "dashboard": "Painel",
     "settings": "Configurações"
+  },
+  "notification": {
+    "info": "Informativo",
+    "warning": "Aviso",
+    "critical": "Alerta"
   }
 }
