@@ -1,5 +1,4 @@
 .NavbarItem {
-  margin: 10px 0;
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -8,44 +7,42 @@
 .NavbarItem a {
   display: flex;
   align-items: center;
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
   width: 100%;
   box-sizing: border-box;
+  border: 5px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 
-.NavbarItem a svg {
+.NavbarItem a div {
   margin-right: 5px;
-}
-
-.NavbarItem a:hover,
-.NavbarItem a:active,
-.NavbarItem a.active {
-  color: #2196f3;
 }
 
 @media (min-width: 500px) {
   .NavbarItem {
     margin: 0;
     display: flex;
-    height: 100%;
-    width: auto;
+    width: 100%;
     align-items: center;
+    padding: 0 10px 8px;
   }
 
   .NavbarItem a {
     font-size: 18px;
-    color: #e2e2e2;
-    height: 100%;
+    color: #fff;
+    width: 100%;
     padding: 16px 10px;
-    border-bottom: 4px solid transparent;
+    border-radius: 16px;
   }
 
-  .NavbarItem a:hover,
+  .NavbarItem a:hover {
+    transform: scale(1.04);
+  }
+
   .NavbarItem a:active,
   .NavbarItem a.active {
-    background-color: #e2e2e2;
-    border-bottom: 4px solid #3a83f0;
-    color: #0d47a1;
+    transform: scale(1.04);
+    border: 5px solid #7f7f7f;
   }
 }

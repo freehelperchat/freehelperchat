@@ -41,7 +41,13 @@ const Admin: React.FC = () => {
   }, [authContext.token]);
 
   return (
-    <Layout>
+    <Layout
+      chats={[
+        { chatId: 1, name: 'teste', status: 1 },
+        { chatId: 2, name: 'Arcentik Politzektd', status: 1 },
+        { chatId: 3, name: 'Thais Thayanna Silva', status: 1 },
+      ]}
+    >
       <Helmet title="Admin - Free Helper Chat" />
       <Route path="/admin/chat/:chatId" component={AdminChat} />
       <Route path="/admin" exact>

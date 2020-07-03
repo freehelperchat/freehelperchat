@@ -17,7 +17,9 @@
   },
   "navbar": {
     "dashboard": "Painel",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "profile": "Perfil",
+    "logout": "Sair"
   },
   "notification": {
     "info": "Informativo",

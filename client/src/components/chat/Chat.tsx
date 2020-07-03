@@ -25,13 +25,13 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
   };
 
   const renderAllMessages = (messageArray: IMessage[]) => {
-    return setMessages(msgs => [...msgs, ...messageArray]);
+    return setMessages(messageArray);
   };
 
   useEffect(() => {
     let redirected = false;
     socket.on('received_message', (data: IMessage) => {
-      renderMessage(data);
+      if (+data.chatId === +chatId) renderMessage(data);
     });
     socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);

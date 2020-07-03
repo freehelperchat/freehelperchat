@@ -17,7 +17,9 @@
   },
   "navbar": {
     "dashboard": "Dashboard",
-    "settings": "Settings"
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
   },
   "notification": {
     "info": "Informative",

@@ -1,6 +1,6 @@
 .DrawerToggle {
   width: 40px;
-  height: 100%;
+  height: 60px;
   display: flex;
   flex-flow: column;
   justify-content: space-around;
@@ -11,7 +11,7 @@
 }
 
 .DrawerToggle div {
-  width: 90%;
+  width: 100%;
   height: 3px;
   background-color: white;
 }

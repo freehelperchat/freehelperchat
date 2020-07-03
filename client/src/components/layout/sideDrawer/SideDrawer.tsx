@@ -8,9 +8,14 @@ import classes from './SideDrawer.module.css';
 interface IProps {
   open: boolean;
   closed(): void;
+  chats: {
+    chatId: number;
+    name: string;
+    status: number;
+  }[];
 }
 
-const SideDrawer: React.FC<IProps> = ({ open, closed }) => {
+const SideDrawer: React.FC<IProps> = ({ chats, open, closed }) => {
   const attachedClasses = [
     classes.SideDrawer,
     open ? classes.Open : classes.Close,
@@ -23,7 +28,7 @@ const SideDrawer: React.FC<IProps> = ({ open, closed }) => {
           <Logo />
         </div>
         <nav>
-          <Navbar />
+          <Navbar chats={chats} />
         </nav>
       </div>
     </>

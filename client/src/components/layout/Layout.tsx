@@ -5,7 +5,15 @@ import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
 
 import classes from './Layout.module.css';
 
-const Layout: React.FC = ({ children }) => {
+interface IProps {
+  chats: {
+    chatId: number;
+    name: string;
+    status: number;
+  }[];
+}
+
+const Layout: React.FC<IProps> = ({ children, chats }) => {
   const [sideDrawerVisible, setSideDrawerVisible] = useState(false);
 
   const closeSideDrawer = () => setSideDrawerVisible(false);
@@ -14,8 +22,12 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <>
-      <Toolbar drawerToggleClicked={drawerToggleHandler} />
-      <SideDrawer open={sideDrawerVisible} closed={closeSideDrawer} />
+      <Toolbar chats={chats} drawerToggleClicked={drawerToggleHandler} />
+      <SideDrawer
+        chats={chats}
+        open={sideDrawerVisible}
+        closed={closeSideDrawer}
+      />
       <main className={classes.Content}>{children}</main>
     </>
   );

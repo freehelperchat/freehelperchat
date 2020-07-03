@@ -7,6 +7,7 @@ import classes from './Messages.module.css';
 
 export interface IMessage {
   _id: string;
+  chatId: number;
   operator: boolean;
   time: number;
   message: string;

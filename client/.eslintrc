@@ -67,7 +67,9 @@
     "no-underscore-dangle": "off",
     "consistent-return": "off",
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/interface-name-prefix": "off"
+    "@typescript-eslint/interface-name-prefix": "off",
+    "no-bitwise": "off",
+    "one-var": "off"
   },
   "settings": {
     "import/parsers": {

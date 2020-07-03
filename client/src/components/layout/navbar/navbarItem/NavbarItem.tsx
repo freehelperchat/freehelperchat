@@ -5,15 +5,26 @@ import classes from './NavbarItem.module.css';
 
 interface IProps {
   path: string;
+  bgColor?: string;
   exact?: boolean;
 }
 
-const NavbarItem: React.FC<IProps> = ({ path, exact = false, children }) => (
-  <li className={classes.NavbarItem}>
-    <NavLink to={path} exact={exact} activeClassName={classes.active}>
+const NavbarItem: React.FC<IProps> = ({
+  path,
+  exact = false,
+  bgColor = '#fff',
+  children,
+}) => (
+  <div className={classes.NavbarItem}>
+    <NavLink
+      to={path}
+      exact={exact}
+      activeClassName={classes.active}
+      style={{ backgroundColor: bgColor }}
+    >
       {children}
     </NavLink>
-  </li>
+  </div>
 );
 
 export default NavbarItem;
