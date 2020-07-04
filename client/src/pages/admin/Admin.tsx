@@ -42,10 +42,22 @@ const Admin: React.FC = () => {
 
   return (
     <Layout
-      chats={[
-        { chatId: 1, name: 'teste', status: 1 },
-        { chatId: 2, name: 'Arcentik Politzektd', status: 1 },
-        { chatId: 3, name: 'Thais Thayanna Silva', status: 1 },
+      yourChatsArr={[
+        { chatId: 1, name: 'Bruna Braga Felix Soares', status: 1 },
+        { chatId: 2, name: 'Sonia Regina Da Costa Jesus', status: 1 },
+        { chatId: 3, name: 'Paulo Martiniano Lessa ma', status: 1 },
+        { chatId: 4, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 5, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 6, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 7, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 8, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 9, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 10, name: 'LANIA fERREIRA lINS', status: 1 },
+        { chatId: 11, name: 'LANIA fERREIRA lINS', status: 1 },
+      ]}
+      operatorsArr={[
+        { name: 'Pedro Dias', status: true, activeChats: 3 },
+        { name: 'Thiago Antunes', status: true, activeChats: 3 },
       ]}
     >
       <Helmet title="Admin - Free Helper Chat" />

@@ -28,7 +28,7 @@ const SideDrawer: React.FC<IProps> = ({ chats, open, closed }) => {
           <Logo />
         </div>
         <nav>
-          <Navbar chats={chats} />
+          <Navbar yourChatsArr={chats} />
         </nav>
       </div>
     </>

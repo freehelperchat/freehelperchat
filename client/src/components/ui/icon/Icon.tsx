@@ -15,6 +15,8 @@ const Icon: React.FC<IProps> = ({ path, color = 'white', size = 32 }) => {
       style={{
         WebkitMaskImage: `url(${path})`,
         backgroundColor: color,
+        minWidth: size,
+        minHeight: size,
         width: size,
         height: size,
       }}

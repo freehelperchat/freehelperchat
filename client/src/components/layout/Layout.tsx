@@ -6,14 +6,19 @@ import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
 import classes from './Layout.module.css';
 
 interface IProps {
-  chats: {
+  yourChatsArr: {
     chatId: number;
     name: string;
     status: number;
   }[];
+  operatorsArr?: {
+    name: string;
+    activeChats: number;
+    status: boolean;
+  }[];
 }
 
-const Layout: React.FC<IProps> = ({ children, chats }) => {
+const Layout: React.FC<IProps> = ({ children, yourChatsArr, operatorsArr }) => {
   const [sideDrawerVisible, setSideDrawerVisible] = useState(false);
 
   const closeSideDrawer = () => setSideDrawerVisible(false);
@@ -22,13 +27,25 @@ const Layout: React.FC<IProps> = ({ children, chats }) => {
 
   return (
     <>
-      <Toolbar chats={chats} drawerToggleClicked={drawerToggleHandler} />
+      <Toolbar
+        logo
+        options
+        yourChats
+        yourChatsArr={yourChatsArr}
+        drawerToggleClicked={drawerToggleHandler}
+      />
       <SideDrawer
-        chats={chats}
+        chats={yourChatsArr}
         open={sideDrawerVisible}
         closed={closeSideDrawer}
       />
       <main className={classes.Content}>{children}</main>
+      <Toolbar
+        side="right"
+        operators
+        operatorsArr={operatorsArr}
+        drawerToggleClicked={drawerToggleHandler}
+      />
     </>
   );
 };

@@ -1,5 +1,5 @@
 .Content {
-  margin-left: 200px;
-  width: calc(100% - 200px);
+  margin: 0 200px;
+  width: calc(100% - 400px);
   height: 100%;
 }
