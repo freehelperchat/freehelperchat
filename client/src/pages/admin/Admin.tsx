@@ -56,8 +56,8 @@ const Admin: React.FC = () => {
         { chatId: 11, name: 'LANIA fERREIRA lINS', status: 1 },
       ]}
       operatorsArr={[
-        { name: 'Pedro Dias', status: true, activeChats: 3 },
-        { name: 'Thiago Antunes', status: true, activeChats: 3 },
+        { _id: '123', name: 'Pedro Dias', status: true, activeChats: 3 },
+        { _id: '321', name: 'Thiago Antunes', status: true, activeChats: 3 },
       ]}
     >
       <Helmet title="Admin - Free Helper Chat" />

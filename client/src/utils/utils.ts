@@ -62,6 +62,5 @@ export function getColorByText(text: string): string {
   const h = (1 / (steps + offset)) * ((hash % steps) + offset);
   const s = 0.6;
   const v = 0.4;
-  console.log(h);
   return `hsl(${h * 360}, ${s * 100}%, ${v * 100}%)`;
 }

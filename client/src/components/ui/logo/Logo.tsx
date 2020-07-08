@@ -6,7 +6,9 @@ import classes from './Logo.module.css';
 
 const Logo: React.FC = () => (
   <div className={classes.Logo}>
-    <img src={`${baseURL}images/logo.png`} alt="Logo" />
+    <object data={`${baseURL}images/logo.svg`} type="image/svg+xml">
+      <img src={`${baseURL}images/logo.png`} alt="Logo" />
+    </object>
   </div>
 );
 

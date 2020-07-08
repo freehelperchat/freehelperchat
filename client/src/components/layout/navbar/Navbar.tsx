@@ -24,6 +24,7 @@ interface IProps {
     status: number;
   }[];
   operatorsArr?: {
+    _id: string;
     name: string;
     activeChats: number;
     status: boolean;
@@ -66,7 +67,13 @@ const Navbar: React.FC<IProps> = ({
         <div className={classes.TopBar}>
           <p className={classes.Title}>Operadores Online</p>
           {operatorsArr.map(operator => (
-            <NavbarItem bgColor="#178CFF" path="/admin" exact>
+            <NavbarItem
+              bgColor="#178CFF"
+              path="/admin"
+              exact
+              bottomBar
+              key={operator._id}
+            >
               <Icon path={userIcon} color="white" size={32} />
               {operator.name}
             </NavbarItem>

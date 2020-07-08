@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Toolbar from 'components/layout/toolbar/Toolbar';
-import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
+// import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
 
 import classes from './Layout.module.css';
 
@@ -12,6 +12,7 @@ interface IProps {
     status: number;
   }[];
   operatorsArr?: {
+    _id: string;
     name: string;
     activeChats: number;
     status: boolean;
@@ -21,23 +22,19 @@ interface IProps {
 const Layout: React.FC<IProps> = ({ children, yourChatsArr, operatorsArr }) => {
   const [sideDrawerVisible, setSideDrawerVisible] = useState(false);
 
-  const closeSideDrawer = () => setSideDrawerVisible(false);
+  // const closeSideDrawer = () => setSideDrawerVisible(false);
 
   const drawerToggleHandler = () => setSideDrawerVisible(!sideDrawerVisible);
 
   return (
-    <>
+    <div className={classes.Container}>
       <Toolbar
         logo
         options
         yourChats
         yourChatsArr={yourChatsArr}
         drawerToggleClicked={drawerToggleHandler}
-      />
-      <SideDrawer
-        chats={yourChatsArr}
-        open={sideDrawerVisible}
-        closed={closeSideDrawer}
+        fitContent
       />
       <main className={classes.Content}>{children}</main>
       <Toolbar
@@ -45,8 +42,9 @@ const Layout: React.FC<IProps> = ({ children, yourChatsArr, operatorsArr }) => {
         operators
         operatorsArr={operatorsArr}
         drawerToggleClicked={drawerToggleHandler}
+        fitContent
       />
-    </>
+    </div>
   );
 };
 
