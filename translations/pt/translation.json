@@ -12,7 +12,7 @@
     "username": "Nome de usuário",
     "password": "Senha",
     "department": "Departamento",
-    "chatId": "ID do Chat",
+    "clientToken": "ID do Chat",
     "createdAt": "Criado em"
   },
   "navbar": {

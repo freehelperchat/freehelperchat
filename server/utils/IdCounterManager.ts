@@ -3,6 +3,7 @@ import IdCounter from '../models/chat/IdCounter';
 class IdCounterManager {
   public readonly Models = {
     CHAT: 'CHAT',
+    PERSITENT_CHAT: 'PERSISTENT_CHAT',
   };
 
   public async getIdCounter(model: string): Promise<number> {

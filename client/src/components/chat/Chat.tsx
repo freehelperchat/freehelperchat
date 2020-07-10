@@ -51,7 +51,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
         if (!redirected) return renderAllMessages(res.data);
       })
       .catch((err: AxiosError) => {
-        if (err.response && err.response.status >= 400) {
+        if (err.response && err.response.status === 401) {
           if (token) return history.push('/logout');
           return history.push('/');
         }

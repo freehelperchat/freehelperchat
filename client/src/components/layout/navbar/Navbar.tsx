@@ -14,12 +14,12 @@ import classes from './Navbar.module.css';
 
 interface IProps {
   yourChatsArr?: {
-    chatId: number;
+    clientToken: number;
     name: string;
     status: number;
   }[];
   otherChatsArr?: {
-    chatId: number;
+    clientToken: number;
     name: string;
     status: number;
   }[];
@@ -53,9 +53,9 @@ const Navbar: React.FC<IProps> = ({
           {yourChatsArr.map(chat => (
             <NavbarItem
               bgColor={getColorByText(chat.name)}
-              path={`/admin/chat/${chat.chatId}`}
+              path={`/admin/chat/${chat.clientToken}`}
               exact
-              key={chat.chatId}
+              key={chat.clientToken}
             >
               <Icon path={messageIcon} color="white" size={32} />
               {chat.name}
@@ -104,11 +104,16 @@ const Navbar: React.FC<IProps> = ({
         </>
       )}
       {otherChats && (
-        <div className={classes.BottomBar}>
+        <div className={classes.TopBar}>
           <p className={classes.Title}>Outros chats</p>
           {otherChatsArr.map(chats => (
-            <NavbarItem bgColor="#A5A5A5" path="/admin" exact>
-              <Icon path={userIcon} color="white" size={32} />
+            <NavbarItem
+              key={chats.clientToken}
+              bgColor="#A5A5A5"
+              path={`/admin/chat/${chats.clientToken}`}
+              exact
+            >
+              <Icon path={messageIcon} color="white" size={32} />
               {chats.name}
             </NavbarItem>
           ))}
@@ -123,7 +128,7 @@ function areChatsEqual(prevProps: IProps, nextProps: IProps): boolean {
     const filteredChats = prevProps.yourChatsArr.filter(
       (chat, i) =>
         nextProps.yourChatsArr &&
-        chat.chatId !== nextProps.yourChatsArr[i].chatId
+        chat.clientToken !== nextProps.yourChatsArr[i].clientToken
     );
     return filteredChats.length === 0;
   }

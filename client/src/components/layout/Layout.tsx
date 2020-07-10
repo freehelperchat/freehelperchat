@@ -7,7 +7,12 @@ import classes from './Layout.module.css';
 
 interface IProps {
   yourChatsArr: {
-    chatId: number;
+    clientToken: number;
+    name: string;
+    status: number;
+  }[];
+  otherChatsArr: {
+    clientToken: number;
     name: string;
     status: number;
   }[];
@@ -19,7 +24,12 @@ interface IProps {
   }[];
 }
 
-const Layout: React.FC<IProps> = ({ children, yourChatsArr, operatorsArr }) => {
+const Layout: React.FC<IProps> = ({
+  children,
+  yourChatsArr,
+  otherChatsArr,
+  operatorsArr,
+}) => {
   const [sideDrawerVisible, setSideDrawerVisible] = useState(false);
 
   // const closeSideDrawer = () => setSideDrawerVisible(false);
@@ -42,6 +52,8 @@ const Layout: React.FC<IProps> = ({ children, yourChatsArr, operatorsArr }) => {
         operators
         operatorsArr={operatorsArr}
         drawerToggleClicked={drawerToggleHandler}
+        otherChats
+        otherChatsArr={otherChatsArr}
         fitContent
       />
     </div>

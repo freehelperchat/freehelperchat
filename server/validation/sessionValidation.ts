@@ -74,9 +74,9 @@ class SessionValidation {
       return this.validateSession(req, res, next);
     }
     if (typeof hash !== 'undefined') {
-      const chatId = req.params.id;
+      const clientToken = req.params.id;
       const chat = await Chat.findById(hash);
-      if (!chat || chat.chatId !== +chatId) {
+      if (!chat || chat.clientToken !== +clientToken) {
         return res.status(401).send();
       }
       return next();

@@ -9,7 +9,7 @@ interface IProps {
   open: boolean;
   closed(): void;
   chats: {
-    chatId: number;
+    clientToken: number;
     name: string;
     status: number;
   }[];

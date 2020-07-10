@@ -14,7 +14,10 @@ const UserDataSchema = createSchema({
 });
 
 const ChatSchema = createSchema({
-  chatId: Type.number({
+  _id: Type.string({
+    required: true,
+  }),
+  clientToken: Type.number({
     required: true,
   }),
   userData: Type.array().of(UserDataSchema),

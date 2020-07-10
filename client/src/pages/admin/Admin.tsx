@@ -43,25 +43,38 @@ const Admin: React.FC = () => {
   return (
     <Layout
       yourChatsArr={[
-        { chatId: 1, name: 'Bruna Braga Felix Soares', status: 1 },
-        { chatId: 2, name: 'Sonia Regina Da Costa Jesus', status: 1 },
-        { chatId: 3, name: 'Paulo Martiniano Lessa ma', status: 1 },
-        { chatId: 4, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 5, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 6, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 7, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 8, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 9, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 10, name: 'LANIA fERREIRA lINS', status: 1 },
-        { chatId: 11, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 1, name: 'Bruna Braga Felix Soares', status: 1 },
+        { clientToken: 2, name: 'Sonia Regina Da Costa Jesus', status: 1 },
+        { clientToken: 3, name: 'Paulo Martiniano Lessa ma', status: 1 },
+        { clientToken: 4, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 5, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 6, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 7, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 8, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 9, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 10, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 11, name: 'LANIA fERREIRA lINS', status: 1 },
       ]}
       operatorsArr={[
         { _id: '123', name: 'Pedro Dias', status: true, activeChats: 3 },
         { _id: '321', name: 'Thiago Antunes', status: true, activeChats: 3 },
       ]}
+      otherChatsArr={[
+        { clientToken: 1, name: 'Bruna Braga Felix Soares', status: 1 },
+        { clientToken: 2, name: 'Sonia Regina Da Costa Jesus', status: 1 },
+        { clientToken: 3, name: 'Paulo Martiniano Lessa ma', status: 1 },
+        { clientToken: 4, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 5, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 6, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 7, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 8, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 9, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 10, name: 'LANIA fERREIRA lINS', status: 1 },
+        { clientToken: 11, name: 'LANIA fERREIRA lINS', status: 1 },
+      ]}
     >
       <Helmet title="Admin - Free Helper Chat" />
-      <Route path="/admin/chat/:chatId" component={AdminChat} />
+      <Route path="/admin/chat/:clientToken" component={AdminChat} />
       <Route path="/admin" exact>
         <div>
           <div>

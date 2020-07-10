@@ -31,7 +31,9 @@ const AdminChat: React.FC = () => {
   const [operatorInfo, setOperatorInfo] = useState<IOperator>();
   useEffect(() => {
     let redirected = false;
-    Api.get<IChatInfo>(`/chat/${chatId}`, { headers: { Authorization: token } })
+    Api.get<IChatInfo>(`/chat/${chatId}`, {
+      headers: { Authorization: token },
+    })
       .then(res => {
         if (!redirected) {
           console.log(res.data);
@@ -41,7 +43,6 @@ const AdminChat: React.FC = () => {
       .catch((err: AxiosError) => {
         if (err.response) {
           switch (err.response.status) {
-            case 400:
             case 401:
               history.push('/logout');
               break;
@@ -59,7 +60,7 @@ const AdminChat: React.FC = () => {
         if (!redirected) setOperatorInfo(res.data);
       })
       .catch(err => {
-        if (err.response && err.response.status >= 400) {
+        if (err.response && err.response.status === 401) {
           history.push('/logout');
         }
       });

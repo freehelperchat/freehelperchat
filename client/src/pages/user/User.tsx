@@ -8,7 +8,7 @@ function User() {
   return (
     <>
       <Route path="/" exact component={StartChatForm} />
-      <Route path="/id/:chatId/:hash" component={UserChat} />
+      <Route path="/id/:clientToken/:hash" component={UserChat} />
     </>
   );
 }

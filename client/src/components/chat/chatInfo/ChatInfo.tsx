@@ -14,7 +14,7 @@ export interface IChatInfo {
   _id?: string;
   name: string;
   email: string;
-  chatId: number;
+  clientToken: number;
   time: {
     started: number;
     closed?: number;
@@ -44,8 +44,8 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo }) => {
         <p className={classes.ChatInfoContent}>{chatInfo?.email}</p>
       </div>
       <div className={classes.ChatInfoCell}>
-        <p className={classes.ChatInfoTitle}>{t('info.chatId')}</p>
-        <p className={classes.ChatInfoContent}>{chatInfo?.chatId}</p>
+        <p className={classes.ChatInfoTitle}>{t('info.clientToken')}</p>
+        <p className={classes.ChatInfoContent}>{chatInfo?.clientToken}</p>
       </div>
       <div className={classes.ChatInfoCell}>
         <p className={classes.ChatInfoTitle}>{t('info.createdAt')}</p>

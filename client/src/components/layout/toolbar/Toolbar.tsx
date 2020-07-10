@@ -9,7 +9,7 @@ import classes from './Toolbar.module.css';
 interface IProps {
   drawerToggleClicked(): void;
   yourChatsArr?: {
-    chatId: number;
+    clientToken: number;
     name: string;
     status: number;
   }[];
@@ -19,11 +19,17 @@ interface IProps {
     activeChats: number;
     status: boolean;
   }[];
+  otherChatsArr?: {
+    clientToken: number;
+    name: string;
+    status: number;
+  }[];
   side?: 'left' | 'right';
   logo?: boolean;
   options?: boolean;
   yourChats?: boolean;
   operators?: boolean;
+  otherChats?: boolean;
   fitContent?: boolean;
 }
 
@@ -36,6 +42,8 @@ const Toolbar: React.FC<IProps> = ({
   yourChatsArr,
   operators,
   operatorsArr,
+  otherChats,
+  otherChatsArr,
   fitContent,
 }) => (
   <header
@@ -62,6 +70,8 @@ const Toolbar: React.FC<IProps> = ({
         operatorsArr={operatorsArr}
         options={options}
         yourChatsArr={yourChatsArr}
+        otherChats={otherChats}
+        otherChatsArr={otherChatsArr}
       />
     </nav>
   </header>

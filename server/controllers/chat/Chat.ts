@@ -41,12 +41,12 @@ class ChatController {
         },
       ),
     );
-    const chatId: number = await IdCounterManager.getIdCounter(
+    const clientToken: number = await IdCounterManager.getIdCounter(
       IdCounterManager.Models.CHAT,
     );
 
     return Chat.create({
-      chatId,
+      clientToken,
       time: { started: new Date().getTime() },
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       ...body,
@@ -63,7 +63,7 @@ class ChatController {
 
   public async show(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const chat = await Chat.findOne({ chatId: +id }).populate(
+    const chat = await Chat.findOne({ clientToken: +id }).populate(
       'department',
       '_id name',
     );
@@ -81,7 +81,7 @@ class ChatController {
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { body } = req;
-    const chat = await Chat.findOneAndUpdate({ chatId: +id }, body);
+    const chat = await Chat.findOneAndUpdate({ clientToken: +id }, body);
     if (!chat) return res.status(404).send();
     return res.status(200).send();
   }
