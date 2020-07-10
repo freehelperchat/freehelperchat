@@ -39,20 +39,20 @@ class SocketMessages {
 
   private openChat(socket: SocketIO.Socket): void {
     socket.on('open_chat', async (data) => {
-      const { clientToken } = data;
-      socket.join(clientToken);
+      const { chatId } = data;
+      socket.join(chatId);
     });
   }
 
   private acceptChat(socket: SocketIO.Socket): void {
     socket.on('accept_chat', async (data) => {
-      const { token, clientToken } = data;
+      const { token, chatId } = data;
       const session = await SessionManager.getSession(token);
       const operator = await Operator.findById(
         (session?.operator as OperatorProps)._id,
       );
       if (operator) {
-        const chat = await Chat.findOne({ clientToken });
+        const chat = await Chat.findOne({ chatId });
         Permissions.get();
         if (chat) {
           const operatorPermissions = Permissions.getPermissions(operator);
@@ -71,7 +71,7 @@ class SocketMessages {
             chat.status = chatStatus.ACTIVE;
             chat.time.pending = new Date().getTime();
             chat.save();
-            socket.emit('chat_accepted', { clientToken });
+            socket.emit('chat_accepted', { chatId });
           }
         }
       }
@@ -120,7 +120,7 @@ class SocketMessages {
 
   private sendMessage(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('send_message', async (data) => {
-      const { clientToken, hash, token } = data;
+      const { chatId, clientToken, token } = data;
       if (token) {
         const session = await SessionManager.getSession(token);
         if (!session) {
@@ -133,7 +133,7 @@ class SocketMessages {
             data.operator = true;
           } else if (Permissions.getPermissions(operator)
           & Permissions.get('sendAssignedMessages')) {
-            const chat = await Chat.findOne({ clientToken });
+            const chat = await Chat.findById(chatId);
             if (chat?.operator === operator._id) {
               data.operator = true;
             } else if (
@@ -149,15 +149,15 @@ class SocketMessages {
             return socket.emit('error_sending_message', 'Unauthorized');
           }
         }
-      } else if (hash) {
-        const chat = await Chat.findById(hash);
-        if (!chat || chat.clientToken !== +clientToken) {
+      } else if (clientToken) {
+        const chat = await Chat.findById(clientToken);
+        if (!chat || chat._id !== chatId) {
           return socket.emit('error_sending_message', 'Unauthorized');
         }
         data.operator = false;
       }
       Message.create({ ...data, time: new Date().getTime() })
-        .then((res) => io.to(clientToken).emit('received_message', res))
+        .then((res) => io.to(chatId).emit('received_message', res))
         .catch((err) => socket.emit('error_sending_message', err));
     });
   }

@@ -143,6 +143,7 @@ const StartChatForm: React.FC = () => {
       <div className={classes.NotificationContainer}>
         {notifications.map(n => (
           <Notification
+            key={n.time}
             timestamp={getMessageTime(n.time)}
             text={n.text}
             color={notificationTypes[n.type].color}

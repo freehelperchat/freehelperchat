@@ -29,6 +29,18 @@ class Encrypter {
   }
 
   /**
+   * Generates a random string of the given length
+   * @param bytes The amount of bytes of the string
+   * @returns The generated string
+   */
+  public randomStringFromBytes(bytes: number): string {
+    return crypto
+      .randomBytes(bytes)
+      .toString('hex')
+      .slice(0, bytes * 2);
+  }
+
+  /**
    * Generates a random hash
    * @param password The password to be hashed
    * @param salt Random string generated for the password

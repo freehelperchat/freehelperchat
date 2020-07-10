@@ -1,9 +1,9 @@
 import { Response, Request } from 'express';
-import Chat from '../../models/chat/Chat';
+import Chat, { ChatDoc } from '../../models/chat/Chat';
 import Department from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
-import IdCounterManager from '../../utils/IdCounterManager';
 import QueueManager from '../../utils/QueueManager';
+import Encrypter from '../../utils/Encrypter';
 
 interface IUserData {
   fieldId: string;
@@ -25,7 +25,17 @@ class ChatController {
     return res.status(200).json(chats);
   }
 
-  public async create(req: Request, res: Response): Promise<Response | void> {
+  private createChat = async (req: Request, i: number): Promise<ChatDoc> => Chat.create({
+    _id: Encrypter.randomStringFromBytes(i),
+    clientToken: Encrypter.randomStringFromBytes(64),
+    time: { started: new Date().getTime() },
+    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+    ...req.body,
+  })
+    .then((chat) => chat)
+    .catch(() => this.createChat(req, i))
+
+  public create = async (req: Request, res: Response): Promise<Response | void> => {
     const { body }: { body: IBody } = req;
     const department = await Department.findOne({ name: body.department });
     if (!department) return res.status(400).send();
@@ -35,35 +45,28 @@ class ChatController {
       body.userData.map(
         async (data: IUserData, i: number): Promise<void> => {
           const field = await StartChatForm.findOne({ name: data.fieldId });
-          if (field) {
-            body.userData[i].fieldId = field.label;
-          }
+          if (field) body.userData[i].fieldId = field.label;
         },
       ),
     );
-    const clientToken: number = await IdCounterManager.getIdCounter(
-      IdCounterManager.Models.CHAT,
-    );
 
-    return Chat.create({
-      clientToken,
-      time: { started: new Date().getTime() },
-      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-      ...body,
-    })
-      .then((chat) => {
-        QueueManager.assignNextChatToNextOperator();
-        return res.status(201).json(chat);
-      })
-      .catch(async (err) => {
-        await IdCounterManager.rollbackIdCounter(IdCounterManager.Models.CHAT);
-        res.status(400).json({ err });
-      });
+    let i = 1;
+    const j = await Chat.countDocuments();
+    while (j > (256 ** i) * 0.9) i += 1;
+    const chat = await this.createChat(req, i);
+    QueueManager.assignNextChatToNextOperator();
+    res.cookie('clientToken', chat.clientToken, {
+      maxAge: 1000 * 60 * 60 * 6,
+      httpOnly: true,
+      domain: req.hostname,
+      path: '/',
+    });
+    return res.status(201).json(chat);
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const chat = await Chat.findOne({ clientToken: +id }).populate(
+    const chat = await Chat.findById(id).populate(
       'department',
       '_id name',
     );
@@ -81,7 +84,7 @@ class ChatController {
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { body } = req;
-    const chat = await Chat.findOneAndUpdate({ clientToken: +id }, body);
+    const chat = await Chat.findByIdAndUpdate(id, body);
     if (!chat) return res.status(404).send();
     return res.status(200).send();
   }

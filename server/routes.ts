@@ -13,7 +13,7 @@ routes.get(
   Controllers.Chat.index,
 );
 routes.get(
-  '/chat/:id',
+  '/chat/:chatId',
   validation.globalValidation.idNumberParam,
   validation.sessionValidation.validateSessionOrHash,
   Controllers.Chat.show,
@@ -85,7 +85,7 @@ routes.delete(
 
 // Message Routes
 routes.get(
-  '/message/:id',
+  '/message/:chatId',
   validation.globalValidation.idNumberParam,
   validation.messageValidation.getMessages,
   validation.sessionValidation.validateSessionOrHash,

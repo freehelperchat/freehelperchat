@@ -9,9 +9,6 @@ import { OperatorSchema } from './Operator';
 
 
 const PersistentChat = createSchema({
-  clientToken: Type.number({
-    required: true,
-  }),
   time: Type.number({ required: true }),
   operators: Type.array().of(Type.ref(Type.objectId()).to('Operator', OperatorSchema)),
   owners: Type.array().of(Type.ref(Type.objectId()).to('Operator', OperatorSchema)),

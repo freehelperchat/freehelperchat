@@ -68,15 +68,14 @@ class SessionValidation {
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { authorization } = req.headers;
-    const { hash } = req.headers;
+    const { authorization, clientToken } = req.headers;
     if (authorization) {
       return this.validateSession(req, res, next);
     }
-    if (typeof hash !== 'undefined') {
-      const clientToken = req.params.id;
-      const chat = await Chat.findById(hash);
-      if (!chat || chat.clientToken !== +clientToken) {
+    if (typeof clientToken !== 'undefined') {
+      const { chatId } = req.params;
+      const chat = await Chat.findById(chatId);
+      if (!chat || chat.clientToken !== clientToken) {
         return res.status(401).send();
       }
       return next();

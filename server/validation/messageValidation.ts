@@ -4,7 +4,7 @@ class MessageValidation {
   public readonly getMessages = celebrate({
     [Segments.HEADERS]: Joi.object({
       authorization: Joi.string().optional(),
-      hash: Joi.string().optional(),
+      clientToken: Joi.string().optional(),
     }).unknown(),
   });
 }

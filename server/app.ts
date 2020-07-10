@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -43,7 +44,11 @@ class App {
 
   private middlewares(): void {
     this.express.use(express.json());
-    this.express.use(cors());
+    this.express.use(cookieParser());
+    this.express.use(cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    }));
   }
 
   private database(): void {
