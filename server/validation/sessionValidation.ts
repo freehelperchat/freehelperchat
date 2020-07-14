@@ -16,21 +16,6 @@ class SessionValidation {
     }).unknown(),
   });
 
-  public async validateSession(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<Response | void> {
-    const token = req.headers.authorization;
-    if (token) {
-      if (!(await Session.getSession(token))) {
-        return res.status(401).send();
-      }
-      return next();
-    }
-    return res.status(400).send();
-  }
-
   public async validateTokenHeaderSession(
     req: Request,
     res: Response,
@@ -43,10 +28,10 @@ class SessionValidation {
       }
       return next();
     }
-    return res.status(400).send();
+    return res.status(401).send();
   }
 
-  public async validateAndGetSession(
+  public async validateSession(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -60,7 +45,7 @@ class SessionValidation {
       req.session = session;
       return next();
     }
-    return res.status(400).send();
+    return res.status(401).send();
   }
 
   public validateSessionOrClientToken = async (
@@ -81,7 +66,7 @@ class SessionValidation {
       }
       return next();
     }
-    return res.status(400).send();
+    return res.status(401).send();
   };
 }
 

@@ -30,7 +30,7 @@ class DepartmentController {
     return res.json(department);
   }
 
-  public async destroy(req: Request, res: Response): Promise<Response> {
+  public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     await Department.findByIdAndDelete(id);
 

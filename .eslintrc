@@ -31,7 +31,8 @@
     "import/extensions": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "object-curly-newline": "off",
-    "no-bitwise": "off"
+    "no-bitwise": "off",
+    "no-continue": "off"
   },
   "settings": {
     "import/resolver": {

@@ -42,7 +42,7 @@ class OperatorController {
     return res.status(400).send();
   }
 
-  public async destroy(req: Request, res: Response): Promise<Response> {
+  public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     await Operator.findByIdAndDelete(id);
 

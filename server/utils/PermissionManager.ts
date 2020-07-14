@@ -12,13 +12,32 @@ class PermissionManager {
     return finalPermissions;
   }
 
-  public get(...names: string[]) : number {
-    if (names.length === 0) return 0;
+  public get(...names: string[]): number {
     let finalPermissions = 0;
     names.forEach((permission) => {
-      finalPermissions |= permissionsJson.list.indexOf(permission);
+      const current = permissionsJson.list.indexOf(permission);
+      if (current < 0) return;
+      finalPermissions |= current;
     });
     return finalPermissions;
+  }
+
+  public has = (operator: OperatorProps, permission: string): boolean => {
+    const operatorPermissions = this.getPermissions(operator);
+    const finalPermissions = this.get(permission);
+    return (operatorPermissions & finalPermissions) > 0;
+  }
+
+  public or = (operator: OperatorProps, ...permissions: string[]): boolean => {
+    const operatorPermissions = this.getPermissions(operator);
+    const finalPermissions = this.get(...permissions);
+    return (operatorPermissions & finalPermissions) > 0;
+  }
+
+  public and = (operator: OperatorProps, ...permissions: string[]): boolean => {
+    const operatorPermissions = this.getPermissions(operator);
+    const finalPermissions = this.get(...permissions);
+    return (operatorPermissions & finalPermissions) === finalPermissions;
   }
 }
 

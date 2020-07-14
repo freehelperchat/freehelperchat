@@ -3,7 +3,9 @@ import Chat, { ChatDoc } from '../../models/chat/Chat';
 import Department from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
 import QueueManager from '../../utils/QueueManager';
+import Permissions from '../../utils/PermissionManager';
 import Encrypter from '../../utils/Encrypter';
+import { OperatorProps } from '../../models/chat/Operator';
 
 interface IUserData {
   fieldId: string;
@@ -21,7 +23,19 @@ interface IBody {
 
 class ChatController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const chats = await Chat.find();
+    let filter = null;
+    let chats = [] as ChatDoc[];
+    const operator = req.session?.operator as OperatorProps;
+    if (Permissions.or(operator, 'readAllChats', 'all')) {
+      filter = {};
+    } else if (Permissions.has(operator, 'readDepartmentChats')) {
+      filter = { department: { $in: operator.departmentIds } };
+    } else if (Permissions.has(operator, 'readAssignedChats')) {
+      filter = { operator: operator._id };
+    }
+    if (filter) {
+      chats = await Chat.find(filter).populate('department', '_id name');
+    }
     return res.status(200).json(chats);
   }
 
@@ -74,11 +88,20 @@ class ChatController {
     return res.status(200).json(chat);
   }
 
-  public async destroy(req: Request, res: Response): Promise<Response> {
+  public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    await Chat.findByIdAndDelete(id);
-
-    return res.status(204).send();
+    const chat = await Chat.findById(id);
+    const operator = req.session?.operator as OperatorProps;
+    if ((Permissions.has(operator, 'deleteAssignedChats')
+      && operator._id === chat?.operator)
+    || (Permissions.has(operator, 'deleteDepartmentChats')
+      && chat
+      && operator.departmentIds.includes(chat.department))
+    || Permissions.or(operator, 'deleteAllChats', 'all')) {
+      Chat.findByIdAndDelete(chat?._id);
+      return res.status(204).send();
+    }
+    return res.status(400).send();
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
@@ -91,17 +114,22 @@ class ChatController {
 
   public async tranferChat(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { operator } = req.body;
-    return Chat.findByIdAndUpdate(id, operator)
-      .then((resp) => res.status(200).json(resp))
-      .catch(() => res.status(400).send());
-  }
+    const { operator: target } = req.body;
 
-  public async getChatByStatus(req: Request, res: Response): Promise<Response> {
-    const { status } = req.body;
-    return Chat.find({ status })
-      .then((resp) => res.status(200).json(resp))
-      .catch(() => res.status(400).send());
+    const chat = await Chat.findById(id);
+    const operator = req.session?.operator as OperatorProps;
+
+    if ((Permissions.has(operator, 'transferAllChats')
+      && operator._id === chat?.operator)
+    || (Permissions.has(operator, 'transferDepartmentChats')
+      && chat
+      && operator.departmentIds.includes(chat.department))
+    || Permissions.or(operator, 'transferAllChats', 'all')) {
+      return Chat.findByIdAndUpdate(id, { operator: target })
+        .then((resp) => res.status(200).json(resp))
+        .catch(() => res.status(400).send());
+    }
+    return res.status(400).send();
   }
 }
 

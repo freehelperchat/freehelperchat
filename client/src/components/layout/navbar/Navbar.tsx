@@ -49,7 +49,7 @@ const Navbar: React.FC<IProps> = ({
     <div className={classes.Navbar}>
       {yourChats && (
         <>
-          <p className={classes.Title}>Seus chats</p>
+          <p className={classes.Title}>{t('dashboard.your_chats')}</p>
           <div className={classes.TopBar}>
             {yourChatsArr.map(chat => (
               <NavbarItem
@@ -67,7 +67,7 @@ const Navbar: React.FC<IProps> = ({
       )}
       {operators && (
         <>
-          <p className={classes.Title}>Operadores Online</p>
+          <p className={classes.Title}>{t('dashboard.online_operators')}</p>
           <div className={classes.TopBar}>
             {operatorsArr.map(operator => (
               <NavbarItem
@@ -109,7 +109,7 @@ const Navbar: React.FC<IProps> = ({
       )}
       {otherChats && (
         <>
-          <p className={classes.Title}>Outros chats</p>
+          <p className={classes.Title}>{t('dashboard.other_chats')}</p>
           <div className={classes.TopBar}>
             {otherChatsArr.map(chats => (
               <NavbarItem

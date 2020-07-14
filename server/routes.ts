@@ -36,7 +36,7 @@ routes.delete(
   validation.globalValidation.idStringParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
-  Controllers.Chat.destroy,
+  Controllers.Chat.delete,
 );
 routes.put(
   '/chat/transfer/:id',
@@ -45,7 +45,6 @@ routes.put(
   validation.sessionValidation.validateSession,
   Controllers.Chat.tranferChat,
 );
-routes.get('/chat/getbystatus', Controllers.Chat.getChatByStatus);
 
 // Operator Routes
 routes.get(
@@ -57,7 +56,7 @@ routes.get(
 routes.get(
   '/operator',
   validation.sessionValidation.authHeader,
-  validation.sessionValidation.validateAndGetSession,
+  validation.sessionValidation.validateSession,
   Controllers.Operator.self,
 );
 routes.get(
@@ -80,7 +79,7 @@ routes.delete(
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   validation.globalValidation.idStringParam,
-  Controllers.Operator.destroy,
+  Controllers.Operator.delete,
 );
 
 // Message Routes
@@ -100,7 +99,7 @@ routes.delete(
   '/department/:id',
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
-  Controllers.Department.destroy,
+  Controllers.Department.delete,
 );
 
 // CannedMessage Routes
@@ -167,7 +166,7 @@ routes.get(
   Controllers.UserGroup.show,
 );
 routes.post('/usergroup', Controllers.UserGroup.create);
-routes.delete('/usergroup/:id', Controllers.UserGroup.destroy);
+routes.delete('/usergroup/:id', Controllers.UserGroup.delete);
 
 // Role Routes
 routes.post(

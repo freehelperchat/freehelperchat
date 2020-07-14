@@ -21,7 +21,7 @@ class UserGroupController {
     return res.json(usergroup);
   }
 
-  public async destroy(req: Request, res: Response): Promise<Response> {
+  public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     await UserGroup.findByIdAndDelete(id);
 

@@ -4,12 +4,18 @@
     "readAllChats",
     "sendOnAllChats",
     "closeAllChats",
+    "deleteAllChats",
+    "transferAllChats",
     "readAssignedChats",
     "sendOnAssignedChats",
     "closeAssignedChats",
+    "deleteAssignedChats",
+    "transferAssignedChats",
     "readDepartmentChats",
     "sendOnDepartmentChats",
     "closeDepartmentChats",
+    "deleteDepartmentChats",
+    "transferDepartmentChats",
     "readAnalytics"
   ]
 }

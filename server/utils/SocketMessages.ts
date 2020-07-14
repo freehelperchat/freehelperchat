@@ -53,17 +53,12 @@ class SocketMessages {
       );
       if (operator) {
         const chat = await Chat.findOne({ chatId });
-        Permissions.get();
         if (chat) {
-          const operatorPermissions = Permissions.getPermissions(operator);
-          if ((operatorPermissions
-              & Permissions.get('sendAssignedMessages')
+          if ((Permissions.has(operator, 'sendAssignedMessages')
               && chat.operator === operator._id)
-            || (operatorPermissions
-              & Permissions.get('sendOnDepartmentChats')
+            || (Permissions.has(operator, 'sendOnDepartmentChats')
               && operator.departmentIds.includes(chat.department))
-            || operatorPermissions
-            & (Permissions.get('sendAllMessages', 'all'))) {
+            || Permissions.or(operator, 'sendAllMessages', 'all')) {
             if (chat.operator !== operator._id) chat.operator = operator._id;
             operator.lastActiveChat = new Date().getTime();
             operator.activeChats += 1;
@@ -88,14 +83,11 @@ class SocketMessages {
       );
       if (operator) {
         const chat = await Chat.findOne({ clientToken });
-        const operatorPermissions = Permissions.getPermissions(operator);
         if (chat) {
           if (chat.operator === operator._id
-            || (operatorPermissions
-              & Permissions.get('closeDepartmentChats')
+            || (Permissions.has(operator, 'closeDepartmentChats')
               && operator.departmentIds.includes(chat.department))
-            || operatorPermissions
-            & Permissions.get('closeAllChats')) {
+            || Permissions.has(operator, 'closeAllChats')) {
             if (chat.operator !== operator._id) {
               const actualOperator = await Operator.findById(chat.operator);
               if (actualOperator) {
@@ -128,26 +120,20 @@ class SocketMessages {
         }
         if (session.operator) {
           const operator = session.operator as OperatorProps;
-          if (Permissions.getPermissions(operator)
-            & Permissions.get('all')) {
-            data.operator = true;
-          } else if (Permissions.getPermissions(operator)
-          & Permissions.get('sendAssignedMessages')) {
-            const chat = await Chat.findById(chatId);
-            if (chat?.operator === operator._id) {
-              data.operator = true;
-            } else if (
-              operator.departmentIds?.indexOf(chat?.department as string) !==
-                -1 ||
-              operator.allDepartments
-            ) {
+          const chat = await Chat.findById(chatId);
+          if (chat) {
+            if ((Permissions.has(operator, 'sendAssignedMessages')
+              && chat?.operator === operator._id)
+            || (Permissions.has(operator, 'sendOnDepartmentChats')
+              && operator.departmentIds.includes(chat?.department))
+            || Permissions.or(operator, 'sendAllMessages', 'all')) {
               data.operator = true;
             } else {
               return socket.emit('error_sending_message', 'Unauthorized');
             }
-          } else {
-            return socket.emit('error_sending_message', 'Unauthorized');
           }
+        } else {
+          return socket.emit('error_sending_message', 'Unauthorized');
         }
       } else if (clientToken) {
         const chat = await Chat.findById(chatId);

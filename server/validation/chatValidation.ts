@@ -24,8 +24,6 @@ class ChatValidation {
       department: Joi.string().optional(),
       status: Joi.number().optional().min(0).max(5),
       operator: Joi.string().optional(),
-      lastOperatorMsg: Joi.string().optional(),
-      lastUserMsg: Joi.string().optional(),
     }),
   });
 }

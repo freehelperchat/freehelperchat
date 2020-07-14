@@ -1,6 +1,6 @@
 import Chat, { ChatDoc } from '../models/chat/Chat';
 import SessionManager from './SessionManager';
-// import PermissionManager from './PermissionManager';
+import Permissions from './PermissionManager';
 import { OperatorDoc, OperatorProps } from '../models/chat/Operator';
 import { DepartmentProps } from '../models/chat/Department';
 import General from '../custom/general.json';
@@ -63,8 +63,9 @@ class ChatQueueManager {
       const operator = session.operator as OperatorDoc;
       if (operator.hideOnline) return false;
       if (
-        operator.departmentIds.indexOf(department._id.toHexString()) === -1 &&
-        !operator.allDepartments
+        !Permissions.and(operator, 'readAllChats', 'sendAllChats')
+        && !Permissions.has(operator, 'all')
+        && operator.departmentIds.indexOf(department._id.toHexString()) === -1
       ) {
         return false;
       }

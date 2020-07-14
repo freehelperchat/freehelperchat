@@ -17,7 +17,6 @@ export const OperatorSchema = createSchema({
   }),
   email: Type.string(),
   disabled: Type.boolean({ required: true, default: false }),
-  allDepartments: Type.boolean({ required: true, default: false }),
   departmentIds: Type.array({ required: true, default: [] }).of(
     Type.ref(Type.string()).to('Department', DepartmentSchema),
   ),

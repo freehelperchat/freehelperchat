@@ -25,5 +25,10 @@
     "info": "Informativo",
     "warning": "Aviso",
     "critical": "Alerta"
+  },
+  "dashboard": {
+    "online_operators": "Operadores online",
+    "your_chats": "Seus chats",
+    "other_chats": "Outros chats"
   }
 }

@@ -25,5 +25,10 @@
     "info": "Informative",
     "warning": "Warning",
     "critical": "Critical"
+  },
+  "dashboard": {
+    "online_operators": "Online operators",
+    "your_chats": "Your chats",
+    "other_chats": "Other chats"
   }
 }

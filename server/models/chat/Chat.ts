@@ -25,8 +25,6 @@ const ChatSchema = createSchema({
     closed: Type.number(),
     pending: Type.number(),
   }),
-  lastOperatorMsg: Type.string(),
-  lastUserMsg: Type.string(),
   status: Type.number({ required: true }),
   department: Type.ref(Type.string({ required: true })).to(
     'Department',
