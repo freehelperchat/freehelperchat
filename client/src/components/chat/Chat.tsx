@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 import socket from 'services/socket';
 import Api from 'services/api';
@@ -9,13 +10,12 @@ import { AxiosError } from 'axios';
 import classes from './Chat.module.css';
 
 interface IProps {
-  chatId: number;
+  chatId: string;
   token?: string;
-  hash?: string;
   name?: string;
 }
 
-const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
+const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
@@ -31,7 +31,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
   useEffect(() => {
     let redirected = false;
     socket.on('received_message', (data: IMessage) => {
-      if (+data.chatId === +chatId) renderMessage(data);
+      if (data.chatId === chatId) renderMessage(data);
     });
     socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);
@@ -40,9 +40,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
       ? {
           Authorization: token,
         }
-      : {
-          Hash: hash,
-        };
+      : undefined;
     socket.emit('open_chat', { chatId });
     Api.get<IMessage[]>(`/message/${chatId}`, {
       headers,
@@ -59,18 +57,20 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
     return () => {
       redirected = true;
     };
-  }, [chatId, hash, token, history]);
+  }, [chatId, token, history]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const message = newMessage.trim();
     if (message === '') return;
+    const cookies = new Cookies();
+    const clientToken = cookies.get('clientToken');
     const msg = {
       name,
       message,
       chatId,
       token,
-      hash,
+      clientToken,
     };
     socket.emit('send_message', msg);
     setNewMessage('');
@@ -79,7 +79,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, hash, name }) => {
   return (
     <div className={classes.Container}>
       <div className={classes.ChatContainer}>
-        <Messages messages={messages} user={typeof hash !== 'undefined'} />
+        <Messages messages={messages} user={typeof token === 'undefined'} />
         <form onSubmit={handleSubmit}>
           <Input
             type="textarea"

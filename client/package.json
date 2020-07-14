@@ -19,7 +19,8 @@
     "react-i18next": "^11.3.3",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "universal-cookie": "^4.0.3"
   },
   "homepage": "/chat",
   "scripts": {

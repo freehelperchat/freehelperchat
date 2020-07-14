@@ -63,18 +63,19 @@ class SessionValidation {
     return res.status(400).send();
   }
 
-  public validateSessionOrHash = async (
+  public validateSessionOrClientToken = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const { authorization, clientToken } = req.headers;
+    const { authorization } = req.headers;
+    const { clientToken }: { clientToken: string } = req.cookies;
     if (authorization) {
       return this.validateSession(req, res, next);
     }
     if (typeof clientToken !== 'undefined') {
-      const { chatId } = req.params;
-      const chat = await Chat.findById(chatId);
+      const { id } = req.params;
+      const chat = await Chat.findById(id);
       if (!chat || chat.clientToken !== clientToken) {
         return res.status(401).send();
       }

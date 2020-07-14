@@ -48,37 +48,41 @@ const Navbar: React.FC<IProps> = ({
   return (
     <div className={classes.Navbar}>
       {yourChats && (
-        <div className={classes.TopBar}>
+        <>
           <p className={classes.Title}>Seus chats</p>
-          {yourChatsArr.map(chat => (
-            <NavbarItem
-              bgColor={getColorByText(chat.name)}
-              path={`/admin/chat/${chat.clientToken}`}
-              exact
-              key={chat.clientToken}
-            >
-              <Icon path={messageIcon} color="white" size={32} />
-              {chat.name}
-            </NavbarItem>
-          ))}
-        </div>
+          <div className={classes.TopBar}>
+            {yourChatsArr.map(chat => (
+              <NavbarItem
+                bgColor={getColorByText(chat.name)}
+                path={`/admin/chat/${chat.clientToken}`}
+                exact
+                key={chat.clientToken}
+              >
+                <Icon path={messageIcon} color="white" size={32} />
+                {chat.name}
+              </NavbarItem>
+            ))}
+          </div>
+        </>
       )}
       {operators && (
-        <div className={classes.TopBar}>
+        <>
           <p className={classes.Title}>Operadores Online</p>
-          {operatorsArr.map(operator => (
-            <NavbarItem
-              bgColor="#178CFF"
-              path="/admin"
-              exact
-              bottomBar
-              key={operator._id}
-            >
-              <Icon path={userIcon} color="white" size={32} />
-              {operator.name}
-            </NavbarItem>
-          ))}
-        </div>
+          <div className={classes.TopBar}>
+            {operatorsArr.map(operator => (
+              <NavbarItem
+                bgColor="#178CFF"
+                path="/admin"
+                exact
+                bottomBar
+                key={operator._id}
+              >
+                <Icon path={userIcon} color="white" size={32} />
+                {operator.name}
+              </NavbarItem>
+            ))}
+          </div>
+        </>
       )}
       {options && (
         <>
@@ -104,20 +108,22 @@ const Navbar: React.FC<IProps> = ({
         </>
       )}
       {otherChats && (
-        <div className={classes.TopBar}>
+        <>
           <p className={classes.Title}>Outros chats</p>
-          {otherChatsArr.map(chats => (
-            <NavbarItem
-              key={chats.clientToken}
-              bgColor="#A5A5A5"
-              path={`/admin/chat/${chats.clientToken}`}
-              exact
-            >
-              <Icon path={messageIcon} color="white" size={32} />
-              {chats.name}
-            </NavbarItem>
-          ))}
-        </div>
+          <div className={classes.TopBar}>
+            {otherChatsArr.map(chats => (
+              <NavbarItem
+                key={chats.clientToken}
+                bgColor="#A5A5A5"
+                path={`/admin/chat/${chats.clientToken}`}
+                exact
+              >
+                <Icon path={messageIcon} color="white" size={32} />
+                {chats.name}
+              </NavbarItem>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

@@ -20,7 +20,8 @@
 .Title {
   font-size: 20px;
   color: #7f7f7f;
-  margin: 0 8px 8px;
+  padding: 8px;
+  width: 100%;
 }
 
 .TopBar {

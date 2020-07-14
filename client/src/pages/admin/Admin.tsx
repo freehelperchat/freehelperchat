@@ -74,7 +74,7 @@ const Admin: React.FC = () => {
       ]}
     >
       <Helmet title="Admin - Free Helper Chat" />
-      <Route path="/admin/chat/:clientToken" component={AdminChat} />
+      <Route path="/admin/chat/:chatId" component={AdminChat} />
       <Route path="/admin" exact>
         <div>
           <div>

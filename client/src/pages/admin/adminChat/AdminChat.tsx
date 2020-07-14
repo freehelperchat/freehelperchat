@@ -14,8 +14,8 @@ interface IOperator {
   username: string;
   email?: string;
   disabled?: boolean;
-  allDepartments?: string[];
-  departmentIds?: boolean;
+  departmentIds?: string[];
+  allDepartments?: boolean;
   autoAccept?: boolean;
   maxActiveChats?: number;
   hideOnline?: boolean;

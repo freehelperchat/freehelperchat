@@ -13,9 +13,9 @@ routes.get(
   Controllers.Chat.index,
 );
 routes.get(
-  '/chat/:chatId',
-  validation.globalValidation.idNumberParam,
-  validation.sessionValidation.validateSessionOrHash,
+  '/chat/:id',
+  validation.globalValidation.idStringParam,
+  validation.sessionValidation.validateSessionOrClientToken,
   Controllers.Chat.show,
 );
 routes.post(
@@ -25,7 +25,7 @@ routes.post(
 );
 routes.put(
   '/chat/:id',
-  validation.globalValidation.idNumberParam,
+  validation.globalValidation.idStringParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   validation.chatValidation.updateChat,
@@ -33,14 +33,14 @@ routes.put(
 );
 routes.delete(
   '/chat/:id',
-  validation.globalValidation.idNumberParam,
+  validation.globalValidation.idStringParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   Controllers.Chat.destroy,
 );
 routes.put(
   '/chat/transfer/:id',
-  validation.globalValidation.idNumberParam,
+  validation.globalValidation.idStringParam,
   validation.sessionValidation.authHeader,
   validation.sessionValidation.validateSession,
   Controllers.Chat.tranferChat,
@@ -85,10 +85,10 @@ routes.delete(
 
 // Message Routes
 routes.get(
-  '/message/:chatId',
-  validation.globalValidation.idNumberParam,
+  '/message/:id',
+  validation.globalValidation.idStringParam,
   validation.messageValidation.getMessages,
-  validation.sessionValidation.validateSessionOrHash,
+  validation.sessionValidation.validateSessionOrClientToken,
   Controllers.Message.chatMessages,
 );
 

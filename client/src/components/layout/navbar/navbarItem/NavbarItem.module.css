@@ -29,6 +29,7 @@
   font-size: 22px;
   margin: 0 20px;
   padding: 0 8px;
+  min-width: -webkit-fill-available;
 }
 
 .Separator {

@@ -150,12 +150,12 @@ class SocketMessages {
           }
         }
       } else if (clientToken) {
-        const chat = await Chat.findById(clientToken);
-        if (!chat || chat._id !== chatId) {
+        const chat = await Chat.findById(chatId);
+        if (!chat || chat.clientToken !== clientToken) {
           return socket.emit('error_sending_message', 'Unauthorized');
         }
         data.operator = false;
-      }
+      } else return socket.emit('error_sending_message', 'Unauthorized');
       Message.create({ ...data, time: new Date().getTime() })
         .then((res) => io.to(chatId).emit('received_message', res))
         .catch((err) => socket.emit('error_sending_message', err));

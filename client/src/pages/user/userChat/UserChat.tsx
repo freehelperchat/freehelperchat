@@ -13,22 +13,22 @@ interface IParams {
 }
 
 const UserChat: React.FC = () => {
-  const { chatId, hash } = useParams<IParams>();
+  const { chatId } = useParams<IParams>();
   const history = useHistory();
   const [chatInfo, setChatInfo] = useState<IChatInfo>();
   useEffect(() => {
-    Api.get<IChatInfo>(`/chat/${chatId}`, { headers: { Hash: hash } })
+    Api.get<IChatInfo>(`/chat/${chatId}`)
       .then(res => setChatInfo(res.data))
       .catch((err: AxiosError) => {
         if (err.response && err.response.status >= 400) {
           history.push('/');
         }
       });
-  }, [chatId, history, hash]);
+  }, [chatId, history]);
 
   return (
     <div className={classes.Container}>
-      <Chat chatId={+chatId} hash={hash} name={chatInfo?.name} />
+      <Chat chatId={chatId} name={chatInfo?.name} />
     </div>
   );
 };

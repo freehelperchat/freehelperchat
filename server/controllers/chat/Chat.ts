@@ -57,7 +57,7 @@ class ChatController {
     QueueManager.assignNextChatToNextOperator();
     res.cookie('clientToken', chat.clientToken, {
       maxAge: 1000 * 60 * 60 * 6,
-      httpOnly: true,
+      httpOnly: false,
       domain: req.hostname,
       path: '/',
     });

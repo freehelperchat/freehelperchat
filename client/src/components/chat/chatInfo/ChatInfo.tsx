@@ -45,7 +45,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo }) => {
       </div>
       <div className={classes.ChatInfoCell}>
         <p className={classes.ChatInfoTitle}>{t('info.clientToken')}</p>
-        <p className={classes.ChatInfoContent}>{chatInfo?.clientToken}</p>
+        <p className={classes.ChatInfoContent}>{chatInfo?._id}</p>
       </div>
       <div className={classes.ChatInfoCell}>
         <p className={classes.ChatInfoTitle}>{t('info.createdAt')}</p>
