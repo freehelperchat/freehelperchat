@@ -39,6 +39,16 @@
   max-height: 0;
 }
 
+.IconContainer {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+}
+
+.IconValue {
+  margin: 0 5px;
+}
+
 @media (min-width: 500px) {
   .NavbarItem {
     margin: 0;

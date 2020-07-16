@@ -2,7 +2,7 @@ import { Response, Request } from 'express';
 import Chat, { ChatDoc } from '../../models/chat/Chat';
 import Department, { DepartmentProps } from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
-import QueueManager from '../../utils/QueueManager';
+import QueueManager, { chatStatus } from '../../utils/QueueManager';
 import Permissions from '../../utils/PermissionManager';
 import Encrypter from '../../utils/Encrypter';
 import { OperatorProps } from '../../models/chat/Operator';
@@ -54,6 +54,7 @@ class ChatController {
     const department = await Department.findOne({ name: body.department });
     if (!department) return res.status(400).send();
     body.department = department._id;
+    body.status = chatStatus.PENDING;
 
     await Promise.all(
       body.userData.map(
@@ -68,7 +69,7 @@ class ChatController {
     const j = await Chat.countDocuments();
     while (j > (256 ** i) * 0.9) i += 1;
     const chat = await this.createChat(req, i);
-    QueueManager.assignNextChatToNextOperator();
+    await QueueManager.assignNextChatToNextOperator();
     res.cookie('clientToken', chat.clientToken, {
       maxAge: 1000 * 60 * 60 * 6,
       httpOnly: false,
@@ -79,19 +80,28 @@ class ChatController {
   }
 
   public async show(req: Request, res: Response): Promise<Response> {
+    const { session } = req;
+    const { clientToken }: { clientToken: string } = req.cookies;
     const { id } = req.params;
-    const operator = req.session?.operator as OperatorProps;
-    if (!operator) return res.status(401).send();
-    const chat = await Chat.findById(id).populate('department', '_id name');
-    if (!chat) return res.status(404).send();
+    if (session) {
+      const operator = session.operator as OperatorProps;
+      if (!operator) return res.status(401).send();
+      const chat = await Chat.findById(id).populate('department', '_id name');
+      if (!chat) return res.status(404).send();
 
-    if ((Permissions.has(operator, 'readAssignedChats')
+      if ((Permissions.has(operator, 'readAssignedChats')
       && operator._id === chat.operator)
     || (Permissions.has(operator, 'readDepartmentChats')
       && chat
       && operator.departmentIds.includes((chat.department as DepartmentProps)._id.toHexString()))
     || Permissions.or(operator, 'readAllChats', 'all')) {
-      return res.status(200).json(chat);
+        return res.status(200).json(chat);
+      }
+    } else if (clientToken) {
+      return Chat.findById(id)
+        .populate('department', '_id name')
+        .then((resp) => res.json(resp))
+        .catch(() => res.status(404).send());
     }
     return res.status(400).send();
   }

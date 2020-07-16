@@ -63,6 +63,7 @@ const Navbar: React.FC<IProps> = ({
                 path="/admin"
                 exact
                 bottomBar
+                activeChats={operator.operator.activeChats}
                 key={operator._id}
               >
                 <Icon path={userIcon} color="white" size={32} />
@@ -119,10 +120,11 @@ const Navbar: React.FC<IProps> = ({
 
 function areChatsEqual(prevProps: IProps, nextProps: IProps): boolean {
   if (prevProps.yourChatsArr) {
+    if (prevProps.yourChatsArr.length !== nextProps.yourChatsArr?.length)
+      return false;
     const filteredChats = prevProps.yourChatsArr.filter(
       (chat, i) =>
-        nextProps.yourChatsArr &&
-        chat.clientToken !== nextProps.yourChatsArr[i].clientToken
+        nextProps.yourChatsArr && chat._id !== nextProps.yourChatsArr[i]._id
     );
     return filteredChats.length === 0;
   }

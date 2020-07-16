@@ -6,8 +6,6 @@ class ChatValidation {
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       department: Joi.string().required(),
-      status: Joi.number().required().min(0).max(5),
-      operator: Joi.string().optional(),
       userData: Joi.array()
         .items(
           Joi.object().keys({

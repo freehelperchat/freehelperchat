@@ -1,6 +1,6 @@
 .Toolbar {
   height: 100%;
-  width: 200px;
+  min-width: 250px;
   top: 0;
   background: #cccccc;
   display: flex;

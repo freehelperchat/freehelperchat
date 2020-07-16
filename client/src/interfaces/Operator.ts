@@ -10,6 +10,7 @@ export default interface IOperator {
   allDepartments?: boolean;
   autoAccept?: boolean;
   maxActiveChats?: number;
+  activeChats?: number;
   hideOnline?: boolean;
   invisibleMode?: boolean;
 }

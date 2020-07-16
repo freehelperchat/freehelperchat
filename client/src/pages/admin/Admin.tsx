@@ -21,6 +21,7 @@ const Admin: React.FC = () => {
     };
     socket.emit('login', { token: authContext.token });
     socket.on('online_operators', (data: IOnlineOperator[]) => {
+      console.log(data);
       setOnlineOperators(data);
     });
     socket.on('your_chats', (data: IChatInfo[]) => {

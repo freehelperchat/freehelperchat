@@ -9,7 +9,6 @@ import classes from './UserChat.module.css';
 
 interface IParams {
   chatId: string;
-  hash: string;
 }
 
 const UserChat: React.FC = () => {

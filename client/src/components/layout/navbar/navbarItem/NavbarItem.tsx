@@ -9,6 +9,7 @@ interface IProps {
   path: string;
   bgColor?: string;
   exact?: boolean;
+  activeChats?: number;
   bottomBar?: boolean;
 }
 
@@ -17,6 +18,7 @@ const NavbarItem: React.FC<IProps> = ({
   exact = false,
   bgColor = '#fff',
   bottomBar = false,
+  activeChats,
   children,
 }) => (
   <>
@@ -32,45 +34,11 @@ const NavbarItem: React.FC<IProps> = ({
     </div>
     {bottomBar && (
       <div className={classes.BottomIcon}>
-        <div
-          style={{
-            width: 'fit-content',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
+        <div className={classes.IconContainer}>
           <Icon path={messageIcon} color={bgColor} size={32} />
-          <p style={{ color: bgColor, margin: '0 5px' }}>2</p>
-        </div>
-        <div
-          style={{
-            width: 'fit-content',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          <Icon path={messageIcon} color={bgColor} size={32} />
-          <p style={{ color: bgColor, margin: '0 5px' }}>2</p>
-        </div>
-        <div
-          style={{
-            width: 'fit-content',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          <Icon path={messageIcon} color={bgColor} size={32} />
-          <p style={{ color: bgColor, margin: '0 5px' }}>2</p>
-        </div>
-        <div
-          style={{
-            width: 'fit-content',
-            display: 'flex',
-            flexDirection: 'row',
-          }}
-        >
-          <Icon path={messageIcon} color={bgColor} size={32} />
-          <p style={{ color: bgColor, margin: '0 5px' }}>2</p>
+          <p className={classes.IconValue} style={{ color: bgColor }}>
+            {activeChats}
+          </p>
         </div>
       </div>
     )}

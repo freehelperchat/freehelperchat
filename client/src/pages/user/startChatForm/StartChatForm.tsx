@@ -6,7 +6,6 @@ import Api from 'services/api';
 import Input from 'components/ui/input/Input';
 import Button from 'components/ui/button/Button';
 import Notification from 'components/ui/notification/Notification';
-import chatStatus from 'constants/chatStatus';
 import {
   IChatInfo,
   IFormField,
@@ -69,7 +68,6 @@ const StartChatForm: React.FC = () => {
       department,
       name,
       email,
-      status: chatStatus.PENDING,
     })
       .then(res => history.push(`/id/${res.data._id}`))
       .catch(err => console.log(err));

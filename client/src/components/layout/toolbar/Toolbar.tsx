@@ -39,7 +39,7 @@ const Toolbar: React.FC<IProps> = ({
     style={{
       left: side === 'left' ? 0 : undefined,
       right: side === 'right' ? 0 : undefined,
-      width: fitContent ? 'fit-content' : '200px',
+      width: fitContent ? 'fit-content' : '300px',
     }}
   >
     <DrawerToggle clicked={drawerToggleClicked} />
@@ -54,10 +54,10 @@ const Toolbar: React.FC<IProps> = ({
     >
       <Navbar
         yourChats={yourChats}
+        yourChatsArr={yourChatsArr}
         operators={operators}
         operatorsArr={operatorsArr}
         options={options}
-        yourChatsArr={yourChatsArr}
         otherChats={otherChats}
         otherChatsArr={otherChatsArr}
       />
