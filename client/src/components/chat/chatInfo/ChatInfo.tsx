@@ -1,31 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { IChatInfo } from 'interfaces';
 
 import { getMessageTime } from 'utils/utils';
 import classes from './ChatInfo.module.css';
-
-interface IUserData {
-  _id: string;
-  fieldId: string;
-  value: string | number;
-}
-
-export interface IChatInfo {
-  _id?: string;
-  name: string;
-  email: string;
-  clientToken: number;
-  time: {
-    started: number;
-    closed?: number;
-    pending?: number;
-  };
-  department: {
-    _id: string;
-    name: string;
-  };
-  userData: IUserData[];
-}
 
 interface IProps {
   chatInfo: IChatInfo;

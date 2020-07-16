@@ -3,16 +3,13 @@ import React from 'react';
 import Logo from 'components/ui/logo/Logo';
 import Navbar from 'components/layout/navbar/Navbar';
 import Backdrop from 'components/layout/backdrop/Backdrop';
+import { IChatInfo } from 'interfaces';
 import classes from './SideDrawer.module.css';
 
 interface IProps {
   open: boolean;
   closed(): void;
-  chats: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
+  chats: IChatInfo[];
 }
 
 const SideDrawer: React.FC<IProps> = ({ chats, open, closed }) => {

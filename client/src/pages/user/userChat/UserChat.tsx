@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 
 import Api from 'services/api';
 import Chat from 'components/chat/Chat';
-import { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
+import { IChatInfo } from 'interfaces';
 import { AxiosError } from 'axios';
 import classes from './UserChat.module.css';
 

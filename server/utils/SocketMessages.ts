@@ -22,10 +22,21 @@ class SocketMessages {
     socket.on('login', async (data) => {
       const { token } = data;
       if (token) {
-        if (await SessionManager.getSession(token)) {
+        const session = await SessionManager.getSession(token);
+        if (session) {
           await SessionManager.updateSession(token, socket.id);
           const activeSessions = await SessionManager.getAllActiveSessions();
+          const yourChats = await Chat.find({
+            operator: (session.operator as OperatorProps)._id,
+            status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
+          });
+          const otherChats = await Chat.find({
+            operator: { $ne: (session.operator as OperatorProps)._id },
+            status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
+          });
           socket.emit('online_operators', activeSessions);
+          socket.emit('your_chats', yourChats);
+          socket.emit('other_chats', otherChats);
         }
       }
     });

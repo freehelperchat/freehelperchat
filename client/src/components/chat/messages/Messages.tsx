@@ -3,16 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import Message, {
   messageTypes,
 } from 'components/chat/messages/message/Message';
+import { IMessage } from 'interfaces';
 import classes from './Messages.module.css';
-
-export interface IMessage {
-  _id: string;
-  chatId: string;
-  operator: boolean;
-  time: number;
-  message: string;
-  name: string;
-}
 
 interface IProps {
   messages: IMessage[];

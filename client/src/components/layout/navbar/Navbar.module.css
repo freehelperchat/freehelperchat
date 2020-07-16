@@ -33,20 +33,20 @@
   scrollbar-width: none;
 }
 
-.TopBar::-webkit-scrollbar {
+.TopBar::-webkit-scrollbar, .BottomBar::-webkit-scrollbar {
   width: 5px;
 }
 
-.TopBar::-webkit-scrollbar-track {
+.TopBar::-webkit-scrollbar-track, .BottomBar::-webkit-scrollbar-track {
   background-color: #ccc;
 }
 
-.TopBar::-webkit-scrollbar-thumb {
+.TopBar::-webkit-scrollbar-thumb, .BottomBar::-webkit-scrollbar-thumb {
   height: 20px;
   background-color: #acacac;
 }
 
-.TopBar::-webkit-scrollbar-corner {
+.TopBar::-webkit-scrollbar-corner, .BottomBar::-webkit-scrollbar-corner {
   background-color: transparent;
 }
 

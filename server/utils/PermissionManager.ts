@@ -16,8 +16,7 @@ class PermissionManager {
     let finalPermissions = 0;
     names.forEach((permission) => {
       const current = permissionsJson.list.indexOf(permission);
-      if (current < 0) return;
-      finalPermissions |= current;
+      if (current > -1) finalPermissions |= 2 ** current;
     });
     return finalPermissions;
   }

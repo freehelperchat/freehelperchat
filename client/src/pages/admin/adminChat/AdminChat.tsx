@@ -5,22 +5,10 @@ import Api from 'services/api';
 import { AuthContext } from 'context/AuthContext';
 
 import Chat from 'components/chat/Chat';
-import ChatInfo, { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
+import { IChatInfo, IOperator } from 'interfaces';
+import ChatInfo from 'components/chat/chatInfo/ChatInfo';
 import { AxiosError } from 'axios';
 import classes from './AdminChat.module.css';
-
-interface IOperator {
-  fullName: string;
-  username: string;
-  email?: string;
-  disabled?: boolean;
-  departmentIds?: string[];
-  allDepartments?: boolean;
-  autoAccept?: boolean;
-  maxActiveChats?: number;
-  hideOnline?: boolean;
-  invisibleMode?: boolean;
-}
 
 const AdminChat: React.FC = () => {
   const { chatId } = useParams();

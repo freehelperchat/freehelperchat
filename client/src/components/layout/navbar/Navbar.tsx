@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IChatInfo, IOnlineOperator } from 'interfaces';
 
 import { getColorByText } from 'utils/utils';
 import NavbarItem from 'components/layout/navbar/navbarItem/NavbarItem';
@@ -13,22 +14,9 @@ import backIcon from 'assets/back.svg';
 import classes from './Navbar.module.css';
 
 interface IProps {
-  yourChatsArr?: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
-  otherChatsArr?: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
-  operatorsArr?: {
-    _id: string;
-    name: string;
-    activeChats: number;
-    status: boolean;
-  }[];
+  yourChatsArr?: IChatInfo[];
+  otherChatsArr?: IChatInfo[];
+  operatorsArr?: IOnlineOperator[];
   options?: boolean;
   yourChats?: boolean;
   operators?: boolean;
@@ -54,7 +42,7 @@ const Navbar: React.FC<IProps> = ({
             {yourChatsArr.map(chat => (
               <NavbarItem
                 bgColor={getColorByText(chat.name)}
-                path={`/admin/chat/${chat.clientToken}`}
+                path={`/admin/chat/${chat._id}`}
                 exact
                 key={chat.clientToken}
               >
@@ -78,7 +66,7 @@ const Navbar: React.FC<IProps> = ({
                 key={operator._id}
               >
                 <Icon path={userIcon} color="white" size={32} />
-                {operator.name}
+                {operator.operator.fullName}
               </NavbarItem>
             ))}
           </div>
@@ -115,7 +103,7 @@ const Navbar: React.FC<IProps> = ({
               <NavbarItem
                 key={chats.clientToken}
                 bgColor="#A5A5A5"
-                path={`/admin/chat/${chats.clientToken}`}
+                path={`/admin/chat/${chats._id}`}
                 exact
               >
                 <Icon path={messageIcon} color="white" size={32} />

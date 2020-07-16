@@ -7,36 +7,15 @@ import Input from 'components/ui/input/Input';
 import Button from 'components/ui/button/Button';
 import Notification from 'components/ui/notification/Notification';
 import chatStatus from 'constants/chatStatus';
-import { IChatInfo } from 'components/chat/chatInfo/ChatInfo';
+import {
+  IChatInfo,
+  IFormField,
+  INotificationType,
+  INotification,
+  IFormValue,
+} from 'interfaces';
 import { getMessageTime } from 'utils/utils';
 import classes from './StartChatForm.module.css';
-
-interface INotificationTypes {
-  [key: string]: {
-    color: string;
-    vector: string;
-  };
-}
-
-interface INotification {
-  text: string;
-  type: string;
-  index: number;
-  time: number;
-}
-
-interface IFormValues {
-  [key: string]: string | number;
-}
-
-interface IFormField {
-  _id: string;
-  name: string;
-  label: string;
-  inputType: string;
-  required: boolean;
-  options: string[];
-}
 
 const StartChatForm: React.FC = () => {
   const { t } = useTranslation();
@@ -46,10 +25,10 @@ const StartChatForm: React.FC = () => {
   const [department, setDepartment] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [formValues, setFormValues] = useState<IFormValues>({});
-  const [notificationTypes, setNotificationTypes] = useState<
-    INotificationTypes
-  >({});
+  const [formValues, setFormValues] = useState<IFormValue>({});
+  const [notificationTypes, setNotificationTypes] = useState<INotificationType>(
+    {}
+  );
   const [notifications, setNotifications] = useState<INotification[]>([]);
 
   useEffect(() => {
@@ -82,7 +61,7 @@ const StartChatForm: React.FC = () => {
     e.preventDefault();
     const userData = Object.keys(formValues).map(fv => ({
       fieldId: fv,
-      value: formValues[fv as keyof IFormValues],
+      value: formValues[fv as keyof IFormValue],
     }));
 
     Api.post<IChatInfo>('/chat', {

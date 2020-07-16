@@ -5,8 +5,9 @@ import Cookies from 'universal-cookie';
 import socket from 'services/socket';
 import Api from 'services/api';
 import Input from 'components/ui/input/Input';
-import Messages, { IMessage } from 'components/chat/messages/Messages';
+import Messages from 'components/chat/messages/Messages';
 import { AxiosError } from 'axios';
+import { IMessage } from 'interfaces';
 import classes from './Chat.module.css';
 
 interface IProps {

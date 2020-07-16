@@ -1,27 +1,15 @@
 import React, { useState } from 'react';
 
 import Toolbar from 'components/layout/toolbar/Toolbar';
+import { IChatInfo, IOnlineOperator } from 'interfaces/index';
 // import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
 
 import classes from './Layout.module.css';
 
 interface IProps {
-  yourChatsArr: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
-  otherChatsArr: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
-  operatorsArr?: {
-    _id: string;
-    name: string;
-    activeChats: number;
-    status: boolean;
-  }[];
+  yourChatsArr: IChatInfo[];
+  otherChatsArr: IChatInfo[];
+  operatorsArr?: IOnlineOperator[];
 }
 
 const Layout: React.FC<IProps> = ({

@@ -4,26 +4,14 @@ import Navbar from 'components/layout/navbar/Navbar';
 import DrawerToggle from 'components/layout/drawerToggle/DrawerToggle';
 import Logo from 'components/ui/logo/Logo';
 
+import { IChatInfo, IOnlineOperator } from 'interfaces';
 import classes from './Toolbar.module.css';
 
 interface IProps {
   drawerToggleClicked(): void;
-  yourChatsArr?: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
-  operatorsArr?: {
-    _id: string;
-    name: string;
-    activeChats: number;
-    status: boolean;
-  }[];
-  otherChatsArr?: {
-    clientToken: number;
-    name: string;
-    status: number;
-  }[];
+  yourChatsArr?: IChatInfo[];
+  otherChatsArr?: IChatInfo[];
+  operatorsArr?: IOnlineOperator[];
   side?: 'left' | 'right';
   logo?: boolean;
   options?: boolean;
