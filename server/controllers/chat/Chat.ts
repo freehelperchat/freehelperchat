@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import Chat, { ChatDoc } from '../../models/chat/Chat';
-import Department from '../../models/chat/Department';
+import Department, { DepartmentProps } from '../../models/chat/Department';
 import StartChatForm from '../../models/settings/StartChatForm';
 import QueueManager from '../../utils/QueueManager';
 import Permissions from '../../utils/PermissionManager';
@@ -80,12 +80,20 @@ class ChatController {
 
   public async show(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const chat = await Chat.findById(id).populate(
-      'department',
-      '_id name',
-    );
+    const operator = req.session?.operator as OperatorProps;
+    if (!operator) return res.status(401).send();
+    const chat = await Chat.findById(id).populate('department', '_id name');
     if (!chat) return res.status(404).send();
-    return res.status(200).json(chat);
+
+    if ((Permissions.has(operator, 'readAssignedChats')
+      && operator._id === chat.operator)
+    || (Permissions.has(operator, 'readDepartmentChats')
+      && chat
+      && operator.departmentIds.includes((chat.department as DepartmentProps)._id.toHexString()))
+    || Permissions.or(operator, 'readAllChats', 'all')) {
+      return res.status(200).json(chat);
+    }
+    return res.status(400).send();
   }
 
   public async delete(req: Request, res: Response): Promise<Response> {
