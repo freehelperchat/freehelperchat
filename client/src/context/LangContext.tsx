@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_LANGUAGE } from 'constants/translation';
 
 interface ILangContext {
   lang: string;
@@ -12,7 +13,9 @@ export const LangContext = React.createContext<ILangContext>({
 });
 
 const LangContextProvider: React.FC = ({ children }) => {
-  const [lang, setLang] = useState(localStorage.getItem('lang') || '');
+  const [lang, setLang] = useState(
+    localStorage.getItem('lang') || DEFAULT_LANGUAGE
+  );
   const { i18n } = useTranslation();
 
   const changeLanguage = (language: string) => {
