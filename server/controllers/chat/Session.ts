@@ -33,9 +33,15 @@ class SessionController {
   public async delete(req: Request, res: Response): Promise<Response> {
     const token = req.headers.authorization;
     if (!token) return res.status(403).send();
-    return res
-      .status((await SessionManager.deleteSession(token)) ? 204 : 400)
-      .send();
+    const result = await SessionManager.deleteSession(token);
+    if (!result) return res.status(400).send();
+    const activeSessions = await SessionManager.getAllActiveSessions();
+    if (activeSessions) {
+      activeSessions.forEach((s) => req.io
+          ?.emit('online_operators', activeSessions)
+          .to(s.socket || ''));
+    }
+    return res.status(204).send();
   }
 }
 

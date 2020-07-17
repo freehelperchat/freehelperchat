@@ -66,7 +66,7 @@ class SessionManager {
   ): Promise<SessionProps[] | null> {
     return Session.find({ socket: /^(?!\s*$).+/ }).populate(options || {
       path: 'operator',
-      select: 'fullName allDepartments activeChats departmentIds',
+      select: 'fullName allDepartments activeChats departmentIds hideOnline invisibleMode',
       populate: {
         path: 'departmentIds',
         select: 'name',

@@ -1,5 +1,6 @@
+import { Types } from 'mongoose';
 import Message from '../models/chat/Message';
-import Chat from '../models/chat/Chat';
+import Chat, { ChatDoc } from '../models/chat/Chat';
 import Operator, { OperatorProps } from '../models/chat/Operator';
 import SessionManager from './SessionManager';
 import Permissions from './PermissionManager';
@@ -8,18 +9,18 @@ import QueueManager, { chatStatus } from './QueueManager';
 class SocketMessages {
   public setSocketMessages(io: SocketIO.Server): void {
     io.on('connection', (socket) => {
-      this.login(socket);
-      this.logout(socket);
-      this.openChat(socket);
+      this.login(socket, io);
+      this.logout(socket, io);
+      this.openChat(socket, io);
       this.acceptChat(socket);
       this.closeChat(socket);
       this.sendMessage(socket, io);
     });
   }
 
-  private login(socket: SocketIO.Socket): void {
-    QueueManager.assignNextChatToNextOperator();
+  private login(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('login', async (data) => {
+      await QueueManager.assignNextChatToNextOperator();
       const { token } = data;
       if (token) {
         const session = await SessionManager.getSession(token);
@@ -34,6 +35,13 @@ class SocketMessages {
             operator: { $ne: (session.operator as OperatorProps)._id },
             status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
           });
+          if (activeSessions) {
+            activeSessions.forEach((s) => {
+              if (s.socket && socket.id !== s.socket) {
+                io.emit('online_operators', activeSessions).to(s.socket);
+              }
+            });
+          }
           socket.emit('online_operators', activeSessions);
           socket.emit('your_chats', yourChats);
           socket.emit('other_chats', otherChats);
@@ -42,16 +50,74 @@ class SocketMessages {
     });
   }
 
-  private async logout(socket: SocketIO.Socket): Promise<void> {
+  private logout(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('disconnect', async () => {
       await SessionManager.deleteSessionSocket(socket.id);
+      const activeSessions = await SessionManager.getAllActiveSessions();
+      if (activeSessions) {
+        activeSessions.forEach((s) => io
+          .emit('online_operators', activeSessions)
+          .to(s.socket || ''));
+      }
     });
   }
 
-  private openChat(socket: SocketIO.Socket): void {
+  private openChat = (socket: SocketIO.Socket, io: SocketIO.Server): void => {
     socket.on('open_chat', async (data) => {
-      const { chatId } = data;
-      socket.join(chatId);
+      const { chatId, token, clientToken } = data;
+      const chat = await Chat.findById(chatId);
+      if (!chat) return socket.emit('error_opening_chat', 'Chat not found');
+
+      if (token) {
+        const session = await SessionManager.getSession(token);
+        if (!session) return socket.emit('error_opening_chat', 'Unauthorized');
+        if (session.operator) {
+          const operator = session.operator as OperatorProps;
+          if (chat) {
+            if ((Permissions.has(operator, 'readAssignedChats')
+              && chat?.operator === operator._id)
+            || (Permissions.has(operator, 'readDepartmentChats')
+              && operator.departmentIds.includes(chat?.department))
+            || Permissions.or(operator, 'readAllMessages', 'all')) {
+              return socket.join(chatId);
+            }
+          }
+          return socket.emit('error_opening_chat', 'Unauthorized');
+        }
+      } else if (clientToken) {
+        if (chat.clientToken !== clientToken || chat.status === chatStatus.CLOSED) {
+          return socket.emit('error_opening_chat', 'Unauthorized');
+        }
+        this.sendChatsToOperators(io);
+        return socket.join(chatId);
+      }
+      return socket.emit('error_opening_chat', 'Unauthorized');
+    });
+  }
+
+  private async sendChatsToOperators(io: SocketIO.Server): Promise<void> {
+    await QueueManager.assignNextChatToNextOperator();
+    const chats = await Chat.find({ status: { $in: [chatStatus.PENDING, chatStatus.ACTIVE] } });
+    const activeSessions = await SessionManager.getAllActiveSessions();
+    if (!activeSessions) return;
+    activeSessions.forEach((session) => {
+      if (!session.socket) return;
+      const yourChats = [] as ChatDoc[];
+      const otherChats = [] as ChatDoc[];
+      chats.forEach((chat) => {
+        console.log(chat.operator,
+          (session.operator as OperatorProps)._id,
+          chat.operator && (chat.operator as Types.ObjectId).toHexString()
+        === (session.operator as OperatorProps)._id.toHexString());
+        if (chat.operator && (chat.operator as Types.ObjectId).toHexString()
+        === (session.operator as OperatorProps)._id.toHexString()) {
+          yourChats.push(chat);
+        } else {
+          otherChats.push(chat);
+        }
+      });
+      io.emit('your_chats', yourChats).to(session.socket);
+      io.emit('other_chats', otherChats).to(session.socket);
     });
   }
 
@@ -65,7 +131,7 @@ class SocketMessages {
       if (operator) {
         const chat = await Chat.findOne({ chatId });
         if (chat) {
-          if ((Permissions.has(operator, 'sendAssignedMessages')
+          if ((Permissions.has(operator, 'sendAssignedChats')
               && chat.operator === operator._id)
             || (Permissions.has(operator, 'sendOnDepartmentChats')
               && operator.departmentIds.includes(chat.department))
@@ -85,8 +151,8 @@ class SocketMessages {
   }
 
   private closeChat(socket: SocketIO.Socket): void {
-    QueueManager.assignNextChatToNextOperator();
     socket.on('close_chat', async (data) => {
+      await QueueManager.assignNextChatToNextOperator();
       const { clientToken, token } = data;
       const session = await SessionManager.getSession(token);
       const operator = await Operator.findById(
@@ -133,7 +199,7 @@ class SocketMessages {
           const operator = session.operator as OperatorProps;
           const chat = await Chat.findById(chatId);
           if (chat) {
-            if ((Permissions.has(operator, 'sendAssignedMessages')
+            if ((Permissions.has(operator, 'sendAssignedChats')
               && chat?.operator === operator._id)
             || (Permissions.has(operator, 'sendOnDepartmentChats')
               && operator.departmentIds.includes(chat?.department))

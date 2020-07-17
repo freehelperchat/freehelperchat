@@ -42,7 +42,9 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
           Authorization: token,
         }
       : undefined;
-    socket.emit('open_chat', { chatId });
+    const cookies = new Cookies();
+    const clientToken = cookies.get('clientToken');
+    socket.emit('open_chat', { chatId, token, clientToken });
     Api.get<IMessage[]>(`/message/${chatId}`, {
       headers,
     })

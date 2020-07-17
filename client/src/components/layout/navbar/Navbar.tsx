@@ -63,6 +63,10 @@ const Navbar: React.FC<IProps> = ({
                 path="/admin"
                 exact
                 bottomBar
+                showStatus
+                statusColor={
+                  operator.operator.hideOnline ? '#ff3838' : undefined
+                }
                 activeChats={operator.operator.activeChats}
                 key={operator._id}
               >
