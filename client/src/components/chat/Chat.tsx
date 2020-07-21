@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { useDropzone } from 'react-dropzone';
 
 import socket from 'services/socket';
 import Api from 'services/api';
@@ -21,6 +22,12 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
 
+  const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   const renderMessage = (message: IMessage) => {
     return setMessages(msgs => [...msgs, message]);
   };
@@ -30,13 +37,16 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   };
 
   useEffect(() => {
-    let redirected = false;
     socket.on('received_message', (data: IMessage) => {
       if (data.chatId === chatId) renderMessage(data);
     });
     socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);
     });
+  }, [chatId]);
+
+  useEffect(() => {
+    let redirected = false;
     const headers = token
       ? {
           Authorization: token,
@@ -80,18 +90,30 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   };
 
   return (
-    <div className={classes.Container}>
-      <div className={classes.ChatContainer}>
-        <Messages messages={messages} user={typeof token === 'undefined'} />
-        <form onSubmit={handleSubmit}>
-          <Input
-            type="textarea"
-            value={newMessage}
-            change={e => setNewMessage(e.target.value)}
-            required
-          />
-        </form>
-      </div>
+    <div
+      {...getRootProps({
+        onClick: event => event.stopPropagation(),
+      })}
+      className={classes.ChatContainer}
+    >
+      <input {...getInputProps()} />
+      {!isDragActive ? (
+        <>
+          <Messages messages={messages} user={typeof token === 'undefined'} />
+          <form onSubmit={handleSubmit} className={classes.TextContainer}>
+            <Input
+              type="textarea"
+              value={newMessage}
+              change={e => setNewMessage(e.target.value)}
+              required
+            />
+          </form>
+        </>
+      ) : (
+        <div>
+          <p>Drop the files here</p>
+        </div>
+      )}
     </div>
   );
 };

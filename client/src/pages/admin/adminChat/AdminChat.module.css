@@ -1,11 +1,16 @@
 .Container {
-  display: inline-block;
-  width: 100%;
+  width: 98%;
+  height: 98%;
   padding: 28px 2%;
+  border-radius: 30px;
+  box-sizing: border-box;
+  background: #ccc;
+  overflow-y: scroll;
 }
 
 .AdminChat {
   width: 100%;
+  height: 100%;
   margin-bottom: 10px;
 }
 
@@ -16,15 +21,18 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
+  background: #fff;
+  border-radius: 32px;
+  padding: 16px;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 900px) {
   .Container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: flex-start;
-    width: 100%;
+    overflow-y: hidden;
   }
 
   .AdminChat {

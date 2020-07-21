@@ -6,9 +6,15 @@ interface IProps {
   path: string;
   color?: string;
   size?: number;
+  margin?: number;
 }
 
-const Icon: React.FC<IProps> = ({ path, color = 'white', size = 32 }) => {
+const Icon: React.FC<IProps> = ({
+  path,
+  color = 'white',
+  size = 32,
+  margin = 0,
+}) => {
   return (
     <div
       className={classes.Image}
@@ -19,6 +25,7 @@ const Icon: React.FC<IProps> = ({ path, color = 'white', size = 32 }) => {
         minHeight: size,
         width: size,
         height: size,
+        margin,
       }}
     />
   );

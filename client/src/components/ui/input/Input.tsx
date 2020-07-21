@@ -1,6 +1,10 @@
 import React, { useState, useRef } from 'react';
 
+import sendIcon from 'assets/send.svg';
+import fileIcon from 'assets/file.svg';
+import presetIcon from 'assets/preset.svg';
 import classes from './Input.module.css';
+import Icon from '../icon/Icon';
 
 interface IProps {
   type: string;
@@ -97,13 +101,18 @@ const Input: React.FC<IProps> = ({
 
     case 'textarea':
       input = (
-        <textarea
-          className={classes.TextArea}
-          {...commonProps}
-          onChange={handleTextAreaChange}
-          onKeyDown={handleTextAreaKeyDown}
-          ref={ref as React.RefObject<HTMLTextAreaElement>}
-        />
+        <>
+          <textarea
+            className={classes.TextArea}
+            {...commonProps}
+            onChange={handleTextAreaChange}
+            onKeyDown={handleTextAreaKeyDown}
+            ref={ref as React.RefObject<HTMLTextAreaElement>}
+          />
+          <Icon path={presetIcon} size={32} color="#ccc" margin={4} />
+          <Icon path={fileIcon} size={32} color="#ccc" margin={4} />
+          <Icon path={sendIcon} size={45} color="#178CFF" margin={2} />
+        </>
       );
       break;
 
