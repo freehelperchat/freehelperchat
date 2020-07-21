@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import Message from '../models/chat/Message';
 import Chat, { ChatDoc } from '../models/chat/Chat';
 import Operator, { OperatorProps } from '../models/chat/Operator';
@@ -96,26 +95,32 @@ class SocketMessages {
   }
 
   private async sendChatsToOperators(io: SocketIO.Server): Promise<void> {
-    await QueueManager.assignNextChatToNextOperator();
-    const chats = await Chat.find({ status: { $in: [chatStatus.PENDING, chatStatus.ACTIVE] } });
     const activeSessions = await SessionManager.getAllActiveSessions();
     if (!activeSessions) return;
-    activeSessions.forEach((session) => {
+    activeSessions.forEach(async (session) => {
       if (!session.socket) return;
-      const yourChats = [] as ChatDoc[];
-      const otherChats = [] as ChatDoc[];
-      chats.forEach((chat) => {
-        console.log(chat.operator,
-          (session.operator as OperatorProps)._id,
-          chat.operator && (chat.operator as Types.ObjectId).toHexString()
-        === (session.operator as OperatorProps)._id.toHexString());
-        if (chat.operator && (chat.operator as Types.ObjectId).toHexString()
-        === (session.operator as OperatorProps)._id.toHexString()) {
-          yourChats.push(chat);
-        } else {
-          otherChats.push(chat);
-        }
+      const yourChats = await Chat.find({
+        operator: (session.operator as OperatorProps)._id,
+        status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
       });
+      let otherChats = [] as ChatDoc[];
+      const filter = [chatStatus.ACTIVE];
+      if (Permissions.has(session.operator as OperatorProps, 'readPendingChats')) {
+        filter.push(chatStatus.PENDING);
+      }
+      if (Permissions.or(session.operator as OperatorProps, 'readAllChats', 'all')) {
+        otherChats = await Chat.find({
+          operator: { $ne: (session.operator as OperatorProps)._id },
+          status: { $in: filter },
+        });
+      } else if (Permissions.has(session.operator as OperatorProps, 'readDepartmentChats')) {
+        otherChats = await Chat.find({
+          operator: { $ne: (session.operator as OperatorProps)._id },
+          status: { $in: filter },
+          department: { $in: (session.operator as OperatorProps).departmentIds },
+        });
+      }
+      io.emit('online_operators', activeSessions).to(session.socket);
       io.emit('your_chats', yourChats).to(session.socket);
       io.emit('other_chats', otherChats).to(session.socket);
     });

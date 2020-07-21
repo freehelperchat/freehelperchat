@@ -26,7 +26,6 @@ class ChatQueueManager {
   }
 
   public async assignNextChatToNextOperator(): Promise<boolean> {
-    console.log('batata');
     const chat = await this.getNextChatInQueue();
     if (!chat) return false;
     const department = chat.department as DepartmentProps;

@@ -10,7 +10,7 @@ import userIcon from 'assets/user.svg';
 import settingsIcon from 'assets/settings.svg';
 import stonksIcon from 'assets/stonks.svg';
 import backIcon from 'assets/back.svg';
-
+import chatStatus from 'constants/chatStatus';
 import classes from './Navbar.module.css';
 
 interface IProps {
@@ -43,6 +43,8 @@ const Navbar: React.FC<IProps> = ({
               <NavbarItem
                 bgColor={getColorByText(chat.name)}
                 path={`/admin/chat/${chat._id}`}
+                showStatus={chat.status === chatStatus.PENDING}
+                statusColor="#17c0eb"
                 exact
                 key={chat.clientToken}
               >

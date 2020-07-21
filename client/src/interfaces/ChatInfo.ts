@@ -15,4 +15,5 @@ export default interface IChatInfo {
     name: string;
   };
   userData: IUserData[];
+  status: number;
 }
