@@ -12,7 +12,7 @@
 }
 
 .MessagesContainer::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 .MessagesContainer::-webkit-scrollbar-track {

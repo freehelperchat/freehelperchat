@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getMessageTime } from 'utils/utils';
+import { getMessageTime, getColorByText } from 'utils/utils';
 import classes from './Message.module.css';
 
 interface IProps {
@@ -14,6 +14,7 @@ const Message: React.FC<IProps> = ({ type, time, name, message }) => {
   return (
     <div
       className={[classes.MsgDiv, classes[type]].join(' ')}
+      style={{ background: getColorByText(name) }}
       title={getMessageTime(time)}
     >
       <p className={classes.Name}>{name}</p>

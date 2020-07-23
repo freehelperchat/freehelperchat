@@ -1,3 +1,5 @@
+import Siofu from 'socketio-file-upload';
+import path from 'path';
 import Message from '../models/chat/Message';
 import Chat, { ChatDoc } from '../models/chat/Chat';
 import Operator, { OperatorProps } from '../models/chat/Operator';
@@ -14,6 +16,7 @@ class SocketMessages {
       this.acceptChat(socket);
       this.closeChat(socket);
       this.sendMessage(socket, io);
+      this.uploadFile(socket);
     });
   }
 
@@ -95,7 +98,15 @@ class SocketMessages {
   }
 
   private async sendChatsToOperators(io: SocketIO.Server): Promise<void> {
-    const activeSessions = await SessionManager.getAllActiveSessions();
+    const activeSessions = await SessionManager.getAllActiveSessions({
+      path: 'operator',
+      select:
+        'fullName allDepartments departmentIds maxActiveChats activeChats hideOnline roles customPermissions',
+      populate: {
+        path: 'roles',
+        select: 'permissions',
+      },
+    });
     if (!activeSessions) return;
     activeSessions.forEach(async (session) => {
       if (!session.socket) return;
@@ -105,7 +116,7 @@ class SocketMessages {
       });
       let otherChats = [] as ChatDoc[];
       const filter = [chatStatus.ACTIVE];
-      if (Permissions.has(session.operator as OperatorProps, 'readPendingChats')) {
+      if (Permissions.or(session.operator as OperatorProps, 'readPendingChats', 'all')) {
         filter.push(chatStatus.PENDING);
       }
       if (Permissions.or(session.operator as OperatorProps, 'readAllChats', 'all')) {
@@ -227,6 +238,15 @@ class SocketMessages {
       Message.create({ ...data, time: new Date().getTime() })
         .then((res) => io.to(chatId).emit('received_message', res))
         .catch((err) => socket.emit('error_sending_message', err));
+    });
+  }
+
+  private uploadFile(socket: SocketIO.Socket): void {
+    const uploader = new Siofu();
+    uploader.dir = path.resolve(__dirname, '..', '..', 'uploads');
+    uploader.listen(socket);
+    socket.on('upload_file', (data) => {
+      console.log(data);
     });
   }
 }

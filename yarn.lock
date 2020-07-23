@@ -2970,6 +2970,11 @@ socket.io@^2.3.0:
     socket.io-client "2.3.0"
     socket.io-parser "~3.4.0"
 
+socketio-file-upload@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/socketio-file-upload/-/socketio-file-upload-0.7.2.tgz#1205a4d4c0ba9eb8df544442a920a3fcaaa29ff4"
+  integrity sha512-T6LG2We7GoGlBQed988s3ACoe2ilmILt57clnFO0rc4QOQ2u1gq00XfMPdHZrb0zyRUtd98G2BhDi2DGiPoNvQ==
+
 sparse-bitfield@^3.0.3:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/sparse-bitfield/-/sparse-bitfield-3.0.3.tgz#ff4ae6e68656056ba4b3e792ab3334d38273ca11"

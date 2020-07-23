@@ -3,12 +3,15 @@ import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useDropzone } from 'react-dropzone';
 
+import Siofu from 'socketio-file-upload';
 import socket from 'services/socket';
 import Api from 'services/api';
+import Icon from 'components/ui/icon/Icon';
 import Input from 'components/ui/input/Input';
 import Messages from 'components/chat/messages/Messages';
 import { AxiosError } from 'axios';
 import { IMessage } from 'interfaces';
+import dragIcon from 'assets/drag.svg';
 import classes from './Chat.module.css';
 
 interface IProps {
@@ -21,12 +24,27 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
+  const uploader = new Siofu(socket);
 
-  const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles);
-  }, []);
+  const onDrop = useCallback(
+    acceptedFiles => {
+      console.log(uploader.submitFiles(acceptedFiles));
+      // const reader = new FileReader();
+      // reader.readAsDataURL(acceptedFiles[0]);
+      // reader.onload = () => {
+      //   console.log(reader.result);
+      //   socket.emit('upload_file', {
+      //     file: reader.result,
+      //     filename: (acceptedFiles[0] as File).name,
+      //   });
+      // };
+    },
+    [uploader]
+  );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
+    onDrop,
+  });
 
   const renderMessage = (message: IMessage) => {
     return setMessages(msgs => [...msgs, message]);
@@ -35,6 +53,15 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const renderAllMessages = (messageArray: IMessage[]) => {
     return setMessages(messageArray);
   };
+
+  useEffect(() => {
+    document.onpaste = event => {
+      const clipboardFiles = event.clipboardData?.files;
+      if (clipboardFiles) {
+        uploader.submitFiles(clipboardFiles);
+      }
+    };
+  }, [uploader]);
 
   useEffect(() => {
     socket.on('received_message', (data: IMessage) => {
@@ -72,8 +99,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     };
   }, [chatId, token, history]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendMessage = () => {
     const message = newMessage.trim();
     if (message === '') return;
     const cookies = new Cookies();
@@ -89,6 +115,11 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     setNewMessage('');
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
   return (
     <div
       {...getRootProps({
@@ -97,23 +128,39 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
       className={classes.ChatContainer}
     >
       <input {...getInputProps()} />
-      {!isDragActive ? (
-        <>
-          <Messages messages={messages} user={typeof token === 'undefined'} />
-          <form onSubmit={handleSubmit} className={classes.TextContainer}>
-            <Input
-              type="textarea"
-              value={newMessage}
-              change={e => setNewMessage(e.target.value)}
-              required
-            />
-          </form>
-        </>
-      ) : (
-        <div>
-          <p>Drop the files here</p>
-        </div>
-      )}
+      <Messages messages={messages} user={typeof token === 'undefined'} />
+      <form onSubmit={handleSubmit} className={classes.TextContainer}>
+        <Input
+          type="textarea"
+          value={newMessage}
+          change={e => setNewMessage(e.target.value)}
+          required
+          sendClick={sendMessage}
+          fileClick={() => inputRef.current?.click()}
+        />
+      </form>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          maxHeight: isDragActive ? '100%' : 0,
+          height: isDragActive ? '100%' : 0,
+          overflow: 'hidden',
+          transformOrigin: 'center',
+          transition: '0.4s all ease-in-out',
+        }}
+      >
+        <p>Drop your file(s) here</p>
+        <Icon
+          path={dragIcon}
+          color="#a5a5a5"
+          size="80%"
+          maxSize={512}
+          minSize={64}
+        />
+      </div>
     </div>
   );
 };

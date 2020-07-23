@@ -23,6 +23,7 @@
     "mongoose": "^5.9.4",
     "run-script-os": "^1.1.1",
     "socket.io": "^2.3.0",
+    "socketio-file-upload": "^0.7.2",
     "ts-mongoose": "^0.0.21"
   },
   "devDependencies": {

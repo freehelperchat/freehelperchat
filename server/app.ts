@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { Server } from 'http';
 import socketio from 'socket.io';
+import siofu from 'socketio-file-upload';
 import { errors } from 'celebrate';
 
 import routes from './routes';
@@ -49,6 +50,7 @@ class App {
       origin: 'http://localhost:3000',
       credentials: true,
     }));
+    this.express.use(siofu.router);
   }
 
   private database(): void {

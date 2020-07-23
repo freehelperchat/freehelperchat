@@ -18,6 +18,9 @@ interface IProps {
   ) => void;
   required?: boolean;
   options?: string[];
+  sendClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  fileClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  presetClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Input: React.FC<IProps> = ({
@@ -28,6 +31,9 @@ const Input: React.FC<IProps> = ({
   change,
   required,
   options,
+  sendClick,
+  fileClick,
+  presetClick,
 }) => {
   const [activeClass, setActiveClass] = useState('');
   const ref = useRef<
@@ -109,9 +115,27 @@ const Input: React.FC<IProps> = ({
             onKeyDown={handleTextAreaKeyDown}
             ref={ref as React.RefObject<HTMLTextAreaElement>}
           />
-          <Icon path={presetIcon} size={32} color="#ccc" margin={4} />
-          <Icon path={fileIcon} size={32} color="#ccc" margin={4} />
-          <Icon path={sendIcon} size={45} color="#178CFF" margin={2} />
+          <Icon
+            path={presetIcon}
+            size={32}
+            color="#ccc"
+            margin={4}
+            onClick={presetClick}
+          />
+          <Icon
+            path={fileIcon}
+            size={32}
+            color="#ccc"
+            margin={4}
+            onClick={fileClick}
+          />
+          <Icon
+            path={sendIcon}
+            size={45}
+            color="#178CFF"
+            margin={2}
+            onClick={sendClick}
+          />
         </>
       );
       break;
