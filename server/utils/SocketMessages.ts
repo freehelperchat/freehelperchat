@@ -13,10 +13,10 @@ class SocketMessages {
       this.login(socket, io);
       this.logout(socket, io);
       this.openChat(socket, io);
-      this.acceptChat(socket);
-      this.closeChat(socket);
+      this.acceptChat(socket, io);
+      this.closeChat(socket, io);
       this.sendMessage(socket, io);
-      this.uploadFile(socket);
+      this.uploadFile(socket, io);
     });
   }
 
@@ -28,25 +28,7 @@ class SocketMessages {
         const session = await SessionManager.getSession(token);
         if (session) {
           await SessionManager.updateSession(token, socket.id);
-          const activeSessions = await SessionManager.getAllActiveSessions();
-          const yourChats = await Chat.find({
-            operator: (session.operator as OperatorProps)._id,
-            status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
-          });
-          const otherChats = await Chat.find({
-            operator: { $ne: (session.operator as OperatorProps)._id },
-            status: { $in: [chatStatus.ACTIVE, chatStatus.PENDING] },
-          });
-          if (activeSessions) {
-            activeSessions.forEach((s) => {
-              if (s.socket && socket.id !== s.socket) {
-                io.emit('online_operators', activeSessions).to(s.socket);
-              }
-            });
-          }
-          socket.emit('online_operators', activeSessions);
-          socket.emit('your_chats', yourChats);
-          socket.emit('other_chats', otherChats);
+          this.sendChatsToOperators(io);
         }
       }
     });
@@ -64,7 +46,7 @@ class SocketMessages {
     });
   }
 
-  private openChat = (socket: SocketIO.Socket, io: SocketIO.Server): void => {
+  private openChat(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('open_chat', async (data) => {
       const { chatId, token, clientToken } = data;
       const chat = await Chat.findById(chatId);
@@ -137,7 +119,7 @@ class SocketMessages {
     });
   }
 
-  private acceptChat(socket: SocketIO.Socket): void {
+  private acceptChat(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('accept_chat', async (data) => {
       const { token, chatId } = data;
       const session = await SessionManager.getSession(token);
@@ -163,10 +145,11 @@ class SocketMessages {
           }
         }
       }
+      this.sendChatsToOperators(io);
     });
   }
 
-  private closeChat(socket: SocketIO.Socket): void {
+  private closeChat(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('close_chat', async (data) => {
       await QueueManager.assignNextChatToNextOperator();
       const { clientToken, token } = data;
@@ -199,6 +182,7 @@ class SocketMessages {
           }
         }
       }
+      this.sendChatsToOperators(io);
       socket.leave(clientToken);
     });
   }
@@ -241,13 +225,18 @@ class SocketMessages {
     });
   }
 
-  private uploadFile(socket: SocketIO.Socket): void {
+  private uploadFile(socket: SocketIO.Socket, io: SocketIO.Server): void {
     const uploader = new Siofu();
     uploader.dir = path.resolve(__dirname, '..', '..', 'uploads');
     uploader.listen(socket);
-    socket.on('upload_file', (data) => {
-      console.log(data);
+    uploader.on('complete', (event: { file: any; }) => {
+      console.log(event.file.meta.socketId);
+      console.log(event.file.pathName);
+      io.emit('file_uploaded', event.file.pathName).to(event.file.meta.socketId);
     });
+    // socket.on('upload_file', (data) => {
+    //   console.log(data);
+    // });
   }
 }
 

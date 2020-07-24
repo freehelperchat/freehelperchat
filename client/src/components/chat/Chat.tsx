@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useDropzone } from 'react-dropzone';
@@ -24,11 +24,11 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
-  const uploader = new Siofu(socket);
+  const uploader = useMemo(() => new Siofu(socket), []);
 
   const onDrop = useCallback(
     acceptedFiles => {
-      console.log(uploader.submitFiles(acceptedFiles));
+      uploader.submitFiles(acceptedFiles);
       // const reader = new FileReader();
       // reader.readAsDataURL(acceptedFiles[0]);
       // reader.onload = () => {
@@ -61,6 +61,14 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
         uploader.submitFiles(clipboardFiles);
       }
     };
+    uploader.addEventListener(
+      'start',
+      (event: { file: { meta: { socketId: string } } }) => {
+        // eslint-disable-next-line no-param-reassign
+        event.file.meta.socketId = socket.id;
+      }
+    );
+    socket.on('file_uploaded', (data: {}) => console.log(data));
   }, [uploader]);
 
   useEffect(() => {
@@ -70,6 +78,10 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);
     });
+    return () => {
+      socket.removeListener('received_message');
+      socket.removeListener('error_sending_message');
+    };
   }, [chatId]);
 
   useEffect(() => {
