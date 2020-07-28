@@ -15,7 +15,6 @@ class PermissionManager {
   public get(...names: string[]): number {
     let finalPermissions = 0;
     names.forEach((permission) => {
-      ks;
       if (permissionsJson[permission as keyof typeof permissionsJson]) {
         const arr = [
           permission,
