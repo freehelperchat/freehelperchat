@@ -63,19 +63,17 @@ class ChatQueueManager {
       const operator = session.operator as OperatorDoc;
       if (operator.hideOnline) return false;
       if (
-        !Permissions.and(operator, 'readAllChats', 'sendAllChats')
+        !Permissions.has(operator, 'manageChats')
         && !Permissions.has(operator, 'all')
         && operator.departmentIds.indexOf(department._id.toHexString()) === -1
-      ) {
-        return false;
-      }
+      ) return false;
       if (
-        operator.activeChats < operator.maxActiveChats ||
-        operator.maxActiveChats === 0
+        operator.activeChats < operator.maxActiveChats
+        || operator.maxActiveChats === 0
       ) {
         if (
-          operator.activeChats < department.maxActiveChats ||
-          department.maxActiveChats === 0
+          operator.activeChats < department.maxActiveChats
+          || department.maxActiveChats === 0
         ) {
           chat.operator = operator._id;
           operator.activeChats += 1;

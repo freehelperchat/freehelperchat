@@ -15,14 +15,13 @@ class MessageController {
       const operator = session.operator as OperatorProps;
       const chat = await Chat.findById(id);
       if (chat) {
-        if ((Permissions.has(operator, 'readAssignedChats')
-              && chat?.operator === operator._id)
+        if (chat?.operator === operator._id
             || ((chat.status === chatStatus.PENDING ?
-              Permissions.and(operator, 'readDepartmentChats', 'readPendingChats') :
+              Permissions.has(operator, 'manageDeptChats') :
               chat.status === chatStatus.ACTIVE
-                && Permissions.has(operator, 'readDepartmentChats'))
+                && Permissions.has(operator, 'readDeptChats'))
               && operator.departmentIds.includes(chat?.department))
-            || Permissions.or(operator, 'readAllMessages', 'all')) {
+            || Permissions.has(operator, 'manageChats', 'all')) {
           return Message.find({ chatId: id })
             .then((resp) => res.json(resp))
             .catch(() => res.status(400).send());

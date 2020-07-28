@@ -26,7 +26,7 @@ class ChatController {
     let chats = [] as ChatDoc[];
     const operator = req.session?.operator as OperatorProps;
     let filter = { operator: operator._id } as object;
-    if (Permissions.or(operator, 'manageChats', 'all')) {
+    if (Permissions.has(operator, 'manageChats', 'all')) {
       filter = {};
     } else if (Permissions.has(operator, 'readDeptChats')) {
       filter = { department: { $in: operator.departmentIds } };
@@ -85,12 +85,11 @@ class ChatController {
       const chat = await Chat.findById(id).populate('department', '_id name');
       if (!chat) return res.status(404).send();
 
-      if ((Permissions.has(operator, 'readAssignedChats')
-      && operator._id === chat.operator)
-    || (Permissions.has(operator, 'readDepartmentChats')
+      if (operator._id === chat.operator
+    || (Permissions.has(operator, 'readDeptChats')
       && chat
       && operator.departmentIds.includes((chat.department as DepartmentProps)._id.toHexString()))
-    || Permissions.or(operator, 'readAllChats', 'all')) {
+    || Permissions.has(operator, 'manageChats', 'all')) {
         return res.status(200).json(chat);
       }
     } else if (clientToken) {
@@ -106,12 +105,10 @@ class ChatController {
     const { id } = req.params;
     const chat = await Chat.findById(id);
     const operator = req.session?.operator as OperatorProps;
-    if ((Permissions.has(operator, 'deleteAssignedChats')
-      && operator._id === chat?.operator)
-    || (Permissions.has(operator, 'deleteDepartmentChats')
+    if ((Permissions.has(operator, 'manageDeptChats')
       && chat
       && operator.departmentIds.includes(chat.department))
-    || Permissions.or(operator, 'deleteAllChats', 'all')) {
+    || Permissions.has(operator, 'manageChats', 'all')) {
       Chat.findByIdAndDelete(chat?._id);
       return res.status(204).send();
     }
@@ -133,12 +130,11 @@ class ChatController {
     const chat = await Chat.findById(id);
     const operator = req.session?.operator as OperatorProps;
 
-    if ((Permissions.has(operator, 'transferAllChats')
-      && operator._id === chat?.operator)
-    || (Permissions.has(operator, 'transferDepartmentChats')
+    if (operator._id === chat?.operator
+    || (Permissions.has(operator, 'handleDeptChats')
       && chat
       && operator.departmentIds.includes(chat.department))
-    || Permissions.or(operator, 'transferAllChats', 'all')) {
+    || Permissions.has(operator, 'manageChats', 'all')) {
       return Chat.findByIdAndUpdate(id, { operator: target })
         .then((resp) => res.status(200).json(resp))
         .catch(() => res.status(400).send());

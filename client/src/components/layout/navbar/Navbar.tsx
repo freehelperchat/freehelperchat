@@ -124,17 +124,46 @@ const Navbar: React.FC<IProps> = ({
   );
 };
 
-function areChatsEqual(prevProps: IProps, nextProps: IProps): boolean {
+function arePropsEqual(prevProps: IProps, nextProps: IProps): boolean {
   if (prevProps.yourChatsArr) {
     if (prevProps.yourChatsArr.length !== nextProps.yourChatsArr?.length)
       return false;
     const filteredChats = prevProps.yourChatsArr.filter(
       (chat, i) =>
-        nextProps.yourChatsArr && chat._id !== nextProps.yourChatsArr[i]._id
+        nextProps.yourChatsArr &&
+        (chat._id !== nextProps.yourChatsArr[i]._id ||
+          chat.status !== nextProps.yourChatsArr[i].status)
     );
-    return filteredChats.length === 0;
+    if (filteredChats.length !== 0) return false;
   }
-  return false;
+
+  if (prevProps.operatorsArr) {
+    if (prevProps.operatorsArr.length !== nextProps.operatorsArr?.length)
+      return false;
+    const filteredOperators = prevProps.operatorsArr.filter(
+      (operator, i) =>
+        nextProps.operatorsArr &&
+        (operator._id !== nextProps.operatorsArr[i]._id ||
+          operator.operator.activeChats !==
+            nextProps.operatorsArr[i].operator.activeChats ||
+          operator.operator.hideOnline !==
+            nextProps.operatorsArr[i].operator.hideOnline)
+    );
+    if (filteredOperators.length !== 0) return false;
+  }
+
+  if (prevProps.otherChatsArr) {
+    if (prevProps.otherChatsArr.length !== nextProps.otherChatsArr?.length)
+      return false;
+    const filteredChats = prevProps.otherChatsArr.filter(
+      (chat, i) =>
+        nextProps.otherChatsArr &&
+        (chat._id !== nextProps.otherChatsArr[i]._id ||
+          chat.status !== nextProps.otherChatsArr[i].status)
+    );
+    if (filteredChats.length !== 0) return false;
+  }
+  return true;
 }
 
-export default memo(Navbar, areChatsEqual);
+export default memo(Navbar, arePropsEqual);

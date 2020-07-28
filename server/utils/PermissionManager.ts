@@ -3,7 +3,15 @@ import { OperatorProps } from '../models/chat/Operator';
 import { RoleProps } from '../models/chat/Role';
 
 class PermissionManager {
-  public getPermissions(operator: OperatorProps): number {
+  // Gets the bit assigned to that permission
+  public getBit = (permission: string): number => {
+    const index = Object.keys(permissionsJson).indexOf(permission);
+    if (index >= 0) return 2 ** index;
+    return 0;
+  }
+
+  // Get the permissions bits that an operator has
+  public getPerms(operator: OperatorProps): number {
     let finalPermissions = 0;
     (operator.roles as RoleProps[]).forEach((role) => {
       finalPermissions |= role.permissions;
@@ -12,39 +20,38 @@ class PermissionManager {
     return finalPermissions;
   }
 
-  public get(...names: string[]): number {
-    let finalPermissions = 0;
-    names.forEach((permission) => {
-      if (permissionsJson[permission as keyof typeof permissionsJson]) {
-        const arr = [
-          permission,
-          ...permissionsJson[permission as keyof typeof permissionsJson] as string[],
-        ];
-        arr.forEach((p) => {
-          finalPermissions |= 2 ** Object.keys(permissionsJson).indexOf(p);
-        });
-      }
+  // Gets the bits assigned to one or more permissions recursively
+  public get(...permissions: string[]): number {
+    const arr: string[] = [];
+    let bits = 0;
+
+    permissions.forEach((p) => {
+      const permArr = permissionsJson[p as keyof typeof permissionsJson];
+      if (permArr) arr.push(...permArr);
+      bits |= this.getBit(p);
     });
-    return finalPermissions;
+    if (arr.length > 0) bits |= this.get(...arr);
+    return bits;
   }
 
-  public has = (operator: OperatorProps, permission: string): boolean => {
-    const operatorPermissions = this.getPermissions(operator);
-    const finalPermissions = this.get(permission);
-    return (operatorPermissions & finalPermissions) > 0;
-  }
+  // public has = (operator: OperatorProps, permission: string): boolean => {
+  //   const operatorPermissions = this.getPerms(operator);
+  //   const finalPermissions = this.get(permission);
+  //   return (operatorPermissions & finalPermissions) > 0;
+  // }
 
-  public or = (operator: OperatorProps, ...permissions: string[]): boolean => {
-    const operatorPermissions = this.getPermissions(operator);
+  // Checks if operator has one or many permissions
+  public has = (operator: OperatorProps, ...permissions: string[]): boolean => {
+    const operatorPermissions = this.getPerms(operator);
     const finalPermissions = this.get(...permissions);
     return (operatorPermissions & finalPermissions) > 0;
   }
 
-  public and = (operator: OperatorProps, ...permissions: string[]): boolean => {
-    const operatorPermissions = this.getPermissions(operator);
-    const finalPermissions = this.get(...permissions);
-    return (operatorPermissions & finalPermissions) === finalPermissions;
-  }
+  // public and = (operator: OperatorProps, ...permissions: string[]): boolean => {
+  //   const operatorPermissions = this.getPerms(operator);
+  //   const finalPermissions = this.get(...permissions);
+  //   return (operatorPermissions & finalPermissions) === finalPermissions;
+  // }
 }
 
 export default new PermissionManager();
