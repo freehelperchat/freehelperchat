@@ -23,19 +23,15 @@ interface IBody {
 
 class ChatController {
   public async index(req: Request, res: Response): Promise<Response> {
-    let filter = null;
     let chats = [] as ChatDoc[];
     const operator = req.session?.operator as OperatorProps;
-    if (Permissions.or(operator, 'readAllChats', 'all')) {
+    let filter = { operator: operator._id } as object;
+    if (Permissions.or(operator, 'manageChats', 'all')) {
       filter = {};
-    } else if (Permissions.has(operator, 'readDepartmentChats')) {
+    } else if (Permissions.has(operator, 'readDeptChats')) {
       filter = { department: { $in: operator.departmentIds } };
-    } else if (Permissions.has(operator, 'readAssignedChats')) {
-      filter = { operator: operator._id };
     }
-    if (filter) {
-      chats = await Chat.find(filter).populate('department', '_id name');
-    }
+    chats = await Chat.find(filter).populate('department', '_id name');
     return res.status(200).json(chats);
   }
 

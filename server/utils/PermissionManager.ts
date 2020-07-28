@@ -15,8 +15,16 @@ class PermissionManager {
   public get(...names: string[]): number {
     let finalPermissions = 0;
     names.forEach((permission) => {
-      const current = permissionsJson.list.indexOf(permission);
-      if (current > -1) finalPermissions |= 2 ** current;
+      ks;
+      if (permissionsJson[permission as keyof typeof permissionsJson]) {
+        const arr = [
+          permission,
+          ...permissionsJson[permission as keyof typeof permissionsJson] as string[],
+        ];
+        arr.forEach((p) => {
+          finalPermissions |= 2 ** Object.keys(permissionsJson).indexOf(p);
+        });
+      }
     });
     return finalPermissions;
   }

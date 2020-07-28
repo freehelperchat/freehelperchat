@@ -58,11 +58,14 @@ class SocketMessages {
         if (session.operator) {
           const operator = session.operator as OperatorProps;
           if (chat) {
-            if ((Permissions.has(operator, 'readAssignedChats')
-              && chat?.operator === operator._id)
-            || (Permissions.has(operator, 'readDepartmentChats')
-              && operator.departmentIds.includes(chat?.department))
-            || Permissions.or(operator, 'readAllMessages', 'all')) {
+            if ((Permissions.has(operator, 'sendAssignedChats')
+                && chat?.operator === operator._id)
+              || ((chat.status === chatStatus.PENDING ?
+                Permissions.and(operator, 'sendDepartmentChats', 'acceptPendingChats') :
+                chat.status === chatStatus.ACTIVE
+                  && Permissions.has(operator, 'sendDepartmentChats'))
+                && operator.departmentIds.includes(chat?.department))
+              || Permissions.or(operator, 'sendAllMessages', 'all')) {
               return socket.join(chatId);
             }
           }

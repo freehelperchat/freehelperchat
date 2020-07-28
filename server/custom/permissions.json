@@ -1,22 +1,11 @@
 {
-  "list": [
-    "all",
-    "readAllChats",
-    "sendOnAllChats",
-    "closeAllChats",
-    "deleteAllChats",
-    "transferAllChats",
-    "readAssignedChats",
-    "sendOnAssignedChats",
-    "closeAssignedChats",
-    "deleteAssignedChats",
-    "transferAssignedChats",
-    "readDepartmentChats",
-    "sendOnDepartmentChats",
-    "closeDepartmentChats",
-    "deleteDepartmentChats",
-    "transferDepartmentChats",
-    "readPendingChats",
-    "readAnalytics"
-  ]
+  "all": [],
+
+  "readDeptChats": [],
+  "handleDeptChats": ["readDeptChats"],
+  "manageDeptChats": ["handleDeptChats"],
+
+  "manageChats": ["manageDeptChats"],
+
+  "readAnalytics": []
 }
