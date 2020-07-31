@@ -150,7 +150,6 @@ class SocketMessages {
           department: { $in: (session.operator as OperatorProps).departmentIds },
         });
       }
-      console.log(session.socket);
       io.emit('online_operators', activeSessions).to(session.socket);
       io.emit('your_chats', yourChats).to(session.socket);
       io.emit('other_chats', otherChats).to(session.socket);
@@ -198,6 +197,10 @@ class SocketMessages {
   private sendMessage(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('send_message', async (data) => {
       const { chatId, clientToken, token } = data;
+      const chat = await Chat.findById(chatId);
+      if (chat?.status === chatStatus.CLOSED) {
+        return socket.emit('error_sending_message', 'Unauthorized');
+      }
       if (token) {
         const session = await SessionManager.getSession(token);
         if (!session) {
@@ -205,7 +208,6 @@ class SocketMessages {
         }
         if (session.operator) {
           const operator = session.operator as OperatorProps;
-          const chat = await Chat.findById(chatId);
           if (chat) {
             if (chat?.operator === operator._id
             || (Permissions.has(operator, 'handleDeptChats')
@@ -220,7 +222,6 @@ class SocketMessages {
           return socket.emit('error_sending_message', 'Unauthorized');
         }
       } else if (clientToken) {
-        const chat = await Chat.findById(chatId);
         if (!chat || chat.clientToken !== clientToken) {
           return socket.emit('error_sending_message', 'Unauthorized');
         }

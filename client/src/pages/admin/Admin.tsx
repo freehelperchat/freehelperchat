@@ -29,6 +29,9 @@ const Admin: React.FC = () => {
     socket.on('other_chats', (data: IChatInfo[]) => {
       setOtherChats(data);
     });
+    return () => {
+      socket.removeAllListeners();
+    };
   }, [authContext.token]);
 
   return (

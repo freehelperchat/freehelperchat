@@ -4,14 +4,17 @@ import Message, {
   messageTypes,
 } from 'components/chat/messages/message/Message';
 import { IMessage } from 'interfaces';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+
 import classes from './Messages.module.css';
 
 interface IProps {
   messages: IMessage[];
   user: boolean;
+  loading?: boolean;
 }
 
-const Messages: React.FC<IProps> = ({ messages, user }) => {
+const Messages: React.FC<IProps> = ({ messages, user, loading }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -24,6 +27,22 @@ const Messages: React.FC<IProps> = ({ messages, user }) => {
 
   return (
     <div className={classes.MessagesContainer}>
+      {loading && (
+        <SkeletonTheme color="#ddd">
+          <div className={[classes.Loading, classes.Right].join(' ')}>
+            <Skeleton width="30%" />
+          </div>
+          <div className={[classes.Loading, classes.Left].join(' ')}>
+            <Skeleton width="40%" />
+          </div>
+          <div className={[classes.Loading, classes.Left].join(' ')}>
+            <Skeleton width="60%" height={88} />
+          </div>
+          <div className={[classes.Loading, classes.Right].join(' ')}>
+            <Skeleton width="40%" />
+          </div>
+        </SkeletonTheme>
+      )}
       {messages.map(m => {
         let type;
         if (user) {

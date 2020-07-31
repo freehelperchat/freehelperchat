@@ -2,7 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChatInfo } from 'interfaces';
 
+import Icon from 'components/ui/icon/Icon';
 import { getMessageTime } from 'utils/utils';
+import closeIcon from 'assets/close.svg';
 import classes from './ChatInfo.module.css';
 
 interface IProps {
@@ -13,6 +15,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo }) => {
   const { t } = useTranslation();
   return (
     <>
+      <Icon path={closeIcon} size={32} minSize={32} color="red" />
       <div className={classes.ChatInfoCell}>
         <p className={classes.ChatInfoTitle}>{t('info.name')}</p>
         <p className={classes.ChatInfoContent}>{chatInfo?.name}</p>

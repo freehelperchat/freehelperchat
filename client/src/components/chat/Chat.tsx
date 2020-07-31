@@ -140,7 +140,11 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
       className={classes.ChatContainer}
     >
       <input {...getInputProps()} />
-      <Messages messages={messages} user={typeof token === 'undefined'} />
+      <Messages
+        loading
+        messages={messages}
+        user={typeof token === 'undefined'}
+      />
       <form onSubmit={handleSubmit} className={classes.TextContainer}>
         <Input
           type="textarea"
