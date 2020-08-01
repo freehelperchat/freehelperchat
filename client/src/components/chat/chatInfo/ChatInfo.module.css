@@ -4,16 +4,34 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-bottom: 1px solid #ccc;
 }
 
 .ChatInfoTitle {
   width: 50%;
-  font-weight: 700;
+  color: white;
+}
+
+.ChatInfoText {
+  width: fit-content;
   word-wrap: break-word;
+  background-color: #a5a5a5;
+  margin:2px;
+  padding: 8px;
+  border-radius: 10px;
 }
 
 .ChatInfoContent {
+  font-weight: 700;
   width: 50%;
+  color: #a5a5a5;
   word-wrap: break-word;
+}
+
+.Loading {
+  display: flex;
+  width: 100%;
+}
+
+.Loading span {
+  width: 100%
 }

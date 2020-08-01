@@ -22,6 +22,7 @@ interface IProps {
 
 const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [messages, setMessages] = useState<IMessage[]>([]);
+  const [loading, setLoading] = useState(true);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
   const uploader = useMemo(() => new Siofu(socket), []);
@@ -94,11 +95,16 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     const cookies = new Cookies();
     const clientToken = cookies.get('clientToken');
     socket.emit('open_chat', { chatId, token, clientToken });
+    setMessages([]);
+    setLoading(true);
     Api.get<IMessage[]>(`/message/${chatId}`, {
       headers,
     })
       .then(res => {
-        if (!redirected) return renderAllMessages(res.data);
+        if (!redirected) {
+          setLoading(false);
+          return renderAllMessages(res.data);
+        }
       })
       .catch((err: AxiosError) => {
         if (err.response && err.response.status === 401) {
@@ -141,7 +147,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     >
       <input {...getInputProps()} />
       <Messages
-        loading
+        loading={loading}
         messages={messages}
         user={typeof token === 'undefined'}
       />

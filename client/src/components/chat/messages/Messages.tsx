@@ -28,7 +28,7 @@ const Messages: React.FC<IProps> = ({ messages, user, loading }) => {
   return (
     <div className={classes.MessagesContainer}>
       {loading && (
-        <SkeletonTheme color="#ddd">
+        <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
           <div className={[classes.Loading, classes.Right].join(' ')}>
             <Skeleton width="30%" />
           </div>

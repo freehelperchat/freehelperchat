@@ -13,6 +13,7 @@
   width: 100%;
   border-radius: 16px;
   transition: all 0.2s ease-in-out;
+  z-index: 20;
 }
 
 .NavbarItem a div {
@@ -27,9 +28,8 @@
   grid-template-columns: auto auto auto;
   border-radius: 0px 0px 10px 10px;
   font-size: 22px;
-  margin: 0 20px;
   padding: 0 8px;
-  min-width: -webkit-fill-available;
+  margin-left: 20px;
 }
 
 .Separator {
