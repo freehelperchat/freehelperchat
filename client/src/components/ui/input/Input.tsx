@@ -3,7 +3,13 @@ import React, { useState, useRef } from 'react';
 import sendIcon from 'assets/send.svg';
 import fileIcon from 'assets/file.svg';
 import presetIcon from 'assets/preset.svg';
-import classes from './Input.module.css';
+import {
+  Container,
+  Label,
+  Input as InputElem,
+  Select,
+  TextArea,
+} from './styles';
 import Icon from '../icon/Icon';
 
 interface IProps {
@@ -35,19 +41,17 @@ const Input: React.FC<IProps> = ({
   fileClick,
   presetClick,
 }) => {
-  const [activeClass, setActiveClass] = useState('');
+  const [activeClass, setActiveClass] = useState(false);
   const ref = useRef<
     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
   >(null);
 
-  const handleFocus = () => {
-    setActiveClass(classes.Active);
-  };
-
   const handleBlur = () => {
     if (!value) {
-      if (!ref.current?.value || ref.current.value === '') setActiveClass('');
-    } else if (value === '') setActiveClass('');
+      if (!ref.current?.value || ref.current.value === '')
+        setActiveClass(false);
+    } else if (value === '') setActiveClass(false);
+    else setActiveClass(true);
   };
 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -79,7 +83,6 @@ const Input: React.FC<IProps> = ({
     id: name,
     value: value || '',
     onChange: change,
-    onFocus: handleFocus,
     onBlur: handleBlur,
     required,
   };
@@ -88,8 +91,7 @@ const Input: React.FC<IProps> = ({
   switch (type) {
     case 'select':
       input = (
-        <select
-          className={classes.Select}
+        <Select
           {...commonProps}
           ref={ref as React.RefObject<HTMLSelectElement>}
         >
@@ -101,15 +103,14 @@ const Input: React.FC<IProps> = ({
               {op}
             </option>
           ))}
-        </select>
+        </Select>
       );
       break;
 
     case 'textarea':
       input = (
         <>
-          <textarea
-            className={classes.TextArea}
+          <TextArea
             {...commonProps}
             onChange={handleTextAreaChange}
             onKeyDown={handleTextAreaKeyDown}
@@ -117,23 +118,23 @@ const Input: React.FC<IProps> = ({
           />
           <Icon
             path={presetIcon}
-            size={32}
+            size="32px"
             color="#ccc"
-            margin={4}
+            margin="4px"
             onClick={presetClick}
           />
           <Icon
             path={fileIcon}
-            size={32}
+            size="32px"
             color="#ccc"
-            margin={4}
+            margin="4px"
             onClick={fileClick}
           />
           <Icon
             path={sendIcon}
-            size={45}
+            size="45px"
             color="#178CFF"
-            margin={2}
+            margin="2px"
             onClick={sendClick}
           />
         </>
@@ -142,8 +143,7 @@ const Input: React.FC<IProps> = ({
 
     case 'password':
       input = (
-        <input
-          className={classes.Input}
+        <InputElem
           type={type}
           {...commonProps}
           value={undefined}
@@ -154,8 +154,7 @@ const Input: React.FC<IProps> = ({
 
     default:
       input = (
-        <input
-          className={classes.Input}
+        <InputElem
           type={type || 'text'}
           {...commonProps}
           ref={ref as React.RefObject<HTMLInputElement>}
@@ -164,15 +163,15 @@ const Input: React.FC<IProps> = ({
       break;
   }
   return (
-    <div className={[classes.Container, activeClass].join(' ')}>
+    <Container active={activeClass}>
       {label && (
-        <label className={classes.Label} htmlFor={name}>
+        <Label htmlFor={name}>
           {label}
           {required ? '*' : ''}
-        </label>
+        </Label>
       )}
       {input}
-    </div>
+    </Container>
   );
 };
 

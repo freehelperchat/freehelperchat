@@ -48,7 +48,7 @@ const Navbar: React.FC<IProps> = ({
                 exact
                 key={chat.clientToken}
               >
-                <Icon path={messageIcon} color="white" size={32} />
+                <Icon path={messageIcon} color="white" size="32px" />
                 {chat.name}
               </NavbarItem>
             ))}
@@ -72,7 +72,7 @@ const Navbar: React.FC<IProps> = ({
                 activeChats={operator.operator.activeChats}
                 key={operator._id}
               >
-                <Icon path={userIcon} color="white" size={32} />
+                <Icon path={userIcon} color="white" size="32px" />
                 {operator.operator.fullName}
               </NavbarItem>
             ))}
@@ -84,19 +84,19 @@ const Navbar: React.FC<IProps> = ({
           <div className={classes.Separator} />
           <div className={classes.BottomBar}>
             <NavbarItem bgColor="#A5A5A5" path="/admin" exact>
-              <Icon path={stonksIcon} color="white" size={32} />
+              <Icon path={stonksIcon} color="white" size="32px" />
               {t('navbar.dashboard')}
             </NavbarItem>
             <NavbarItem bgColor="#A5A5A5" path="/admin/profile" exact>
-              <Icon path={userIcon} color="white" size={32} />
+              <Icon path={userIcon} color="white" size="32px" />
               {t('navbar.profile')}
             </NavbarItem>
             <NavbarItem bgColor="#A5A5A5" path="/admin/settings">
-              <Icon path={settingsIcon} color="white" size={32} />
+              <Icon path={settingsIcon} color="white" size="32px" />
               {t('navbar.settings')}
             </NavbarItem>
             <NavbarItem bgColor="#AA4444" path="/logout" exact>
-              <Icon path={backIcon} color="white" size={32} />
+              <Icon path={backIcon} color="white" size="32px" />
               {t('navbar.logout')}
             </NavbarItem>
           </div>
@@ -113,7 +113,7 @@ const Navbar: React.FC<IProps> = ({
                 path={`/admin/chat/${chats._id}`}
                 exact
               >
-                <Icon path={messageIcon} color="white" size={32} />
+                <Icon path={messageIcon} color="white" size="32px" />
                 {chats.name}
               </NavbarItem>
             ))}

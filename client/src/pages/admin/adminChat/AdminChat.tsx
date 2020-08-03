@@ -17,8 +17,11 @@ const AdminChat: React.FC = () => {
   const history = useHistory();
   const [chatInfo, setChatInfo] = useState<IChatInfo>();
   const [operatorInfo, setOperatorInfo] = useState<IOperator>();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     let redirected = false;
+    setChatInfo(undefined);
+    setLoading(true);
     Api.get<IChatInfo>(`/chat/${chatId}`, {
       headers: { Authorization: token },
     })
@@ -26,6 +29,7 @@ const AdminChat: React.FC = () => {
         if (!redirected) {
           console.log(res.data);
           setChatInfo(res.data);
+          setLoading(false);
         }
       })
       .catch((err: AxiosError) => {
@@ -63,7 +67,7 @@ const AdminChat: React.FC = () => {
         <Chat chatId={chatId} token={token} name={operatorInfo?.fullName} />
       </div>
       <div className={classes.ChatInfo}>
-        {chatInfo && <ChatInfo chatInfo={chatInfo} />}
+        <ChatInfo chatInfo={chatInfo} loading={loading} />
       </div>
     </div>
   );

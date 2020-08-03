@@ -179,8 +179,8 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
           path={dragIcon}
           color="#a5a5a5"
           size="80%"
-          maxSize={512}
-          minSize={64}
+          maxSize="512px"
+          minSize="64px"
         />
       </div>
     </div>

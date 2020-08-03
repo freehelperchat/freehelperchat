@@ -17,7 +17,7 @@ const Notification: React.FC<IProps> = ({ text, color, vector, timestamp }) => {
       <Icon
         path={`${baseURL}images/notifications/${vector}`}
         color={color}
-        size={32}
+        size="32px"
       />
       <div className={classes.Message} style={{ backgroundColor: color }}>
         <p>{text}</p>

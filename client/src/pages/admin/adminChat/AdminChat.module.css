@@ -26,6 +26,10 @@
   padding: 16px;
 }
 
+.ChatInfo div {
+  width: 100%;
+}
+
 @media (min-width: 900px) {
   .Container {
     flex-direction: row;

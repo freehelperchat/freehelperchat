@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Button.module.css';
+import { Btn } from './styles';
 
 interface IProps {
   type: 'submit' | 'reset' | 'button';
@@ -8,11 +8,7 @@ interface IProps {
 }
 
 const Button: React.FC<IProps> = ({ type, label }) => {
-  return (
-    <button type={type} className={classes[type.toString()]}>
-      {label}
-    </button>
-  );
+  return <Btn type={type}>{label}</Btn>;
 };
 
 export default Button;

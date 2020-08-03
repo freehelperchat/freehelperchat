@@ -1,40 +1,34 @@
 import React from 'react';
 
-import classes from './Icon.module.css';
+import { Container } from './styles';
 
 interface IProps {
   path: string;
   color?: string;
-  size?: number | string;
-  minSize?: number | string;
-  maxSize?: number | string;
-  margin?: number;
+  size?: string;
+  minSize?: string;
+  maxSize?: string;
+  margin?: string;
   onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Icon: React.FC<IProps> = ({
   path,
   color = 'white',
-  size = 32,
+  size = '32px',
   minSize = size,
   maxSize,
   margin,
   onClick,
 }) => {
   return (
-    <div
-      className={classes.Image}
-      style={{
-        WebkitMaskImage: `url(${path})`,
-        backgroundColor: color,
-        minWidth: minSize,
-        minHeight: minSize,
-        width: size,
-        height: size,
-        margin,
-        maxHeight: maxSize,
-        maxWidth: maxSize,
-      }}
+    <Container
+      path={path}
+      color={color}
+      minSize={minSize}
+      size={size}
+      margin={margin}
+      maxSize={maxSize}
       onClick={onClick}
     />
   );
