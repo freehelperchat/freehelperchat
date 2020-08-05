@@ -34,15 +34,7 @@ const Toolbar: React.FC<IProps> = ({
   otherChatsArr,
   fitContent,
 }) => (
-  <Container
-    side={side}
-    fitContent={fitContent}
-    style={{
-      left: side === 'left' ? 0 : undefined,
-      right: side === 'right' ? 0 : undefined,
-      width: fitContent ? 'fit-content' : '300px',
-    }}
-  >
+  <Container side={side} fitContent={fitContent}>
     <DrawerToggle clicked={drawerToggleClicked} />
     {logo && (
       <LogoContainer>
