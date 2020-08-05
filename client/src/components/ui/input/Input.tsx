@@ -10,7 +10,7 @@ import {
   Select,
   TextArea,
 } from './styles';
-import Icon from '../icon/Icon';
+import ImageColor from '../imageButton/ImageButton';
 
 interface IProps {
   type: string;
@@ -24,9 +24,9 @@ interface IProps {
   ) => void;
   required?: boolean;
   options?: string[];
-  sendClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  fileClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  presetClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  sendClick?: () => void;
+  fileClick?: () => void;
+  presetClick?: () => void;
 }
 
 const Input: React.FC<IProps> = ({
@@ -116,24 +116,27 @@ const Input: React.FC<IProps> = ({
             onKeyDown={handleTextAreaKeyDown}
             ref={ref as React.RefObject<HTMLTextAreaElement>}
           />
-          <Icon
-            path={presetIcon}
+          <ImageColor
+            icon={presetIcon}
             size="32px"
-            color="#ccc"
+            iconColor="#ccc"
+            hoverColor="red"
             margin="4px"
             onClick={presetClick}
           />
-          <Icon
-            path={fileIcon}
+          <ImageColor
+            icon={fileIcon}
             size="32px"
-            color="#ccc"
+            iconColor="#ccc"
+            hoverColor="red"
             margin="4px"
             onClick={fileClick}
           />
-          <Icon
-            path={sendIcon}
+          <ImageColor
+            icon={sendIcon}
             size="45px"
-            color="#178CFF"
+            iconColor="#178CFF"
+            hoverColor="red"
             margin="2px"
             onClick={sendClick}
           />

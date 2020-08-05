@@ -3,11 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { IChatInfo } from 'interfaces';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
-import Icon from 'components/ui/icon/Icon';
 import { getMessageTime } from 'utils/utils';
+import transferIcon from 'assets/transfer.svg';
+import emailIcon from 'assets/email.svg';
+import printIcon from 'assets/print.svg';
+import blockIcon from 'assets/block.svg';
 import closeIcon from 'assets/close.svg';
+import recycleIcon from 'assets/recycle.svg';
 import ImageButton from 'components/ui/imageButton/ImageButton';
-import classes from './ChatInfo.module.css';
+import { Cell, Content, Text, Title, Grid } from './styles';
 
 interface IProps {
   chatInfo?: IChatInfo;
@@ -20,78 +24,111 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
     <>
       {loading && (
         <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
-          <div className={classes.ChatInfoCell}>
+          <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="60%" height={32} />
             <Skeleton width="80%" height={32} />
-          </div>
-          <div className={classes.ChatInfoCell}>
+          </Cell>
+          <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="70%" height={32} />
             <Skeleton width="100%" height={40} />
-          </div>
-          <div className={classes.ChatInfoCell}>
+          </Cell>
+          <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="50%" height={32} />
             <Skeleton width="70%" height={32} />
-          </div>
-          <div className={classes.ChatInfoCell}>
+          </Cell>
+          <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="60%" height={32} />
             <Skeleton width="100%" height={48} />
-          </div>
-          <div className={classes.ChatInfoCell}>
+          </Cell>
+          <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="90%" height={32} />
             <Skeleton width="50%" height={32} />
-          </div>
+          </Cell>
         </SkeletonTheme>
       )}
       {chatInfo && (
         <>
-          <ImageButton
-            backgroundColor="#000"
-            icon={closeIcon}
-            size="32px"
-            onClick={() => {}}
-          />
-          <Icon path={closeIcon} size="32px" minSize="32px" color="red" />
-          <div className={classes.ChatInfoCell}>
-            <div className={classes.ChatInfoTitle}>
-              <p className={classes.ChatInfoText}>{t('info.name')}</p>
-            </div>
-            <p className={classes.ChatInfoContent}>{chatInfo?.name}</p>
-          </div>
-          <div className={classes.ChatInfoCell}>
-            <div className={classes.ChatInfoTitle}>
-              <p className={classes.ChatInfoText}>{t('info.email')}</p>
-            </div>
-            <p className={classes.ChatInfoContent}>{chatInfo?.email}</p>
-          </div>
-          <div className={classes.ChatInfoCell}>
-            <div className={classes.ChatInfoTitle}>
-              <p className={classes.ChatInfoText}>{t('info.chatId')}</p>
-            </div>
-            <p className={classes.ChatInfoContent}>{chatInfo?._id}</p>
-          </div>
-          <div className={classes.ChatInfoCell}>
-            <div className={classes.ChatInfoTitle}>
-              <p className={classes.ChatInfoText}>{t('info.createdAt')}</p>
-            </div>
-            <p className={classes.ChatInfoContent}>
-              {getMessageTime(chatInfo?.time?.started)}
-            </p>
-          </div>
-          <div className={classes.ChatInfoCell}>
-            <div className={classes.ChatInfoTitle}>
-              <p className={classes.ChatInfoText}>{t('info.department')}</p>
-            </div>
-            <p className={classes.ChatInfoContent}>
-              {chatInfo?.department?.name}
-            </p>
-          </div>
+          <Grid>
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={transferIcon}
+              size="50px"
+              padding="20px"
+            />
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={emailIcon}
+              size="50px"
+              padding="20px"
+            />
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={printIcon}
+              size="50px"
+              padding="20px"
+            />
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={blockIcon}
+              size="50px"
+              padding="20px"
+            />
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={closeIcon}
+              size="50px"
+              padding="20px"
+            />
+            <ImageButton
+              backgroundColor="#000"
+              hoverColor="red"
+              icon={recycleIcon}
+              size="50px"
+              padding="20px"
+            />
+          </Grid>
+          <Cell>
+            <Title>
+              <Text>{t('info.name')}</Text>
+            </Title>
+            <Content>{chatInfo?.name}</Content>
+          </Cell>
+          <Cell>
+            <Title>
+              <Text>{t('info.email')}</Text>
+            </Title>
+            <Content>{chatInfo?.email}</Content>
+          </Cell>
+          <Cell>
+            <Title>
+              <Text>{t('info.chatId')}</Text>
+            </Title>
+            <Content>{chatInfo?._id}</Content>
+          </Cell>
+          <Cell>
+            <Title>
+              <Text>{t('info.createdAt')}</Text>
+            </Title>
+            <Content>{getMessageTime(chatInfo?.time?.started)}</Content>
+          </Cell>
+          <Cell>
+            <Title>
+              <Text>{t('info.department')}</Text>
+            </Title>
+            <Content>{chatInfo?.department?.name}</Content>
+          </Cell>
           {chatInfo?.userData?.map(data => (
-            <div className={classes.ChatInfoCell} key={data._id}>
-              <div className={classes.ChatInfoTitle}>
-                <p className={classes.ChatInfoText}>{data.fieldId}</p>
-              </div>
-              <p className={classes.ChatInfoContent}>{data.value}</p>
-            </div>
+            <Cell key={data._id}>
+              <Title>
+                <Text>{data.fieldId}</Text>
+              </Title>
+              <Content>{data.value}</Content>
+            </Cell>
           ))}
         </>
       )}
