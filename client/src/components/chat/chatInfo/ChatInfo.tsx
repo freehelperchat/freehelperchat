@@ -24,16 +24,24 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
     <>
       {loading && (
         <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
+          <Grid>
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+          </Grid>
           <Cell>
-            <Skeleton style={{ borderRadius: 10 }} width="60%" height={32} />
+            <Skeleton style={{ borderRadius: 10 }} width="100%" height={32} />
             <Skeleton width="80%" height={32} />
           </Cell>
           <Cell>
-            <Skeleton style={{ borderRadius: 10 }} width="70%" height={32} />
+            <Skeleton style={{ borderRadius: 10 }} width="75%" height={32} />
             <Skeleton width="100%" height={40} />
           </Cell>
           <Cell>
-            <Skeleton style={{ borderRadius: 10 }} width="50%" height={32} />
+            <Skeleton style={{ borderRadius: 10 }} width="80%" height={32} />
             <Skeleton width="70%" height={32} />
           </Cell>
           <Cell>
@@ -41,7 +49,11 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
             <Skeleton width="100%" height={48} />
           </Cell>
           <Cell>
-            <Skeleton style={{ borderRadius: 10 }} width="90%" height={32} />
+            <Skeleton style={{ borderRadius: 10 }} width="85%" height={32} />
+            <Skeleton width="50%" height={32} />
+          </Cell>
+          <Cell>
+            <Skeleton style={{ borderRadius: 10 }} width="95%" height={32} />
             <Skeleton width="50%" height={32} />
           </Cell>
         </SkeletonTheme>
@@ -50,43 +62,37 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
         <>
           <Grid>
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#178CFF"
               icon={transferIcon}
               size="50px"
               padding="20px"
             />
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#178CFF"
               icon={emailIcon}
               size="50px"
               padding="20px"
             />
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#178CFF"
               icon={printIcon}
               size="50px"
               padding="20px"
             />
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#178CFF"
               icon={blockIcon}
               size="50px"
               padding="20px"
             />
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#178CFF"
               icon={closeIcon}
               size="50px"
               padding="20px"
             />
             <ImageButton
-              backgroundColor="#000"
-              hoverColor="red"
+              backgroundColor="#ff1717"
               icon={recycleIcon}
               size="50px"
               padding="20px"

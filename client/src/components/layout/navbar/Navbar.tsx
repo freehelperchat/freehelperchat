@@ -11,7 +11,7 @@ import settingsIcon from 'assets/settings.svg';
 import stonksIcon from 'assets/stonks.svg';
 import backIcon from 'assets/back.svg';
 import chatStatus from 'constants/chatStatus';
-import classes from './Navbar.module.css';
+import { Container, Title, BottomBar, TopBar } from './styles';
 
 interface IProps {
   yourChatsArr?: IChatInfo[];
@@ -34,11 +34,11 @@ const Navbar: React.FC<IProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className={classes.Navbar}>
+    <Container>
       {yourChats && (
         <>
-          <p className={classes.Title}>{t('dashboard.your_chats')}</p>
-          <div className={classes.TopBar}>
+          <Title>{t('dashboard.your_chats')}</Title>
+          <TopBar>
             {yourChatsArr.map(chat => (
               <NavbarItem
                 bgColor={getColorByText(chat.name)}
@@ -52,13 +52,13 @@ const Navbar: React.FC<IProps> = ({
                 {chat.name}
               </NavbarItem>
             ))}
-          </div>
+          </TopBar>
         </>
       )}
       {operators && (
         <>
-          <p className={classes.Title}>{t('dashboard.online_operators')}</p>
-          <div className={classes.TopBar}>
+          <Title>{t('dashboard.online_operators')}</Title>
+          <TopBar>
             {operatorsArr.map(operator => (
               <NavbarItem
                 bgColor="#178CFF"
@@ -76,13 +76,12 @@ const Navbar: React.FC<IProps> = ({
                 {operator.operator.fullName}
               </NavbarItem>
             ))}
-          </div>
+          </TopBar>
         </>
       )}
       {options && (
         <>
-          <div className={classes.Separator} />
-          <div className={classes.BottomBar}>
+          <BottomBar>
             <NavbarItem bgColor="#A5A5A5" path="/admin" exact>
               <Icon path={stonksIcon} color="white" size="32px" />
               {t('navbar.dashboard')}
@@ -99,13 +98,13 @@ const Navbar: React.FC<IProps> = ({
               <Icon path={backIcon} color="white" size="32px" />
               {t('navbar.logout')}
             </NavbarItem>
-          </div>
+          </BottomBar>
         </>
       )}
       {otherChats && (
         <>
-          <p className={classes.Title}>{t('dashboard.other_chats')}</p>
-          <div className={classes.TopBar}>
+          <Title>{t('dashboard.other_chats')}</Title>
+          <TopBar>
             {otherChatsArr.map(chats => (
               <NavbarItem
                 key={chats.clientToken}
@@ -117,10 +116,10 @@ const Navbar: React.FC<IProps> = ({
                 {chats.name}
               </NavbarItem>
             ))}
-          </div>
+          </TopBar>
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

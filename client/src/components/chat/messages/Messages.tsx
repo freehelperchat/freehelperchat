@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-import Message, {
-  messageTypes,
-} from 'components/chat/messages/message/Message';
+import Message from 'components/chat/messages/message/Message';
+import { messageTypes } from 'constants/messageTypes';
 import { IMessage } from 'interfaces';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-
-import classes from './Messages.module.css';
+import { MessagesContainer, LeftLoading, RightLoading } from './styles';
 
 interface IProps {
   messages: IMessage[];
@@ -26,21 +24,21 @@ const Messages: React.FC<IProps> = ({ messages, user, loading }) => {
   useEffect(scrollToBottom, [messages]);
 
   return (
-    <div className={classes.MessagesContainer}>
+    <MessagesContainer>
       {loading && (
         <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
-          <div className={[classes.Loading, classes.Right].join(' ')}>
+          <RightLoading>
             <Skeleton width="30%" />
-          </div>
-          <div className={[classes.Loading, classes.Left].join(' ')}>
+          </RightLoading>
+          <LeftLoading>
             <Skeleton width="40%" />
-          </div>
-          <div className={[classes.Loading, classes.Left].join(' ')}>
+          </LeftLoading>
+          <LeftLoading>
             <Skeleton width="60%" height={88} />
-          </div>
-          <div className={[classes.Loading, classes.Right].join(' ')}>
+          </LeftLoading>
+          <RightLoading>
             <Skeleton width="40%" />
-          </div>
+          </RightLoading>
         </SkeletonTheme>
       )}
       {messages.map(m => {
@@ -65,7 +63,7 @@ const Messages: React.FC<IProps> = ({ messages, user, loading }) => {
         );
       })}
       <div ref={messagesEndRef} />
-    </div>
+    </MessagesContainer>
   );
 };
 

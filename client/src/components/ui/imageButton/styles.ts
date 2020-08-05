@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 interface IProps {
   backgroundColor: string;
-  hoverColor?: string;
   padding?: string;
 }
 
@@ -19,8 +18,10 @@ export const ImgButton = styled.button`
   cursor: pointer;
 
   :hover {
-    background-color: ${(props: IProps) =>
-      props.backgroundColor !== 'transparent' ? props.hoverColor : undefined};
+    filter: ${(props: IProps) =>
+      props.backgroundColor !== 'transparent'
+        ? 'brightness(110%) saturate(50%)'
+        : undefined};
   }
   :active {
     filter: brightness(90%) saturate(50%);
@@ -28,7 +29,9 @@ export const ImgButton = styled.button`
   }
 
   div:hover {
-    background-color: ${(props: IProps) =>
-      props.backgroundColor === 'transparent' ? props.hoverColor : undefined};
+    filter: ${(props: IProps) =>
+      props.backgroundColor === 'transparent'
+        ? 'brightness(110%) saturate(50%)'
+        : undefined};
   }
 `;

@@ -120,7 +120,6 @@ const Input: React.FC<IProps> = ({
             icon={presetIcon}
             size="32px"
             iconColor="#ccc"
-            hoverColor="red"
             margin="4px"
             onClick={presetClick}
           />
@@ -128,7 +127,6 @@ const Input: React.FC<IProps> = ({
             icon={fileIcon}
             size="32px"
             iconColor="#ccc"
-            hoverColor="red"
             margin="4px"
             onClick={fileClick}
           />
@@ -136,7 +134,6 @@ const Input: React.FC<IProps> = ({
             icon={sendIcon}
             size="45px"
             iconColor="#178CFF"
-            hoverColor="red"
             margin="2px"
             onClick={sendClick}
           />

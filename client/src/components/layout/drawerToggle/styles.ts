@@ -1,4 +1,6 @@
-.DrawerToggle {
+import styled from 'styled-components';
+
+export const Container = styled.div`
   width: 40px;
   height: 60px;
   display: flex;
@@ -8,16 +10,14 @@
   padding: 10px 0;
   box-sizing: border-box;
   cursor: pointer;
-}
 
-.DrawerToggle div {
-  width: 100%;
-  height: 3px;
-  background-color: white;
-}
+  div {
+    width: 100%;
+    height: 3px;
+    background-color: white;
+  }
 
-@media (min-width: 500px) {
-  .DrawerToggle {
+  @media (min-width: 500px) {
     display: none;
   }
-}
+`;

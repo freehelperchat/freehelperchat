@@ -12,7 +12,7 @@ import Messages from 'components/chat/messages/Messages';
 import { AxiosError } from 'axios';
 import { IMessage } from 'interfaces';
 import dragIcon from 'assets/drag.svg';
-import classes from './Chat.module.css';
+import { ChatContainer, TextContainer, Dropzone } from './styles';
 
 interface IProps {
   chatId: string;
@@ -139,11 +139,10 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   };
 
   return (
-    <div
+    <ChatContainer
       {...getRootProps({
         onClick: event => event.stopPropagation(),
       })}
-      className={classes.ChatContainer}
     >
       <input {...getInputProps()} />
       <Messages
@@ -151,7 +150,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
         messages={messages}
         user={typeof token === 'undefined'}
       />
-      <form onSubmit={handleSubmit} className={classes.TextContainer}>
+      <TextContainer onSubmit={handleSubmit}>
         <Input
           type="textarea"
           value={newMessage}
@@ -160,20 +159,8 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
           sendClick={sendMessage}
           fileClick={() => inputRef.current?.click()}
         />
-      </form>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          maxHeight: isDragActive ? '100%' : 0,
-          height: isDragActive ? '100%' : 0,
-          overflow: 'hidden',
-          transformOrigin: 'center',
-          transition: '0.4s all ease-in-out',
-        }}
-      >
+      </TextContainer>
+      <Dropzone active={isDragActive}>
         <p>Drop your file(s) here</p>
         <Icon
           path={dragIcon}
@@ -182,8 +169,8 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
           maxSize="512px"
           minSize="64px"
         />
-      </div>
-    </div>
+      </Dropzone>
+    </ChatContainer>
   );
 };
 

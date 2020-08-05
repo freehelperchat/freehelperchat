@@ -5,7 +5,7 @@ import Api from 'services/api';
 import Chat from 'components/chat/Chat';
 import { IChatInfo } from 'interfaces';
 import { AxiosError } from 'axios';
-import classes from './UserChat.module.css';
+import { Container } from './styles';
 
 interface IParams {
   chatId: string;
@@ -26,9 +26,9 @@ const UserChat: React.FC = () => {
   }, [chatId, history]);
 
   return (
-    <div className={classes.Container}>
+    <Container>
       <Chat chatId={chatId} name={chatInfo?.name} />
-    </div>
+    </Container>
   );
 };
 

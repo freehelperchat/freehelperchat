@@ -4,7 +4,7 @@ import Logo from 'components/ui/logo/Logo';
 import Navbar from 'components/layout/navbar/Navbar';
 import Backdrop from 'components/layout/backdrop/Backdrop';
 import { IChatInfo } from 'interfaces';
-import classes from './SideDrawer.module.css';
+import { Container, LogoContainer } from './styles';
 
 interface IProps {
   open: boolean;
@@ -13,21 +13,17 @@ interface IProps {
 }
 
 const SideDrawer: React.FC<IProps> = ({ chats, open, closed }) => {
-  const attachedClasses = [
-    classes.SideDrawer,
-    open ? classes.Open : classes.Close,
-  ].join(' ');
   return (
     <>
       <Backdrop show={open} clicked={closed} />
-      <div className={attachedClasses} onClick={closed}>
-        <div className={classes.Logo}>
+      <Container open={open} onClick={closed}>
+        <LogoContainer>
           <Logo />
-        </div>
+        </LogoContainer>
         <nav>
           <Navbar yourChatsArr={chats} />
         </nav>
-      </div>
+      </Container>
     </>
   );
 };

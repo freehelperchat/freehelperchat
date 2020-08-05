@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getMessageTime, getColorByText } from 'utils/utils';
-import classes from './Message.module.css';
+import { MsgContainer, MessageDiv, Name } from './styles';
 
 interface IProps {
   type: string;
@@ -12,20 +12,15 @@ interface IProps {
 
 const Message: React.FC<IProps> = ({ type, time, name, message }) => {
   return (
-    <div
-      className={[classes.MsgDiv, classes[type]].join(' ')}
-      style={{ background: getColorByText(name) }}
+    <MsgContainer
+      backgroundColor={getColorByText(name)}
+      messageType={type}
       title={getMessageTime(time)}
     >
-      <p className={classes.Name}>{name}</p>
-      <div className={classes.Message}>{message}</div>
-    </div>
+      <Name>{name}</Name>
+      <MessageDiv>{message}</MessageDiv>
+    </MsgContainer>
   );
 };
 
 export default Message;
-
-export const messageTypes = {
-  OUTGOING_MESSAGE: 'OutgoingMessage',
-  INCOMING_MESSAGE: 'IncomingMessage',
-};

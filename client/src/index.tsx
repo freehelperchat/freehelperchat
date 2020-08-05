@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
 
 import translation from 'services/translation';
+import GlobalStyle from 'globalStyle';
 import Routes from 'routes';
 import AuthContextProvider from 'context/AuthContext';
 import LangContextProvider from 'context/LangContext';
 import Loading from 'components/ui/loading/Loading';
-
-import 'index.css';
 
 const app = (
   <Suspense fallback={<Loading />}>
@@ -16,6 +15,7 @@ const app = (
       <LangContextProvider>
         <AuthContextProvider>
           <Routes />
+          <GlobalStyle />
         </AuthContextProvider>
       </LangContextProvider>
     </I18nextProvider>

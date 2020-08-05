@@ -2,14 +2,14 @@ import React from 'react';
 
 import { baseURL } from 'services/api';
 
-import classes from './Logo.module.css';
+import { Container } from './styles';
 
 const Logo: React.FC = () => (
-  <div className={classes.Logo}>
+  <Container>
     <object data={`${baseURL}images/logo.svg`} type="image/svg+xml">
       <img src={`${baseURL}images/logo.png`} alt="Logo" />
     </object>
-  </div>
+  </Container>
 );
 
 export default Logo;

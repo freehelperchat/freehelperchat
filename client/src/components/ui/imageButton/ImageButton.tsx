@@ -10,13 +10,11 @@ interface IProps {
   margin?: string;
   onClick?: () => void;
   backgroundColor?: string;
-  hoverColor?: string;
   padding?: string;
 }
 
 const ImageButton: React.FC<IProps> = ({
   backgroundColor = 'transparent',
-  hoverColor,
   icon,
   iconColor,
   size,
@@ -26,7 +24,6 @@ const ImageButton: React.FC<IProps> = ({
 }) => (
   <ImgButton
     backgroundColor={backgroundColor}
-    hoverColor={hoverColor}
     onClick={onClick}
     type="button"
     padding={padding}

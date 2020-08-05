@@ -5,7 +5,7 @@ import DrawerToggle from 'components/layout/drawerToggle/DrawerToggle';
 import Logo from 'components/ui/logo/Logo';
 
 import { IChatInfo, IOnlineOperator } from 'interfaces';
-import classes from './Toolbar.module.css';
+import { Container, LogoContainer, Desktop } from './styles';
 
 interface IProps {
   drawerToggleClicked(): void;
@@ -34,8 +34,9 @@ const Toolbar: React.FC<IProps> = ({
   otherChatsArr,
   fitContent,
 }) => (
-  <header
-    className={classes.Toolbar}
+  <Container
+    side={side}
+    fitContent={fitContent}
     style={{
       left: side === 'left' ? 0 : undefined,
       right: side === 'right' ? 0 : undefined,
@@ -44,12 +45,12 @@ const Toolbar: React.FC<IProps> = ({
   >
     <DrawerToggle clicked={drawerToggleClicked} />
     {logo && (
-      <div className={classes.Logo}>
+      <LogoContainer>
         <Logo />
-      </div>
+      </LogoContainer>
     )}
-    <nav
-      className={classes.Desktop}
+    <Desktop
+      logo={logo}
       style={{ height: logo ? 'calc(100% - (128px + 16px))' : '100%' }}
     >
       <Navbar
@@ -61,8 +62,8 @@ const Toolbar: React.FC<IProps> = ({
         otherChats={otherChats}
         otherChatsArr={otherChatsArr}
       />
-    </nav>
-  </header>
+    </Desktop>
+  </Container>
 );
 
 export default memo(Toolbar);

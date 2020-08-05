@@ -1,17 +1,17 @@
 import React from 'react';
 
-import classes from './DrawerToggle.module.css';
+import { Container } from './styles';
 
 interface IProps {
   clicked(): void;
 }
 
 const DrawerToggle: React.FC<IProps> = ({ clicked }) => (
-  <div className={classes.DrawerToggle} onClick={clicked}>
+  <Container onClick={clicked}>
     <div />
     <div />
     <div />
-  </div>
+  </Container>
 );
 
 export default DrawerToggle;

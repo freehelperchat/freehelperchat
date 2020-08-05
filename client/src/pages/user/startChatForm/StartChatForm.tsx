@@ -14,7 +14,7 @@ import {
   IFormValue,
 } from 'interfaces';
 import { getMessageTime } from 'utils/utils';
-import classes from './StartChatForm.module.css';
+import { Container, Form, NotificationContainer } from './styles';
 
 const StartChatForm: React.FC = () => {
   const { t } = useTranslation();
@@ -74,8 +74,8 @@ const StartChatForm: React.FC = () => {
   };
 
   return (
-    <div className={classes.Container}>
-      <div className={classes.Form}>
+    <Container>
+      <Form>
         <form onSubmit={handleSubmit}>
           <Input
             type="text"
@@ -116,8 +116,8 @@ const StartChatForm: React.FC = () => {
           />
           <Button type="submit" label={t('button.startchat')} />
         </form>
-      </div>
-      <div className={classes.NotificationContainer}>
+      </Form>
+      <NotificationContainer>
         {notifications.map(n => (
           <Notification
             key={n.time}
@@ -127,8 +127,8 @@ const StartChatForm: React.FC = () => {
             vector={notificationTypes[n.type].vector}
           />
         ))}
-      </div>
-    </div>
+      </NotificationContainer>
+    </Container>
   );
 };
 

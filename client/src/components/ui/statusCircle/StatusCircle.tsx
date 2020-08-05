@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './StatusCircle.module.css';
+import { Svg } from './styles';
 
 interface IProps {
   stroke?: string;
@@ -12,7 +12,7 @@ const StatusCircle: React.FC<IProps> = ({
   color = 'white',
 }) => {
   return (
-    <svg height="45" width="32" className={classes.svg}>
+    <Svg height="45" width="32">
       <circle
         cx="16"
         cy="16"
@@ -21,7 +21,7 @@ const StatusCircle: React.FC<IProps> = ({
         strokeWidth="4"
         fill={color}
       />
-    </svg>
+    </Svg>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Backdrop.module.css';
+import { Container } from './styles';
 
 interface IProps {
   show: boolean;
@@ -8,6 +8,6 @@ interface IProps {
 }
 
 const Backdrop: React.FC<IProps> = ({ show, clicked }) =>
-  show ? <div className={classes.Backdrop} onClick={clicked} /> : null;
+  show ? <Container onClick={clicked} /> : null;
 
 export default Backdrop;

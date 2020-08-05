@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import Toolbar from 'components/layout/toolbar/Toolbar';
 import { IChatInfo, IOnlineOperator } from 'interfaces/index';
 // import SideDrawer from 'components/layout/sideDrawer/SideDrawer';
-
-import classes from './Layout.module.css';
+import { Container, Content } from './styles';
 
 interface IProps {
   yourChatsArr: IChatInfo[];
@@ -25,7 +24,7 @@ const Layout: React.FC<IProps> = ({
   const drawerToggleHandler = () => setSideDrawerVisible(!sideDrawerVisible);
 
   return (
-    <div className={classes.Container}>
+    <Container>
       <Toolbar
         logo
         options
@@ -34,7 +33,7 @@ const Layout: React.FC<IProps> = ({
         drawerToggleClicked={drawerToggleHandler}
         fitContent
       />
-      <main className={classes.Content}>{children}</main>
+      <Content>{children}</Content>
       <Toolbar
         side="right"
         operators
@@ -44,7 +43,7 @@ const Layout: React.FC<IProps> = ({
         otherChatsArr={otherChatsArr}
         fitContent
       />
-    </div>
+    </Container>
   );
 };
 

@@ -6,9 +6,18 @@ export const Cell = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: flex-start;
+  margin: 2px;
 
   span {
     width: 100%;
+    padding: 2px;
+  }
+
+  span:first-child {
+    width: 62%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
   }
 `;
 
@@ -23,9 +32,8 @@ export const Text = styled.p`
   width: fit-content;
   overflow-wrap: anywhere;
   background-color: #a5a5a5;
-  margin: 2px;
-  padding: 8px;
   border-radius: 10px;
+  padding: 8px;
 `;
 
 export const Content = styled.p`
@@ -43,8 +51,12 @@ export const Grid = styled.div`
   grid-template-rows: auto auto;
   grid-template-columns: auto auto auto;
   justify-content: center;
+  margin-bottom: 20px;
 
   button {
     margin: 5px;
+  }
+  span {
+    margin: 2px;
   }
 `;

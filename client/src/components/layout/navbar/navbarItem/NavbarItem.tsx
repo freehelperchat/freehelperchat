@@ -4,7 +4,14 @@ import { NavLink } from 'react-router-dom';
 import messageIcon from 'assets/message.svg';
 import Icon from 'components/ui/icon/Icon';
 import StatusCircle from 'components/ui/statusCircle/StatusCircle';
-import classes from './NavbarItem.module.css';
+
+import {
+  Container,
+  ItemContainer,
+  BottomIcon,
+  IconContainer,
+  IconValue,
+} from './styles';
 
 interface IProps {
   path: string;
@@ -26,30 +33,22 @@ const NavbarItem: React.FC<IProps> = ({
   activeChats,
   children,
 }) => (
-  <div style={{ position: 'relative' }}>
+  <Container>
     {showStatus && <StatusCircle color={statusColor} />}
-    <div className={classes.NavbarItem}>
-      <NavLink
-        to={path}
-        exact={exact}
-        activeClassName={classes.active}
-        style={{ backgroundColor: bgColor }}
-      >
+    <ItemContainer backgroundColor={bgColor}>
+      <NavLink to={path} exact={exact} activeClassName="active">
         {children}
       </NavLink>
-    </div>
+    </ItemContainer>
     {bottomBar && (
-      <div className={classes.BottomIcon}>
-        <div className={classes.IconContainer}>
+      <BottomIcon>
+        <IconContainer>
           <Icon path={messageIcon} color={bgColor} size="32px" />
-          <p className={classes.IconValue} style={{ color: bgColor }}>
-            {activeChats}
-          </p>
-        </div>
-      </div>
+          <IconValue color={bgColor}>{activeChats}</IconValue>
+        </IconContainer>
+      </BottomIcon>
     )}
-    <div className={classes.Separator} />
-  </div>
+  </Container>
 );
 
 export default NavbarItem;

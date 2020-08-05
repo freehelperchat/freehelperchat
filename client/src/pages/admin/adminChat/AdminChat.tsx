@@ -8,7 +8,7 @@ import Chat from 'components/chat/Chat';
 import { IChatInfo, IOperator } from 'interfaces';
 import ChatInfo from 'components/chat/chatInfo/ChatInfo';
 import { AxiosError } from 'axios';
-import classes from './AdminChat.module.css';
+import { Container, ChatInfoContainer, AdminChatContainer } from './styles';
 
 const AdminChat: React.FC = () => {
   const { chatId } = useParams();
@@ -62,14 +62,14 @@ const AdminChat: React.FC = () => {
   }, [chatId, history, token]);
 
   return (
-    <div className={classes.Container}>
-      <div className={classes.AdminChat}>
+    <Container>
+      <AdminChatContainer>
         <Chat chatId={chatId} token={token} name={operatorInfo?.fullName} />
-      </div>
-      <div className={classes.ChatInfo}>
+      </AdminChatContainer>
+      <ChatInfoContainer>
         <ChatInfo chatInfo={chatInfo} loading={loading} />
-      </div>
-    </div>
+      </ChatInfoContainer>
+    </Container>
   );
 };
 
