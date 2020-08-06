@@ -3,6 +3,7 @@ import { OperatorSchema } from './Operator';
 
 const MessageSchema = createSchema({
   message: Type.string({ required: true }),
+  file: Type.string(),
   name: Type.string({ required: true }),
   time: Type.number({ required: true }),
   chatId: Type.string({ required: true }),

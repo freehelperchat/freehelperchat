@@ -59,6 +59,7 @@ const Messages: React.FC<IProps> = ({ messages, user, loading }) => {
             time={m.time}
             message={m.message}
             name={m.name}
+            file={m.file}
           />
         );
       })}

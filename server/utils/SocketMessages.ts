@@ -1,5 +1,5 @@
-import Siofu from 'socketio-file-upload';
 import path from 'path';
+import fs from 'fs';
 import { Types } from 'mongoose';
 import Message from '../models/chat/Message';
 import Chat, { ChatDoc } from '../models/chat/Chat';
@@ -16,7 +16,7 @@ class SocketMessages {
       this.openChat(socket, io);
       this.closeChat(socket, io);
       this.sendMessage(socket, io);
-      this.uploadFile(socket, io);
+      this.uploadFile(socket);
     });
   }
 
@@ -233,18 +233,27 @@ class SocketMessages {
     });
   }
 
-  private uploadFile(socket: SocketIO.Socket, io: SocketIO.Server): void {
-    const uploader = new Siofu();
-    uploader.dir = path.resolve(__dirname, '..', '..', 'uploads');
-    uploader.listen(socket);
-    uploader.on('complete', (event: { file: any; }) => {
-      console.log(event.file.meta.socketId);
-      console.log(event.file.pathName);
-      io.emit('file_uploaded', event.file.pathName).to(event.file.meta.socketId);
+  private uploadFile(socket: SocketIO.Socket): void {
+    socket.on('upload_file', (data: { file: string, filename: string }) => {
+      console.log(data);
+      const file = data.file.split(',');
+      const fileName = `${new Date().getTime()}-${data.filename}`;
+      const filePath = path.resolve(
+        __dirname,
+        '..',
+        '..',
+        'uploads',
+        fileName,
+      );
+      fs.writeFile(filePath, file[1], 'base64', (err) => {
+        if (!err) {
+          socket.emit('file_uploaded', `http://localhost:3001/uploads/${fileName}`);
+        } else {
+          socket.emit('file_upload_failed', err);
+          console.log(err);
+        }
+      });
     });
-    // socket.on('upload_file', (data) => {
-    //   console.log(data);
-    // });
   }
 }
 

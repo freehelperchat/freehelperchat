@@ -5,4 +5,5 @@ export default interface IMessage {
   time: number;
   message: string;
   name: string;
+  file?: string;
 }

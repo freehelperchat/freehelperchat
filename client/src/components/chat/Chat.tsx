@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useDropzone } from 'react-dropzone';
 
-import Siofu from 'socketio-file-upload';
 import socket from 'services/socket';
 import Api from 'services/api';
 import Icon from 'components/ui/icon/Icon';
@@ -25,23 +24,18 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   const [loading, setLoading] = useState(true);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
-  const uploader = useMemo(() => new Siofu(socket), []);
 
-  const onDrop = useCallback(
-    acceptedFiles => {
-      uploader.submitFiles(acceptedFiles);
-      // const reader = new FileReader();
-      // reader.readAsDataURL(acceptedFiles[0]);
-      // reader.onload = () => {
-      //   console.log(reader.result);
-      //   socket.emit('upload_file', {
-      //     file: reader.result,
-      //     filename: (acceptedFiles[0] as File).name,
-      //   });
-      // };
-    },
-    [uploader]
-  );
+  const onDrop = useCallback(acceptedFiles => {
+    const reader = new FileReader();
+    reader.readAsDataURL(acceptedFiles[0]);
+    reader.onload = () => {
+      console.log(reader.result);
+      socket.emit('upload_file', {
+        file: reader.result,
+        filename: (acceptedFiles[0] as File).name,
+      });
+    };
+  }, []);
 
   const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
     onDrop,
@@ -58,19 +52,10 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   useEffect(() => {
     document.onpaste = event => {
       const clipboardFiles = event.clipboardData?.files;
-      if (clipboardFiles) {
-        uploader.submitFiles(clipboardFiles);
-      }
+      console.log(clipboardFiles);
     };
-    uploader.addEventListener(
-      'start',
-      (event: { file: { meta: { socketId: string } } }) => {
-        // eslint-disable-next-line no-param-reassign
-        event.file.meta.socketId = socket.id;
-      }
-    );
     socket.on('file_uploaded', (data: {}) => console.log(data));
-  }, [uploader]);
+  }, []);
 
   useEffect(() => {
     socket.on('received_message', (data: IMessage) => {

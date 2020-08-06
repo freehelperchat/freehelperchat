@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { Server } from 'http';
 import socketio from 'socket.io';
-import siofu from 'socketio-file-upload';
 import { errors } from 'celebrate';
 
 import routes from './routes';
@@ -50,7 +49,6 @@ class App {
       origin: 'http://localhost:3000',
       credentials: true,
     }));
-    this.express.use(siofu.router);
   }
 
   private database(): void {
@@ -76,24 +74,22 @@ class App {
       req.io = this.io;
       return next();
     });
-
     this.express.use('/api', routes);
-
     this.express.use('/images', express.static(path.resolve(`${__dirname}/../images`)));
-
     this.express.use(
       '/translations',
       express.static(path.resolve(`${__dirname}/../translations`)),
     );
-
+    this.express.use(
+      '/uploads',
+      express.static(path.resolve(`${__dirname}/../uploads`)),
+    );
     this.express.get('/translations/*', (req, res) => res.status(404).send());
-
+    this.express.get('/uploads/*', (req, res) => res.status(404).send());
     this.express.use('/chat', express.static(path.resolve(`${__dirname}/build`)));
-
     this.express.get('/chat/*', (req, res) => {
       res.sendFile(path.resolve(`${__dirname}/build/index.html`));
     });
-
     this.express.get('/*', (req, res) => {
       res.redirect('/chat');
     });
