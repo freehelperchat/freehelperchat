@@ -196,7 +196,7 @@ class SocketMessages {
 
   private sendMessage(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('send_message', async (data) => {
-      const { chatId, clientToken, token } = data;
+      const { chatId, clientToken, token, message, file } = data;
       const chat = await Chat.findById(chatId);
       if (chat?.status === chatStatus.CLOSED) {
         return socket.emit('error_sending_message', 'Unauthorized');
@@ -227,6 +227,10 @@ class SocketMessages {
         }
         data.operator = false;
       } else return socket.emit('error_sending_message', 'Unauthorized');
+      if ((!message || (message as string).length === 0)
+      && (!file || (file as string).length === 0)) {
+        return socket.emit('error_sending_message', 'Unauthorized');
+      }
       Message.create({ ...data, time: new Date().getTime() })
         .then((res) => io.to(chatId).emit('received_message', res))
         .catch((err) => socket.emit('error_sending_message', err));
@@ -235,7 +239,6 @@ class SocketMessages {
 
   private uploadFile(socket: SocketIO.Socket): void {
     socket.on('upload_file', (data: { file: string, filename: string }) => {
-      console.log(data);
       const file = data.file.split(',');
       const fileName = `${new Date().getTime()}-${data.filename}`;
       const filePath = path.resolve(

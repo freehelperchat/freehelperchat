@@ -2,7 +2,7 @@ import { typedModel, createSchema, Type, ExtractProps } from 'ts-mongoose';
 import { OperatorSchema } from './Operator';
 
 const MessageSchema = createSchema({
-  message: Type.string({ required: true }),
+  message: Type.string(),
   file: Type.string(),
   name: Type.string({ required: true }),
   time: Type.number({ required: true }),

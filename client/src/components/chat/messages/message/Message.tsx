@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
 
-// import Icon from 'components/ui/icon/Icon';
+import Icon from 'components/ui/icon/Icon';
 import { getMessageTime, getColorByText } from 'utils/utils';
-// import fileIcon from 'assets/text.svg';
-import { MsgContainer, MessageDiv, Name } from './styles';
+import fileIcon from 'assets/text.svg';
+import { MsgContainer, MessageDiv, Name, ImgContainer, Img } from './styles';
 
 interface IProps {
   type: string;
@@ -14,6 +15,61 @@ interface IProps {
 }
 
 const Message: React.FC<IProps> = ({ type, time, name, message, file }) => {
+  const downloadRef = useRef<HTMLAnchorElement>(null);
+  const [filePreview, setFilePreview] = useState<JSX.Element>();
+
+  const downloadFile = useCallback(() => {
+    const filename = file?.split('/').pop();
+    axios
+      .get(file || '', {
+        responseType: 'blob',
+      })
+      .then(res => {
+        if (downloadRef.current) {
+          downloadRef.current.href = URL.createObjectURL(res.data);
+          downloadRef.current.download = filename || '';
+          downloadRef.current.click();
+        }
+      })
+      .catch(err => console.log(err));
+  }, [file]);
+
+  useEffect(() => {
+    if (file) {
+      const filename = file?.split('/').pop();
+      const ext = filename?.split('.').pop();
+      const imageTypes = ['jpeg', 'jpg', 'png', 'svg', 'gif', 'ico'];
+      if (ext && imageTypes.includes(ext)) {
+        setFilePreview(<Img src={file} alt="File" />);
+      } else {
+        setFilePreview(
+          <div
+            style={{
+              padding: '10px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Icon size="32px" path={fileIcon} color="white" />
+            <p
+              style={{
+                width: '100%',
+                marginTop: '10px',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+              }}
+            >
+              {filename}
+            </p>
+          </div>
+        );
+      }
+      console.log(ext);
+    }
+  }, [file, downloadFile]);
+
   return (
     <MsgContainer
       backgroundColor={getColorByText(name)}
@@ -22,46 +78,12 @@ const Message: React.FC<IProps> = ({ type, time, name, message, file }) => {
     >
       <Name>{name}</Name>
       <MessageDiv>{message}</MessageDiv>
-      {!file && (
-        <>
-          <div
-            style={{
-              marginTop: '10px',
-              backgroundColor: '#FFFFFF30',
-              borderRadius: '10px',
-              cursor: 'pointer',
-              overflow: 'hidden',
-            }}
-          >
-            <img
-              src="https://i.redd.it/mu0jnsj5i2h31.jpg"
-              alt="File"
-              style={{ width: '100%' }}
-            />
-            {/* <div
-              style={{
-                padding: '10px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <Icon size="32px" path={fileIcon} color="white" />
-              <p
-                style={{
-                  width: '100%',
-                  marginTop: '10px',
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                  overflow: 'hidden',
-                }}
-              >
-                bom_dia_bbasifduhhjsdfhlsdfsdfsdfjsdfsdflsjdlfsdjlfsjdlfjsdlfjsldjfsldfsdfkjsdhfksdfsjdf.png
-              </p>
-            </div> */}
-          </div>
-        </>
+      {file && (
+        <ImgContainer onClick={downloadFile}>{filePreview}</ImgContainer>
       )}
+      <a href="/" ref={downloadRef} style={{ display: 'none' }}>
+        Download
+      </a>
     </MsgContainer>
   );
 };

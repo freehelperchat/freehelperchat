@@ -27,7 +27,6 @@ const AdminChat: React.FC = () => {
     })
       .then(res => {
         if (!redirected) {
-          console.log(res.data);
           setChatInfo(res.data);
           setLoading(false);
         }

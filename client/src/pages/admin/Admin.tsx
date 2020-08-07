@@ -30,7 +30,9 @@ const Admin: React.FC = () => {
       setOtherChats(data);
     });
     return () => {
-      socket.removeAllListeners();
+      socket.removeEventListener('online_operators');
+      socket.removeEventListener('your_chats');
+      socket.removeEventListener('other_chats');
     };
   }, [authContext.token]);
 

@@ -43,3 +43,15 @@ export const MessageDiv = styled.div`
   font-size: 18px;
   word-wrap: break-word;
 `;
+
+export const ImgContainer = styled.div`
+  margin-top: 10px;
+  background-color: #ffffff30;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+`;
+
+export const Img = styled.img`
+  width: 100%;
+`;

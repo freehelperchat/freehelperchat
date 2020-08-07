@@ -20,21 +20,23 @@ interface IProps {
 }
 
 const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
+  // const [files, setFiles] = useState<File[]>([]);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [newMessage, setNewMessage] = useState('');
   const history = useHistory();
 
-  const onDrop = useCallback(acceptedFiles => {
-    const reader = new FileReader();
-    reader.readAsDataURL(acceptedFiles[0]);
-    reader.onload = () => {
-      console.log(reader.result);
-      socket.emit('upload_file', {
-        file: reader.result,
-        filename: (acceptedFiles[0] as File).name,
-      });
-    };
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    acceptedFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        socket.emit('upload_file', {
+          file: reader.result,
+          filename: file.name,
+        });
+      };
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive, inputRef } = useDropzone({
@@ -54,7 +56,6 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
       const clipboardFiles = event.clipboardData?.files;
       console.log(clipboardFiles);
     };
-    socket.on('file_uploaded', (data: {}) => console.log(data));
   }, []);
 
   useEffect(() => {
@@ -64,11 +65,25 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
     socket.on('error_sending_message', (data: string) => {
       console.log('error_sending_message', data);
     });
+    socket.on('file_uploaded', (data: string) => {
+      const cookies = new Cookies();
+      const clientToken = cookies.get('clientToken');
+      const msg = {
+        name,
+        message: newMessage,
+        chatId,
+        token,
+        clientToken,
+        file: data,
+      };
+      socket.emit('send_message', msg);
+    });
     return () => {
       socket.removeListener('received_message');
       socket.removeListener('error_sending_message');
+      socket.removeListener('file_uploaded');
     };
-  }, [chatId]);
+  }, [chatId, token, name, newMessage]);
 
   useEffect(() => {
     let redirected = false;
