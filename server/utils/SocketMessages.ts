@@ -37,7 +37,7 @@ class SocketMessages {
   private logout(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('disconnect', async () => {
       await SessionManager.deleteSessionSocket(socket.id);
-      this.sendInfoToOperators(io);
+      await this.sendInfoToOperators(io);
     });
   }
 
@@ -150,7 +150,8 @@ class SocketMessages {
           department: { $in: (session.operator as OperatorProps).departmentIds },
         });
       }
-      io.emit('online_operators', activeSessions).to(session.socket);
+      io.emit('', '').to(session.socket);
+      io.emit('operators', activeSessions).to(session.socket);
       io.emit('your_chats', yourChats).to(session.socket);
       io.emit('other_chats', otherChats).to(session.socket);
     });
@@ -158,39 +159,40 @@ class SocketMessages {
 
   private closeChat(socket: SocketIO.Socket, io: SocketIO.Server): void {
     socket.on('close_chat', async (data) => {
-      await QueueManager.assignNextChatToNextOperator();
-      const { clientToken, token } = data;
+      const { chatId, token } = data;
       const session = await SessionManager.getSession(token);
       const operator = await Operator.findById(
         (session?.operator as OperatorProps)._id,
       );
       if (operator) {
-        const chat = await Chat.findOne({ clientToken });
+        const chat = await Chat.findById(chatId);
         if (chat) {
-          if (chat.operator === operator._id
-            || (Permissions.has(operator, 'handleDeptChats')
+          if ((chat.operator as Types.ObjectId).toHexString()
+              === (operator._id as Types.ObjectId).toHexString()
+              || (Permissions.has(operator, 'handleDeptChats')
               && operator.departmentIds.includes(chat.department))
-            || Permissions.has(operator, 'manageChats', 'all')) {
+              || Permissions.has(operator, 'manageChats', 'all')) {
             if (chat.operator !== operator._id) {
               const actualOperator = await Operator.findById(chat.operator);
               if (actualOperator) {
                 actualOperator.activeChats =
-                  actualOperator.activeChats < 0 ? 0 : actualOperator.activeChats - 1;
-                actualOperator.save();
+                    actualOperator.activeChats < 0 ? 0 : actualOperator.activeChats - 1;
+                await actualOperator.save();
               }
             } else {
               operator.activeChats =
-                operator.activeChats < 0 ? 0 : operator.activeChats - 1;
-              operator.save();
+                  operator.activeChats < 0 ? 0 : operator.activeChats - 1;
+              await operator.save();
             }
             chat.status = chatStatus.CLOSED;
             chat.time.closed = new Date().getTime();
-            chat.save();
+            await chat.save();
           }
         }
       }
-      this.sendInfoToOperators(io);
-      socket.leave(clientToken);
+      await QueueManager.assignNextChatToNextOperator();
+      await this.sendInfoToOperators(io);
+      socket.leave(chatId);
     });
   }
 

@@ -48,15 +48,8 @@ export const Content = styled.p`
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
-
-  button {
-    margin: 5px;
-  }
-  span {
-    margin: 2px;
-  }
 `;

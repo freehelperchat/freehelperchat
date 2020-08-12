@@ -11,26 +11,36 @@ import blockIcon from 'assets/block.svg';
 import closeIcon from 'assets/close.svg';
 import recycleIcon from 'assets/recycle.svg';
 import ImageButton from 'components/ui/imageButton/ImageButton';
+import socket from 'services/socket';
 import { Cell, Content, Text, Title, Grid } from './styles';
 
 interface IProps {
   chatInfo?: IChatInfo;
   loading?: boolean;
+  token: string;
 }
 
-const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
+const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
   const { t } = useTranslation();
+
+  const closeChat = () => {
+    socket.emit('close_chat', {
+      chatId: chatInfo?._id,
+      token,
+    });
+  };
+
   return (
     <>
       {loading && (
         <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
           <Grid>
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
-            <Skeleton style={{ borderRadius: 30 }} width={90} height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
           </Grid>
           <Cell>
             <Skeleton style={{ borderRadius: 10 }} width="100%" height={32} />
@@ -66,36 +76,49 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading }) => {
               icon={transferIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
             />
             <ImageButton
               backgroundColor="#178CFF"
               icon={emailIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
             />
             <ImageButton
               backgroundColor="#178CFF"
               icon={printIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
             />
             <ImageButton
               backgroundColor="#178CFF"
               icon={blockIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
             />
             <ImageButton
               backgroundColor="#178CFF"
               icon={closeIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
+              onClick={closeChat}
             />
             <ImageButton
               backgroundColor="#ff1717"
               icon={recycleIcon}
               size="50px"
               padding="20px"
+              width="100%"
+              borderRadius="15px"
             />
           </Grid>
           <Cell>

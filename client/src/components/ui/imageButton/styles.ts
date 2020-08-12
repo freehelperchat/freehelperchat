@@ -1,19 +1,23 @@
 import styled from 'styled-components';
 
 interface IProps {
-  backgroundColor: string;
+  backgroundColor?: string;
+  borderRadius?: string;
   padding?: string;
+  width?: string;
+  height?: string;
 }
 
 export const ImgButton = styled.button`
-  width: fit-content;
-  height: fit-content;
-  background-color: ${(props: IProps) => props.backgroundColor};
+  width: ${(props: IProps) => props.width || 'fit-content'};
+  height: ${(props: IProps) => props.height || 'fit-content'};
+  background-color: ${(props: IProps) =>
+    props.backgroundColor || 'transparent'};
   outline: none;
   border: none;
   padding: ${(props: IProps) =>
     props.backgroundColor !== 'transparent' ? props.padding : undefined};
-  border-radius: 30px;
+  border-radius: ${(props: IProps) => props.borderRadius || '30px'};
   transition: all 0.2s;
   cursor: pointer;
 

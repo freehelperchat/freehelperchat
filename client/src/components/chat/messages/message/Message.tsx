@@ -66,7 +66,6 @@ const Message: React.FC<IProps> = ({ type, time, name, message, file }) => {
           </div>
         );
       }
-      console.log(ext);
     }
   }, [file, downloadFile]);
 

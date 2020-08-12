@@ -66,7 +66,7 @@ const AdminChat: React.FC = () => {
         <Chat chatId={chatId} token={token} name={operatorInfo?.fullName} />
       </AdminChatContainer>
       <ChatInfoContainer>
-        <ChatInfo chatInfo={chatInfo} loading={loading} />
+        <ChatInfo token={token} chatInfo={chatInfo} loading={loading} />
       </ChatInfoContainer>
     </Container>
   );

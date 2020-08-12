@@ -20,7 +20,7 @@ const Admin: React.FC = () => {
       return undefined;
     };
     socket.emit('login', { token: authContext.token });
-    socket.on('online_operators', (data: IOnlineOperator[]) => {
+    socket.on('operators', (data: IOnlineOperator[]) => {
       setOnlineOperators(data);
     });
     socket.on('your_chats', (data: IChatInfo[]) => {
@@ -30,9 +30,9 @@ const Admin: React.FC = () => {
       setOtherChats(data);
     });
     return () => {
-      socket.removeEventListener('online_operators');
-      socket.removeEventListener('your_chats');
-      socket.removeEventListener('other_chats');
+      socket.removeListener('operators');
+      socket.removeListener('your_chats');
+      socket.removeListener('other_chats');
     };
   }, [authContext.token]);
 
