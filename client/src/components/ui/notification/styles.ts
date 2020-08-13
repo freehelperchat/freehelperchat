@@ -18,8 +18,7 @@ export const Message = styled.div`
   -moz-border-radius: 30px 0px 30px 30px;
   -webkit-border-radius: 30px 0px 30px 30px;
   padding: 15px;
-  min-width: 150px;
-  max-width: 440px;
+  width: 100%;
   background-color: ${(props: IProps) => props.backgroundColor};
 
   p {

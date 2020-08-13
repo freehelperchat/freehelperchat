@@ -74,8 +74,12 @@ export const Content = styled.p`
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(${(props: IProps) => props.columns || 3}, 1fr);
+  grid-template-columns: ${(props: IProps) =>
+    props.columns
+      ? `repeat(${props.columns}, 1fr)`
+      : 'repeat(auto-fit, minmax(20px, 1fr))'};
   grid-gap: 10px;
-  justify-content: center;
+  grid-auto-flow: dense;
+  margin: 1em auto;
   margin-bottom: 20px;
 `;

@@ -46,7 +46,7 @@ export const Label = styled.label`
   font-size: 16px;
   position: absolute;
   transform-origin: top left;
-  transform: translate(0, 0) scale(1);
+  transform: translate(10px, 0) scale(1);
   transition: all 0.2s ease-in-out;
   cursor: text;
   pointer-events: none;
@@ -57,7 +57,7 @@ export const Input = styled.input`
   background-color: rgba(0, 0, 0, 0);
   font-size: 16px;
   outline: 0;
-  padding: 16px 0 10px;
+  padding: 16px 10px;
   width: 100%;
 `;
 
@@ -66,7 +66,7 @@ export const Select = styled.select`
   border: none;
   font-size: 16px;
   outline: 0;
-  padding: 16px 0 10px;
+  padding: 16px 10px;
   width: 100%;
 `;
 

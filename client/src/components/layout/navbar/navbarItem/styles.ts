@@ -15,7 +15,8 @@ export const ItemContainer = styled.div`
   display: block;
   width: 100%;
 
-  a {
+  a,
+  button {
     background-color: ${(props: IProps) => props.backgroundColor};
     font-family: 'Ubuntu', sans-serif;
     display: flex;
@@ -26,6 +27,9 @@ export const ItemContainer = styled.div`
     border-radius: 16px;
     transition: all 0.2s ease-in-out;
     z-index: 20;
+    outline: none;
+    border: none;
+    cursor: pointer;
 
     div {
       margin-right: 8px;
@@ -39,7 +43,8 @@ export const ItemContainer = styled.div`
     align-items: center;
     padding: 0 8px;
 
-    a {
+    a,
+    button {
       font-size: 18px;
       color: #fff;
       width: 100%;
@@ -48,11 +53,10 @@ export const ItemContainer = styled.div`
       :hover {
         filter: brightness(110%);
       }
-
-      :active,
-      &.active {
-        box-shadow: 0 0 0 3px #909090;
-      }
+    }
+    a:active,
+    a.active {
+      box-shadow: 0 0 0 3px #909090;
     }
   }
 `;

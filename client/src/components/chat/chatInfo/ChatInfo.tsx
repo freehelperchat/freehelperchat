@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChatInfo } from 'interfaces';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useHistory } from 'react-router-dom';
 
 import { getMessageTime } from 'utils/utils';
-import userIcon from 'assets/user.svg';
 import transferIcon from 'assets/transfer.svg';
 import emailIcon from 'assets/email.svg';
 import printIcon from 'assets/print.svg';
@@ -12,9 +12,9 @@ import blockIcon from 'assets/block.svg';
 import closeIcon from 'assets/close.svg';
 import recycleIcon from 'assets/recycle.svg';
 import ImageButton from 'components/ui/imageButton/ImageButton';
-import InformationButton from 'components/ui/informationButton/InformationButton';
 import socket from 'services/socket';
 import Modal from 'components/ui/modal/Modal';
+import NavbarItem from 'components/layout/navbar/navbarItem/NavbarItem';
 import { Container, Cell, Content, Text, Title, Grid } from './styles';
 
 interface IProps {
@@ -25,6 +25,7 @@ interface IProps {
 
 const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
   const [showTransferModal, setShowTransferModal] = useState(true);
+  const history = useHistory();
   const { t } = useTranslation();
 
   const closeChat = () => {
@@ -32,6 +33,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
       chatId: chatInfo?._id,
       token,
     });
+    history.push('/admin');
   };
 
   const showTransferOptions = () => {
@@ -43,59 +45,19 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
       <Modal show={showTransferModal} closeModal={showTransferOptions}>
         <h1>TESTE</h1>
         <Grid columns={4}>
-          <InformationButton
-            information={[
-              { icon: transferIcon, content: 'eae' },
-              { icon: closeIcon, content: '3' },
-              { icon: emailIcon, content: 'fala_ae_galera kk' },
-            ]}
-            icon={userIcon}
-            name="fala"
-            backgroundColor="#178CFF"
-          />
-          <InformationButton
-            information={[
-              { icon: transferIcon, content: 'eae' },
-              { icon: closeIcon, content: '3' },
-              { icon: emailIcon, content: 'fala_ae_galera kk' },
-            ]}
-            icon={userIcon}
-            name="mano"
-            backgroundColor="#178CFF"
-          />
-          <InformationButton
-            information={[
-              { icon: transferIcon, content: 'eae' },
-              { icon: closeIcon, content: '3' },
-              { icon: emailIcon, content: 'fala_ae_galera kk' },
-            ]}
-            icon={userIcon}
-            name="blz"
-            backgroundColor="#178CFF"
-          />
-          <InformationButton
-            information={[
-              { icon: transferIcon, content: 'eae' },
-              { icon: closeIcon, content: '3' },
-              { icon: emailIcon, content: 'fala_ae_galera kk' },
-              { icon: transferIcon, content: 'eae' },
-            ]}
-            icon={userIcon}
-            name="eae"
-            backgroundColor="#178CFF"
-          />
+          <NavbarItem bgColor="#178CFF">AOFDASFHJKSDJFSDF</NavbarItem>
         </Grid>
       </Modal>
       <Container>
         {loading && (
           <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
-            <Grid>
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
-              <Skeleton style={{ borderRadius: 30 }} width="100%" height={90} />
+            <Grid columns={3}>
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
+              <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
             </Grid>
             <Cell>
               <Skeleton style={{ borderRadius: 10 }} width="100%" height={32} />
@@ -125,7 +87,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
         )}
         {chatInfo && (
           <>
-            <Grid>
+            <Grid columns={3}>
               <ImageButton
                 backgroundColor="#178CFF"
                 icon={transferIcon}

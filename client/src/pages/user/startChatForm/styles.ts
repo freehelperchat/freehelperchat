@@ -9,19 +9,20 @@ export const Container = styled.div`
 `;
 
 export const Form = styled.div`
-  height: 70%;
+  height: 100vh;
+  width: 33%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  border: 1px solid black;
   justify-self: center;
+  margin: 20px;
 `;
 
 export const NotificationContainer = styled.div`
   justify-self: flex-end;
-  margin-left: 5%;
   height: 100vh;
+  width: 33%;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

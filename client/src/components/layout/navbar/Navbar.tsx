@@ -62,8 +62,6 @@ const Navbar: React.FC<IProps> = ({
             {operatorsArr.map(operator => (
               <NavbarItem
                 bgColor="#178CFF"
-                path="/admin"
-                exact
                 bottomBar
                 showStatus
                 statusColor={

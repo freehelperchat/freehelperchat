@@ -14,13 +14,15 @@ import {
 } from './styles';
 
 interface IProps {
-  path: string;
+  path?: string;
   bgColor?: string;
   showStatus?: boolean;
   statusColor?: string;
   exact?: boolean;
   activeChats?: number;
   bottomBar?: boolean;
+  onClick?: () => void;
+  active?: boolean;
 }
 
 const NavbarItem: React.FC<IProps> = ({
@@ -30,15 +32,27 @@ const NavbarItem: React.FC<IProps> = ({
   showStatus = false,
   statusColor = '#44bd32',
   bottomBar = false,
+  onClick,
+  active,
   activeChats,
   children,
 }) => (
   <Container>
     {showStatus && <StatusCircle color={statusColor} />}
     <ItemContainer backgroundColor={bgColor}>
-      <NavLink to={path} exact={exact} activeClassName="active">
-        {children}
-      </NavLink>
+      {path ? (
+        <NavLink to={path} exact={exact} activeClassName="active">
+          {children}
+        </NavLink>
+      ) : (
+        <button
+          type="button"
+          onClick={onClick}
+          className={active ? 'active' : undefined}
+        >
+          {children}
+        </button>
+      )}
     </ItemContainer>
     {bottomBar && (
       <BottomIcon>
