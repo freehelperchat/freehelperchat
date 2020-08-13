@@ -28,25 +28,3 @@ export const AdminChatContainer = styled.div`
     margin: 0;
   }
 `;
-
-export const ChatInfoContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 10px;
-  background: #fff;
-  border-radius: 32px;
-  padding: 16px;
-
-  div {
-    width: 100%;
-  }
-
-  @media (min-width: 900px) {
-    width: 39%;
-    height: 100%;
-    margin-bottom: 0;
-  }
-`;

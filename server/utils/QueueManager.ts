@@ -63,8 +63,7 @@ class ChatQueueManager {
       const operator = session.operator as OperatorDoc;
       if (operator.hideOnline) return false;
       if (
-        !Permissions.has(operator, 'manageChats')
-        && !Permissions.has(operator, 'all')
+        !Permissions.has(operator, 'manageChats', 'all')
         && operator.departmentIds.indexOf(department._id.toHexString()) === -1
       ) return false;
       if (

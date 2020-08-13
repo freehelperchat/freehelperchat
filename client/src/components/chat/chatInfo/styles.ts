@@ -1,5 +1,31 @@
 import styled from 'styled-components';
 
+interface IProps {
+  columns?: number;
+}
+
+export const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  background: #fff;
+  border-radius: 32px;
+  padding: 16px;
+
+  div {
+    width: 100%;
+  }
+
+  @media (min-width: 900px) {
+    width: 39%;
+    height: 100%;
+    margin-bottom: 0;
+  }
+`;
+
 export const Cell = styled.div`
   width: 100%;
   display: flex;
@@ -48,7 +74,7 @@ export const Content = styled.p`
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(${(props: IProps) => props.columns || 3}, 1fr);
   grid-gap: 10px;
   justify-content: center;
   margin-bottom: 20px;

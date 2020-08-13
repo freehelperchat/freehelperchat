@@ -54,7 +54,16 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
   useEffect(() => {
     document.onpaste = event => {
       const clipboardFiles = event.clipboardData?.files;
-      console.log(clipboardFiles);
+      if (clipboardFiles && clipboardFiles.length > 0) {
+        const reader = new FileReader();
+        reader.readAsDataURL(clipboardFiles[0]);
+        reader.onload = () => {
+          socket.emit('upload_file', {
+            file: reader.result,
+            filename: clipboardFiles[0].name,
+          });
+        };
+      }
     };
   }, []);
 

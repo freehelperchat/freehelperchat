@@ -14,6 +14,7 @@ class SocketMessages {
       this.login(socket, io);
       this.logout(socket, io);
       this.openChat(socket, io);
+      this.transferChat(socket, io);
       this.closeChat(socket, io);
       this.sendMessage(socket, io);
       this.uploadFile(socket);
@@ -154,6 +155,35 @@ class SocketMessages {
       io.emit('operators', activeSessions).to(session.socket);
       io.emit('your_chats', yourChats).to(session.socket);
       io.emit('other_chats', otherChats).to(session.socket);
+    });
+  }
+
+  private transferChat(socket: SocketIO.Socket, io: SocketIO.Server): void {
+    socket.on('transfer_chat', async (data) => {
+      const { token, operatorId, chatId } = data;
+      const session = await SessionManager.getSession(token);
+      if (session) {
+        const chat = await Chat.findById(chatId);
+        const senderOperator = await Operator.findById((session.operator as OperatorProps)._id);
+        const targetOperator = await Operator.findById(operatorId);
+        if (chat && targetOperator && senderOperator) {
+          if ((chat.operator as Types.ObjectId).toHexString() === senderOperator._id.toHexString()
+            || (Permissions.has(senderOperator, 'handleDeptChats')
+              && senderOperator.departmentIds.indexOf(chat.department) >= 0)
+            || Permissions.has(senderOperator, 'handleChats', 'all')) {
+            if (senderOperator.departmentIds.indexOf(chat.department) >= 0
+            || Permissions.has(senderOperator, 'handleChats', 'all')) {
+              chat.operator = operatorId;
+              await chat.save();
+              senderOperator.activeChats -= 1;
+              targetOperator.activeChats += 1;
+              await senderOperator.save();
+              await targetOperator.save();
+              await this.sendInfoToOperators(io);
+            }
+          }
+        }
+      }
     });
   }
 

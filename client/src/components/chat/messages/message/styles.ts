@@ -50,6 +50,9 @@ export const ImgContainer = styled.div`
   border-radius: 10px;
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Img = styled.img`
