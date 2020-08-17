@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IChatInfo } from 'interfaces';
+import { IChatInfo, IOnlineOperator } from 'interfaces';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useHistory } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ import ImageButton from 'components/ui/imageButton/ImageButton';
 import socket from 'services/socket';
 import Modal from 'components/ui/modal/Modal';
 import NavbarItem from 'components/layout/navbar/navbarItem/NavbarItem';
+import api from 'services/api';
 import { Container, Cell, Content, Text, Title, Grid } from './styles';
 
 interface IProps {
@@ -24,7 +25,8 @@ interface IProps {
 }
 
 const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
-  const [showTransferModal, setShowTransferModal] = useState(true);
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [operators, setOperators] = useState<IOnlineOperator[]>([]);
   const history = useHistory();
   const { t } = useTranslation();
 
@@ -37,7 +39,26 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
   };
 
   const showTransferOptions = () => {
+    if (!showTransferModal) {
+      api
+        .get<IOnlineOperator[]>('/online', {
+          params: {
+            excludeSelf: true,
+          },
+          headers: {
+            authorization: token,
+          },
+        })
+        .then(res => setOperators(res.data))
+        .catch(err => console.log(err));
+    }
     setShowTransferModal(!showTransferModal);
+  };
+
+  const transferChat = (id: string) => {
+    console.log(id);
+    setShowTransferModal(false);
+    history.push('/admin');
   };
 
   return (
@@ -45,7 +66,17 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
       <Modal show={showTransferModal} closeModal={showTransferOptions}>
         <h1>TESTE</h1>
         <Grid columns={4}>
-          <NavbarItem bgColor="#178CFF">AOFDASFHJKSDJFSDF</NavbarItem>
+          {operators.map(operator => (
+            <NavbarItem
+              key={operator._id}
+              bgColor="#178CFF"
+              activeChats={operator.operator.activeChats}
+              bottomBar
+              onClick={() => transferChat(operator.operator._id)}
+            >
+              {operator.operator.fullName}
+            </NavbarItem>
+          ))}
         </Grid>
       </Modal>
       <Container>

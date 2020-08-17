@@ -26,7 +26,11 @@ class SessionController {
   }
 
   public async activeSessions(req: Request, res: Response): Promise<Response> {
-    const sessions = await SessionManager.getAllActiveSessions();
+    const { excludeSelf } = req.query;
+    let sessions = await SessionManager.getAllActiveSessions();
+    if (excludeSelf && sessions) {
+      sessions = sessions.filter((session) => session._id !== req.session?._id);
+    }
     return res.json(sessions);
   }
 

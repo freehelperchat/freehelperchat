@@ -137,6 +137,7 @@ routes.post(
 routes.get(
   '/online',
   validation.sessionValidation.authHeader,
+  validation.sessionValidation.validateSession,
   Controllers.Session.activeSessions,
 );
 routes.delete(
