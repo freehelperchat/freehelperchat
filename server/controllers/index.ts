@@ -8,4 +8,5 @@ export { default as Session } from './chat/Session';
 export { default as UserGroup } from './chat/UserGroup';
 export { default as Role } from './chat/Role';
 export { default as Notification } from './chat/Notification';
+export { default as Mailer } from './chat/Mailer';
 export { default as StartChatForm } from './settings/StartChatForm';

@@ -208,4 +208,6 @@ routes.delete(
   Controllers.Notification.delete,
 );
 
+routes.post('/mail/:id', Controllers.Mailer.sendMail);
+
 export default routes;
