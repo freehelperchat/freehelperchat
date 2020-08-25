@@ -11,7 +11,7 @@ export const Container = styled.header`
   min-width: 250px;
   max-width: 250px;
   top: 0;
-  background: #cccccc;
+  background: #202020;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;

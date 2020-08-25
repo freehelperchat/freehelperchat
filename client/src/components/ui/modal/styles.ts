@@ -51,7 +51,7 @@ export const Container = styled.div`
 
 export const Window = styled.div`
   width: fit-content;
-  background-color: white;
+  background-color: #aaa;
   border-radius: 10px;
   max-width: 70%;
   transform: ${(props: IProps) =>

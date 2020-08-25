@@ -69,7 +69,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
           {operators.map(operator => (
             <NavbarItem
               key={operator._id}
-              bgColor="#178CFF"
+              bgColor="#002A54"
               activeChats={operator.operator.activeChats}
               bottomBar
               onClick={() => transferChat(operator.operator._id)}
@@ -120,7 +120,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
           <>
             <Grid columns={3}>
               <ImageButton
-                backgroundColor="#178CFF"
+                backgroundColor="#002A54"
                 icon={transferIcon}
                 size="50px"
                 padding="20px"
@@ -129,7 +129,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 onClick={showTransferOptions}
               />
               <ImageButton
-                backgroundColor="#178CFF"
+                backgroundColor="#002A54"
                 icon={emailIcon}
                 size="50px"
                 padding="20px"
@@ -137,7 +137,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 borderRadius="15px"
               />
               <ImageButton
-                backgroundColor="#178CFF"
+                backgroundColor="#002A54"
                 icon={printIcon}
                 size="50px"
                 padding="20px"
@@ -145,7 +145,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 borderRadius="15px"
               />
               <ImageButton
-                backgroundColor="#178CFF"
+                backgroundColor="#002A54"
                 icon={blockIcon}
                 size="50px"
                 padding="20px"
@@ -153,7 +153,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 borderRadius="15px"
               />
               <ImageButton
-                backgroundColor="#178CFF"
+                backgroundColor="#002A54"
                 icon={closeIcon}
                 size="50px"
                 padding="20px"

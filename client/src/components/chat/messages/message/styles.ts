@@ -9,12 +9,12 @@ interface IProps {
 const message = {
   [messageTypes.INCOMING_MESSAGE]: {
     alignSelf: 'flex-start',
-    color: 'white',
+    color: '#aaa',
     borderRadius: '3px 12px 12px 12px',
   },
   [messageTypes.OUTGOING_MESSAGE]: {
     alignSelf: 'flex-end',
-    color: 'white',
+    color: '#aaa',
     borderRadius: '12px 3px 12px 12px',
   },
 };
@@ -46,7 +46,7 @@ export const MessageDiv = styled.div`
 
 export const ImgContainer = styled.div`
   margin-top: 10px;
-  background-color: #ffffff30;
+  background-color: #10101030;
   border-radius: 10px;
   cursor: pointer;
   overflow: hidden;

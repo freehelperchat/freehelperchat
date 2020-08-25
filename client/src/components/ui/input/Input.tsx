@@ -133,7 +133,7 @@ const Input: React.FC<IProps> = ({
           <ImageColor
             icon={sendIcon}
             size="45px"
-            iconColor="#178CFF"
+            iconColor="#002A54"
             margin="2px"
             onClick={sendClick}
           />

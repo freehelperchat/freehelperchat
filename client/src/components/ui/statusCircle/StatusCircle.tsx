@@ -8,8 +8,8 @@ interface IProps {
 }
 
 const StatusCircle: React.FC<IProps> = ({
-  stroke = '#ccc',
-  color = 'white',
+  stroke = '#202020',
+  color = '#aaa',
 }) => {
   return (
     <Svg height="45" width="32">

@@ -51,7 +51,7 @@ const Message: React.FC<IProps> = ({ type, time, name, message, file }) => {
               alignItems: 'center',
             }}
           >
-            <Icon size="32px" path={fileIcon} color="white" />
+            <Icon size="32px" path={fileIcon} color="#aaa" />
             <p
               style={{
                 width: '100%',

@@ -14,7 +14,7 @@ export const Container = styled.div`
   div {
     width: 100%;
     height: 3px;
-    background-color: white;
+    background-color: #aaa;
   }
 
   @media (min-width: 500px) {

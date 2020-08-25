@@ -13,7 +13,7 @@ export const Container = styled.div`
   position: relative;
   width: 100%;
   transition: border 0.2s ease-out;
-  background-color: #ffffff;
+  background-color: #101010;
   display: flex;
   align-items: center;
 
@@ -33,8 +33,8 @@ export const Container = styled.div`
     border-color: #0d89ee;
     transition: border 0.2s ease-in-out;
     label {
-      color: black;
-      background-color: white;
+      color: #ccc;
+      background-color: #101010;
       transform: translate(12px, -30px) scale(0.75);
     }
   }
@@ -90,7 +90,7 @@ export const TextArea = styled.textarea`
   }
   :-webkit-scrollbar-thumb {
     height: 20px;
-    background-color: #acacac;
+    background-color: #202020;
     outline: 0.1px solid #999fa5;
   }
 `;

@@ -24,7 +24,7 @@ export const Message = styled.div`
   p {
     font-family: 'Ubuntu', sans-serif;
     font-size: 18px;
-    color: #ffffff;
+    color: #101010;
   }
 `;
 

@@ -11,7 +11,7 @@ export const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
-  background: #fff;
+  background: #101010;
   border-radius: 32px;
   padding: 16px;
 
@@ -49,7 +49,7 @@ export const Cell = styled.div`
 
 export const Title = styled.div`
   width: 40% !important;
-  color: white;
+  color: #aaa;
   text-align: -webkit-right;
   margin-right: 4px;
 `;
@@ -57,7 +57,7 @@ export const Title = styled.div`
 export const Text = styled.p`
   width: fit-content;
   overflow-wrap: anywhere;
-  background-color: #a5a5a5;
+  background-color: #202020;
   border-radius: 10px;
   padding: 8px;
 `;
@@ -65,7 +65,7 @@ export const Text = styled.p`
 export const Content = styled.p`
   font-weight: 700;
   width: 60%;
-  color: #a5a5a5;
+  color: #aaa;
   word-wrap: break-word;
   height: 100%;
   display: flex;

@@ -173,7 +173,7 @@ const Chat: React.FC<IProps> = ({ chatId, token, name }) => {
         <p>Drop your file(s) here</p>
         <Icon
           path={dragIcon}
-          color="#a5a5a5"
+          color="#909090"
           size="80%"
           maxSize="512px"
           minSize="64px"

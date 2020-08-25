@@ -16,7 +16,7 @@ export const Form = styled.div`
   justify-content: center;
   padding: 20px;
   justify-self: center;
-  margin: 20px;
+  margin: 0 20px;
 `;
 
 export const NotificationContainer = styled.div`

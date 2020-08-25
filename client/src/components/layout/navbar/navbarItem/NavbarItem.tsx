@@ -57,8 +57,8 @@ const NavbarItem: React.FC<IProps> = ({
     {bottomBar && (
       <BottomIcon>
         <IconContainer>
-          <Icon path={messageIcon} color={bgColor} size="32px" />
-          <IconValue color={bgColor}>{activeChats}</IconValue>
+          <Icon path={messageIcon} color="#aaaaaa" size="32px" />
+          <IconValue color="#aaaaaa">{activeChats}</IconValue>
         </IconContainer>
       </BottomIcon>
     )}

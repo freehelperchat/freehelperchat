@@ -12,6 +12,7 @@ export default createGlobalStyle`
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #101010;
   }
 
   input,

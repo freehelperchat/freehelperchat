@@ -21,7 +21,7 @@ export const ItemContainer = styled.div`
     font-family: 'Ubuntu', sans-serif;
     display: flex;
     align-items: center;
-    color: #fff;
+    color: #aaa;
     text-decoration: none;
     width: 100%;
     border-radius: 16px;
@@ -46,7 +46,7 @@ export const ItemContainer = styled.div`
     a,
     button {
       font-size: 18px;
-      color: #fff;
+      color: #aaa;
       width: 100%;
       padding: 8px 22px 8px 10px;
       word-break: break-word;
@@ -64,7 +64,7 @@ export const ItemContainer = styled.div`
 export const BottomIcon = styled.div`
   font-family: 'Ubuntu', sans-serif;
   font-weight: bold;
-  background-color: white;
+  background-color: #101010;
   display: inline-grid;
   grid-template-columns: auto auto auto;
   border-radius: 0px 0px 10px 10px;

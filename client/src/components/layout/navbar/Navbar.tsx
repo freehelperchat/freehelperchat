@@ -7,8 +7,8 @@ import NavbarItem from 'components/layout/navbar/navbarItem/NavbarItem';
 import Icon from 'components/ui/icon/Icon';
 import messageIcon from 'assets/message.svg';
 import userIcon from 'assets/user.svg';
-import settingsIcon from 'assets/settings.svg';
-import stonksIcon from 'assets/stonks.svg';
+// import settingsIcon from 'assets/settings.svg';
+// import stonksIcon from 'assets/stonks.svg';
 import backIcon from 'assets/back.svg';
 import chatStatus from 'constants/chatStatus';
 import { Container, Title, BottomBar, TopBar } from './styles';
@@ -48,7 +48,7 @@ const Navbar: React.FC<IProps> = ({
                 exact
                 key={chat.clientToken}
               >
-                <Icon path={messageIcon} color="white" size="32px" />
+                <Icon path={messageIcon} color="#aaa" size="32px" />
                 {chat.name}
               </NavbarItem>
             ))}
@@ -61,7 +61,7 @@ const Navbar: React.FC<IProps> = ({
           <TopBar>
             {operatorsArr.map(operator => (
               <NavbarItem
-                bgColor="#178CFF"
+                bgColor="#002A54"
                 bottomBar
                 showStatus
                 statusColor={
@@ -70,7 +70,7 @@ const Navbar: React.FC<IProps> = ({
                 activeChats={operator.operator.activeChats}
                 key={operator._id}
               >
-                <Icon path={userIcon} color="white" size="32px" />
+                <Icon path={userIcon} color="#aaa" size="32px" />
                 {operator.operator.fullName}
               </NavbarItem>
             ))}
@@ -80,7 +80,7 @@ const Navbar: React.FC<IProps> = ({
       {options && (
         <>
           <BottomBar>
-            <NavbarItem bgColor="#A5A5A5" path="/admin" exact>
+            {/* <NavbarItem bgColor="#A5A5A5" path="/admin" exact>
               <Icon path={stonksIcon} color="white" size="32px" />
               {t('navbar.dashboard')}
             </NavbarItem>
@@ -91,9 +91,9 @@ const Navbar: React.FC<IProps> = ({
             <NavbarItem bgColor="#A5A5A5" path="/admin/settings">
               <Icon path={settingsIcon} color="white" size="32px" />
               {t('navbar.settings')}
-            </NavbarItem>
+            </NavbarItem> */}
             <NavbarItem bgColor="#AA4444" path="/logout" exact>
-              <Icon path={backIcon} color="white" size="32px" />
+              <Icon path={backIcon} color="#aaa" size="32px" />
               {t('navbar.logout')}
             </NavbarItem>
           </BottomBar>
@@ -106,11 +106,11 @@ const Navbar: React.FC<IProps> = ({
             {otherChatsArr.map(chats => (
               <NavbarItem
                 key={chats.clientToken}
-                bgColor="#A5A5A5"
+                bgColor="#101010"
                 path={`/admin/chat/${chats._id}`}
                 exact
               >
-                <Icon path={messageIcon} color="white" size="32px" />
+                <Icon path={messageIcon} color="#aaa" size="32px" />
                 {chats.name}
               </NavbarItem>
             ))}

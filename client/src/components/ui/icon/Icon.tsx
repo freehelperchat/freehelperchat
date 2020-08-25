@@ -14,7 +14,7 @@ interface IProps {
 
 const Icon: React.FC<IProps> = ({
   path,
-  color = 'white',
+  color = '#aaa',
   size = '32px',
   minSize = size,
   maxSize,

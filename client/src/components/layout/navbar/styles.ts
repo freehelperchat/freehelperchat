@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const Title = styled.p`
   font-size: 20px;
-  color: #7f7f7f;
+  color: #aaa;
   padding: 8px;
   width: 100%;
 `;
@@ -23,7 +23,7 @@ const Bar = styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #ccc;
+    background-color: #202020;
   }
 
   ::-webkit-scrollbar-thumb {

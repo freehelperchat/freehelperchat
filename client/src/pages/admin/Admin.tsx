@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { IChatInfo, IOnlineOperator, IDepartment } from 'interfaces';
@@ -10,6 +10,7 @@ import AdminChat from 'pages/admin/adminChat/AdminChat';
 
 const Admin: React.FC = () => {
   const authContext = useContext(AuthContext);
+  const history = useHistory();
   const [onlineOperators, setOnlineOperators] = useState<IOnlineOperator[]>([]);
   const [yourChats, setYourChats] = useState<IChatInfo[]>([]);
   const [otherChats, setOtherChats] = useState<IChatInfo[]>([]);
@@ -29,12 +30,14 @@ const Admin: React.FC = () => {
     socket.on('other_chats', (data: IChatInfo[]) => {
       setOtherChats(data);
     });
+    socket.on('login_failed', () => history.push('/logout'));
     return () => {
       socket.removeListener('operators');
       socket.removeListener('your_chats');
       socket.removeListener('other_chats');
+      socket.removeListener('login_failed');
     };
-  }, [authContext.token]);
+  }, [authContext.token, history]);
 
   return (
     <Layout

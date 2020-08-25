@@ -34,7 +34,7 @@ export const Dropzone = styled.div`
   transition: 0.4s all ease-in-out;
 
   p {
-    color: #a5a5a5;
+    color: #202020;
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 20px;

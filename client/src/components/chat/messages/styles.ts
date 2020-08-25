@@ -8,7 +8,7 @@ export const MessagesContainer = styled.div`
   min-height: 300px;
   overflow-x: hidden;
   scrollbar-width: none;
-  background-color: #fff;
+  background-color: #101010;
   border-radius: 32px;
   padding: 16px;
 
@@ -17,13 +17,13 @@ export const MessagesContainer = styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #e6e6e6;
+    background-color: #101010;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
   }
 
   ::-webkit-scrollbar-thumb {
     height: 20px;
-    background-color: #acacac;
+    background-color: #e6e6e6;
     outline: 0.1px solid #999fa5;
   }
 `;

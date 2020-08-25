@@ -7,6 +7,7 @@ import Operator, { OperatorProps } from '../models/chat/Operator';
 import SessionManager from './SessionManager';
 import Permissions from './PermissionManager';
 import QueueManager, { chatStatus } from './QueueManager';
+import config from '../config/config.json';
 
 class SocketMessages {
   public setSocketMessages(io: SocketIO.Server): void {
@@ -30,7 +31,7 @@ class SocketMessages {
         if (session) {
           await SessionManager.updateSession(token, socket.id);
           await this.sendInfoToOperators(io);
-        }
+        } else return socket.emit('login_failed', 'Unauthorized');
       }
     });
   }
@@ -61,7 +62,8 @@ class SocketMessages {
                   || (Permissions.has(operator, 'handleDeptChats')
                   && operator.departmentIds.includes(chat?.department))
                   || Permissions.has(operator, 'manageChats', 'all')) {
-                  if ((chat.operator as Types.ObjectId).toHexString()
+                  if (!chat.operator
+                      || (chat.operator as Types.ObjectId).toHexString()
                       !== operator._id.toHexString()) {
                     const prevOperator = await Operator.findById(chat.operator);
                     if (prevOperator) {
@@ -282,7 +284,7 @@ class SocketMessages {
       );
       fs.writeFile(filePath, file[1], 'base64', (err) => {
         if (!err) {
-          socket.emit('file_uploaded', `http://localhost:3001/uploads/${fileName}`);
+          socket.emit('file_uploaded', `${config.server.url}/uploads/${fileName}`);
         } else {
           socket.emit('file_upload_failed', err);
           console.log(err);

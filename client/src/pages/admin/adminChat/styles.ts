@@ -7,7 +7,7 @@ export const Container = styled.div`
   border-radius: 30px;
   display: flex;
   box-sizing: border-box;
-  background: #ccc;
+  background: #202020;
   overflow-y: scroll;
 
   @media (min-width: 900px) {
