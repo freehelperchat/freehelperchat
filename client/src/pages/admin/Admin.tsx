@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import { IChatInfo, IOnlineOperator, IDepartment } from 'interfaces';
+import { IChatInfo, IOnlineOperator } from 'interfaces';
 import socket from 'services/socket';
 import { AuthContext } from 'context/AuthContext';
 import Layout from 'components/layout/Layout';
@@ -47,29 +47,6 @@ const Admin: React.FC = () => {
     >
       <Helmet title="Admin - Free Helper Chat" />
       <Route path="/admin/chat/:chatId" component={AdminChat} />
-      <Route path="/admin" exact>
-        <div>
-          <div>
-            <h1>Online Operators</h1>
-            <div>
-              <ul>
-                {onlineOperators &&
-                  onlineOperators.map(operator => (
-                    <li key={operator._id}>
-                      {operator.operator.fullName}
-                      {operator.operator.allDepartments ? <p>&infin;</p> : null}
-                      {(operator.operator.departmentIds as IDepartment[]).map(
-                        department => (
-                          <p key={department._id}>{department.name}</p>
-                        )
-                      )}
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </Route>
     </Layout>
   );
 };

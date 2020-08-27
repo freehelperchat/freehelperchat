@@ -6,9 +6,9 @@ import { useHistory } from 'react-router-dom';
 
 import { getMessageTime } from 'utils/utils';
 import transferIcon from 'assets/transfer.svg';
-import emailIcon from 'assets/email.svg';
-import printIcon from 'assets/print.svg';
-import blockIcon from 'assets/block.svg';
+// import emailIcon from 'assets/email.svg';
+// import printIcon from 'assets/print.svg';
+// import blockIcon from 'assets/block.svg';
 import closeIcon from 'assets/close.svg';
 import recycleIcon from 'assets/recycle.svg';
 import ImageButton from 'components/ui/imageButton/ImageButton';
@@ -64,7 +64,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
   return (
     <>
       <Modal show={showTransferModal} closeModal={showTransferOptions}>
-        <h1>TESTE</h1>
+        <h1>Escolha um operador</h1>
         <Grid columns={4}>
           {operators.map(operator => (
             <NavbarItem
@@ -81,7 +81,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
       </Modal>
       <Container>
         {loading && (
-          <SkeletonTheme color="#ddd" highlightColor="#e7e7e7">
+          <SkeletonTheme color="#202020" highlightColor="#252525">
             <Grid columns={3}>
               <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
               <Skeleton style={{ borderRadius: 15 }} width="100%" height={90} />
@@ -128,7 +128,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 borderRadius="15px"
                 onClick={showTransferOptions}
               />
-              <ImageButton
+              {/* <ImageButton
                 backgroundColor="#002A54"
                 icon={emailIcon}
                 size="50px"
@@ -151,7 +151,7 @@ const ChatInfo: React.FC<IProps> = ({ chatInfo, loading, token }) => {
                 padding="20px"
                 width="100%"
                 borderRadius="15px"
-              />
+              /> */}
               <ImageButton
                 backgroundColor="#002A54"
                 icon={closeIcon}

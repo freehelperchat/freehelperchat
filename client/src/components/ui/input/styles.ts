@@ -21,9 +21,9 @@ export const Container = styled.div`
   transition: ${(props: IProps) =>
     props.active ? 'border 0.2s ease-in-out' : undefined};
   label {
-    color: ${(props: IProps) => (props.active ? 'black' : undefined)};
+    color: ${(props: IProps) => (props.active ? '#ccc' : undefined)};
     background-color: ${(props: IProps) =>
-      props.active ? 'white' : undefined};
+      props.active ? '#101010' : undefined};
     transform: ${(props: IProps) =>
       props.active ? 'translate(12px, -30px) scale(0.75)' : undefined};
   }
@@ -59,6 +59,7 @@ export const Input = styled.input`
   outline: 0;
   padding: 16px 10px;
   width: 100%;
+  color: white;
 `;
 
 export const Select = styled.select`
@@ -68,6 +69,7 @@ export const Select = styled.select`
   outline: 0;
   padding: 16px 10px;
   width: 100%;
+  color: white;
 `;
 
 export const TextArea = styled.textarea`
@@ -81,6 +83,8 @@ export const TextArea = styled.textarea`
   min-height: 44px;
   max-height: 200px;
   width: 100%;
+  color: white;
+
   :-webkit-scrollbar {
     width: 3px;
   }

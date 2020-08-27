@@ -21,7 +21,7 @@ export const ItemContainer = styled.div`
     font-family: 'Ubuntu', sans-serif;
     display: flex;
     align-items: center;
-    color: #aaa;
+    color: #aaaaaa;
     text-decoration: none;
     width: 100%;
     border-radius: 16px;
@@ -46,7 +46,6 @@ export const ItemContainer = styled.div`
     a,
     button {
       font-size: 18px;
-      color: #aaa;
       width: 100%;
       padding: 8px 22px 8px 10px;
       word-break: break-word;

@@ -9,12 +9,12 @@ interface IProps {
 const message = {
   [messageTypes.INCOMING_MESSAGE]: {
     alignSelf: 'flex-start',
-    color: '#aaa',
+    color: 'white',
     borderRadius: '3px 12px 12px 12px',
   },
   [messageTypes.OUTGOING_MESSAGE]: {
     alignSelf: 'flex-end',
-    color: '#aaa',
+    color: 'white',
     borderRadius: '12px 3px 12px 12px',
   },
 };

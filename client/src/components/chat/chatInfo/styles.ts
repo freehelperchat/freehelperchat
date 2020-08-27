@@ -80,6 +80,5 @@ export const Grid = styled.div`
       : 'repeat(auto-fit, minmax(20px, 1fr))'};
   grid-gap: 10px;
   grid-auto-flow: dense;
-  margin: 1em auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
