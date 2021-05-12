@@ -21,7 +21,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongoose": "^5.9.4",
-    "nodemailer": "^6.4.11",
+    "nodemailer": "^6.4.16",
     "run-script-os": "^1.1.1",
     "socket.io": "^2.3.0",
     "ts-mongoose": "^0.0.21"
